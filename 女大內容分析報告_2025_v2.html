@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>女人我最大 — 2025 年內容分析報告</title>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --surface2: #fafafa;
+    --text-primary: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --text-tertiary: #a1a1a6;
+    --accent: #6e3eff;
+    --accent2: #bf5af2;
+    --accent-warm: #ff6b35;
+    --accent-teal: #32ade6;
+    --accent-green: #30d158;
+    --border: rgba(0,0,0,0.08);
+    --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
+    --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
+    --radius: 18px;
+    --radius-sm: 10px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang TC", "Noto Sans TC", sans-serif;
+    background:var(--bg); color:var(--text-primary);
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    height:52px;
+    background:rgba(255,255,255,0.82);
+    backdrop-filter:blur(20px) saturate(180%);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; gap:32px;
+  }
+  nav a {
+    font-size:13px; font-weight:500; color:var(--text-secondary);
+    text-decoration:none; letter-spacing:0.01em; transition:color 0.2s;
+  }
+  nav a:hover, nav a.active { color:var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:120px 24px 80px; position:relative; overflow:hidden;
+  }
+  .hero-bg {
+    position:absolute; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 30%, rgba(110,62,255,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(50,173,230,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 20% 70%, rgba(191,90,242,0.07) 0%, transparent 60%);
+  }
+  .hero-eyebrow {
+    display:inline-block; position:relative; z-index:1;
+    font-size:12px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--accent); background:rgba(110,62,255,0.1);
+    padding:6px 16px; border-radius:100px; margin-bottom:24px;
+  }
+  .hero h1 {
+    font-size:clamp(38px,7vw,80px); font-weight:700;
+    letter-spacing:-0.03em; line-height:1.1;
+    background:linear-gradient(135deg,#1d1d1f 0%,#6e3eff 50%,#bf5af2 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    margin-bottom:20px; position:relative; z-index:1;
+  }
+  .hero-sub {
+    font-size:clamp(15px,2.2vw,20px); color:var(--text-secondary);
+    font-weight:400; line-height:1.65; max-width:620px;
+    position:relative; z-index:1; margin-bottom:40px;
+  }
+  .hero-stats {
+    display:flex; gap:32px; flex-wrap:wrap; justify-content:center;
+    position:relative; z-index:1; margin-bottom:28px;
+  }
+  .hero-stat {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:22px 28px;
+    box-shadow:var(--shadow-md); text-align:center; min-width:150px;
+  }
+  .hero-stat .num {
+    font-size:38px; font-weight:700; letter-spacing:-0.03em;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .hero-stat .lbl { font-size:13px; color:var(--text-secondary); margin-top:4px; font-weight:500; }
+  .hero-input {
+    position:relative; z-index:1;
+    font-size:13px; color:var(--text-tertiary);
+    background:var(--surface2); border:1px solid var(--border);
+    border-radius:100px; padding:8px 22px; display:inline-block;
+  }
+  .hero-input code {
+    font-family:"SF Mono","Menlo",monospace;
+    background:rgba(110,62,255,0.08); color:var(--accent);
+    padding:2px 6px; border-radius:4px; font-size:12px;
+  }
+
+  /* ── LAYOUT ── */
+  section {
+    max-width:1100px; margin:0 auto; padding:80px 24px;
+  }
+  .sec-label {
+    font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:10px;
+  }
+  .sec-title {
+    font-size:clamp(26px,4vw,44px); font-weight:700;
+    letter-spacing:-0.025em; line-height:1.2; color:var(--text-primary); margin-bottom:14px;
+  }
+  .sec-desc {
+    font-size:17px; color:var(--text-secondary); line-height:1.65;
+    max-width:680px; margin-bottom:48px;
+  }
+  .divider {
+    width:100%; height:1px;
+    background:linear-gradient(90deg,transparent,var(--border),transparent);
+  }
+  .sub-h {
+    font-size:20px; font-weight:700; letter-spacing:-0.01em;
+    color:var(--text-primary); margin:44px 0 18px;
+  }
+  .sub-h:first-of-type { margin-top:0; }
+
+  /* ── STYLE CARDS GRID ── */
+  .cards-grid {
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(318px,1fr)); gap:20px;
+  }
+  .card {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:28px;
+    box-shadow:var(--shadow-sm);
+    transition:transform 0.3s ease,box-shadow 0.3s ease; cursor:default;
+  }
+  .card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); }
+  .card-num {
+    width:34px; height:34px; border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#fff; font-size:14px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; margin-bottom:16px;
+  }
+  .card h3 { font-size:17px; font-weight:650; color:var(--text-primary); margin-bottom:10px; line-height:1.35; }
+  .card p  { font-size:15px; color:var(--text-secondary); line-height:1.68; }
+  .card p + p { margin-top:10px; }
+  .hl  { font-weight:600; color:var(--text-primary); }
+  .num-pill {
+    display:inline-block; background:rgba(110,62,255,0.09);
+    color:var(--accent); font-weight:700; font-size:14px;
+    padding:2px 8px; border-radius:6px; margin:0 1px;
+  }
+
+  /* ── PINNED NOTE ── */
+  .pin-note {
+    background:rgba(110,62,255,0.06); border:1px solid rgba(110,62,255,0.15);
+    border-radius:var(--radius-sm); padding:14px 18px;
+    font-size:14px; color:var(--text-secondary); line-height:1.65;
+    margin-top:14px;
+  }
+  .pin-note strong { color:var(--text-primary); }
+
+  /* ── INLINE TABLE inside card ── */
+  .mini-table { width:100%; border-collapse:collapse; margin-top:14px; }
+  .mini-table th {
+    font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--text-tertiary); padding:8px 10px; text-align:left;
+    border-bottom:1px solid var(--border); background:rgba(0,0,0,0.02);
+  }
+  .mini-table td {
+    font-size:14px; color:var(--text-secondary); padding:10px 10px;
+    border-bottom:1px solid rgba(0,0,0,0.04); vertical-align:middle;
+  }
+  .mini-table tr:last-child td { border-bottom:none; }
+  .mini-table .td-name { font-weight:500; color:var(--text-primary); }
+  .mini-table .td-num  { font-weight:700; color:var(--accent); text-align:right; }
+  .mini-table .td-type { font-weight:600; }
+  .type-fast { color:var(--accent-warm); }
+  .type-guide { color:var(--accent-teal); }
+
+  /* ── QUOTE CARD ── */
+  .quote-card {
+    background:linear-gradient(135deg,#1d1d1f 0%,#2a1860 100%);
+    border-radius:var(--radius); padding:48px;
+    margin-top:36px; text-align:center; position:relative; overflow:hidden;
+  }
+  .quote-card::before {
+    content:'❝'; position:absolute; top:-10px; left:28px;
+    font-size:110px; color:rgba(255,255,255,0.05);
+    font-family:Georgia,serif; line-height:1; pointer-events:none;
+  }
+  .quote-card .q-label {
+    font-size:12px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    color:rgba(255,255,255,0.4); margin-bottom:16px;
+  }
+  .quote-card p {
+    font-size:clamp(16px,2.2vw,21px); color:#fff;
+    font-weight:500; line-height:1.75; position:relative; z-index:1;
+  }
+  .quote-card span {
+    background:linear-gradient(90deg,#a78bfa,#f0abfc);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text; font-weight:700;
+  }
+
+  /* ── STANDARD TABLE ── */
+  .tbl-wrap {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-sm);
+    margin-bottom:28px;
+  }
+  .tbl-wrap .tbl-title {
+    font-size:16px; font-weight:700; color:var(--text-primary);
+    padding:18px 24px 0; display:flex; align-items:center; gap:8px;
+  }
+  .tbl-wrap .tbl-title .dot {
+    width:9px; height:9px; border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); flex-shrink:0;
+  }
+  table { width:100%; border-collapse:collapse; }
+  thead th {
+    font-size:11px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase;
+    color:var(--text-tertiary); padding:12px 24px;
+    background:rgba(0,0,0,0.025); border-bottom:1px solid var(--border); text-align:left;
+  }
+  tbody tr { border-bottom:1px solid rgba(0,0,0,0.05); transition:background 0.15s; }
+  tbody tr:last-child { border-bottom:none; }
+  tbody tr:hover { background:rgba(110,62,255,0.025); }
+  tbody td { font-size:15px; padding:14px 24px; vertical-align:middle; }
+  .td-main  { font-weight:500; color:var(--text-primary); }
+  .td-count { font-weight:700; color:var(--accent); text-align:right; }
+  .td-pct   { color:var(--text-secondary); text-align:right; }
+  .td-note  { font-size:14px; color:var(--text-secondary); }
+  .td-rank  { color:var(--text-tertiary); }
+
+  /* bar */
+  .bar-cell { display:flex; align-items:center; gap:12px; }
+  .bar-bg   { flex:1; height:5px; border-radius:3px; background:rgba(0,0,0,0.07); overflow:hidden; }
+  .bar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width 1.1s cubic-bezier(.4,0,.2,1); }
+
+  /* tag pills */
+  .tag { font-size:12px; font-weight:600; padding:3px 10px; border-radius:100px; white-space:nowrap; }
+  .tag-kr  { background:rgba(255,59,48,.1);  color:#ff3b30; }
+  .tag-tw  { background:rgba(50,173,230,.1); color:#32ade6; }
+  .tag-cn  { background:rgba(255,149,0,.1);  color:#ff9500; }
+  .tag-lux { background:rgba(191,90,242,.1); color:#bf5af2; }
+  .tag-mid { background:rgba(50,173,230,.1); color:#32ade6; }
+  .tag-low { background:rgba(48,209,88,.1);  color:#30d158; }
+  .tag-sns { background:rgba(110,62,255,.1); color:var(--accent); }
+
+  /* ── GRID 2 ── */
+  .g2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media(max-width:760px){ .g2{ grid-template-columns:1fr; } }
+
+  /* ── READER PERSONA ── */
+  .persona-box {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:36px; box-shadow:var(--shadow-sm); margin-top:28px;
+  }
+  .persona-box h3 { font-size:20px; font-weight:700; margin-bottom:18px; }
+  .persona-core {
+    background:linear-gradient(135deg,rgba(110,62,255,.06),rgba(191,90,242,.06));
+    border:1px solid rgba(110,62,255,.15); border-radius:var(--radius-sm);
+    padding:18px 22px; margin-bottom:22px;
+  }
+  .persona-core .c-label {
+    font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:7px;
+  }
+  .persona-core p { font-size:17px; font-weight:600; color:var(--text-primary); line-height:1.5; }
+  .self-two { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0; }
+  @media(max-width:560px){ .self-two{ grid-template-columns:1fr; } }
+  .self-lux {
+    background:linear-gradient(135deg,rgba(191,90,242,.07),rgba(110,62,255,.07));
+    border:1px solid rgba(191,90,242,.18); border-radius:var(--radius-sm); padding:20px;
+  }
+  .self-bud {
+    background:linear-gradient(135deg,rgba(50,173,230,.07),rgba(48,209,88,.07));
+    border:1px solid rgba(50,173,230,.18); border-radius:var(--radius-sm); padding:20px;
+  }
+  .self-lux .icon, .self-bud .icon { font-size:26px; margin-bottom:8px; }
+  .self-lux h4, .self-bud h4 { font-size:14px; font-weight:700; margin-bottom:7px; color:var(--text-primary); }
+  .self-lux p,  .self-bud p  { font-size:14px; color:var(--text-secondary); line-height:1.6; }
+  .conclusion {
+    margin-top:18px; font-size:15px; color:var(--text-secondary); line-height:1.7;
+    padding:15px 18px; background:var(--surface2); border-radius:var(--radius-sm);
+    border-left:3px solid var(--accent);
+  }
+  .conclusion strong { color:var(--text-primary); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align:center; padding:44px 24px;
+    font-size:13px; color:var(--text-tertiary);
+    border-top:1px solid var(--border);
+  }
+  footer strong { color:var(--text-secondary); }
+
+  /* ── FADE ANIMATION ── */
+  .fu { opacity:0; transform:translateY(22px); transition:opacity .6s ease,transform .6s ease; }
+  .fu.on { opacity:1; transform:translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:720px){
+    .cards-grid{ grid-template-columns:1fr; }
+    .hero-stats{ gap:14px; }
+    .hero-stat .num{ font-size:30px; }
+    thead th, tbody td{ padding:10px 14px; }
+    nav{ gap:16px; } nav a{ font-size:12px; }
+    .quote-card{ padding:32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#s1">一、筆觸風格</a>
+  <a href="#s2">二、關鍵字與議題</a>
+  <a href="#s3">三、讀者樣貌</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-eyebrow">Data-Driven Content Analysis</div>
+  <h1>女人我最大</h1>
+  <p class="hero-sub">
+    2025 年時尚、美妝 4,035 篇文章分析報告<br>
+    以下報告用 Claude Code 跑 Python 文字分析，閱讀女大文章，反推：<br>
+    1. 筆觸風格　2. 最常寫的關鍵字和議題　3. 主要的讀者樣貌
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">4,035</div>
+      <div class="lbl">篇文章全量分析</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">2,314</div>
+      <div class="lbl">時尚類文章</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">1,721</div>
+      <div class="lbl">美妝類文章</div>
+    </div>
+  </div>
+  <div class="hero-input">
+    Input data：2025 整年度　｜　時尚類 <code>2314</code> 篇、美妝類 <code>1721</code> 篇
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SECTION 1 — 筆觸風格
+══════════════════════════════════ -->
+<section id="s1">
+  <div class="sec-label fu">Section 01</div>
+  <h2 class="sec-title fu">一、筆觸風格</h2>
+
+  <div class="cards-grid">
+
+    <!-- 1 -->
+    <div class="card fu">
+      <div class="card-num">1</div>
+      <h3>問題開場 → 解法收尾 的敘事</h3>
+      <p>全庫有 <span class="num-pill">677 篇（16.8%）</span> 標題以問句開場，搭配文章內容給答案。這不只是修辭技巧，而是固定的文章骨架：<span class="hl">製造讀者的不安或困惑 → 文章就是解方</span>。</p>
+      <p>年齡焦慮是這套敘事最常用的燃料：標題含「減齡／凍齡／回春」共 <span class="num-pill">273 篇</span>，含「顯老／大媽／阿姨」<span class="num-pill">67 篇</span>作為開場鉤。典型句型：「還沒 40 歲被叫阿姨？這款短髮秒減齡」、「白髮染黑沒有用！真正有效遮白髮髮色曝光」。</p>
+    </div>
+
+    <!-- 2 -->
+    <div class="card fu">
+      <div class="card-num">2</div>
+      <h3>明星名字 ＝ 購物導購連結，不只是話題</h3>
+      <p>標題含明星名字共 <span class="num-pill">623 篇</span>，其中 <span class="num-pill">421 篇（67.6%）</span> 同時含有價格或購買資訊。女大引用明星的主要目的不是八卦，而是「<span class="hl">明星穿了什麼 → 同款在哪買 → 多少錢</span>」的完整導購鏈。「同款」一詞出現 <span class="num-pill">219 篇</span>，其中 <span class="num-pill">131 篇</span>附有購買資訊。</p>
+    </div>
+
+    <!-- 3 -->
+    <div class="card fu">
+      <div class="card-num">3</div>
+      <h3>精品貴婦與平價小資，在同一個版面共存</h3>
+      <p>女大不選邊站——既寫香奈兒、愛馬仕，也寫好市多、開架平替，甚至在同一篇裡並陳「<span class="hl">明星背百萬包</span>」與「<span class="hl">平替只要三百元</span>」。含精品／貴婦詞彙 <span class="num-pill">1,515 篇</span>、含平價／開架詞彙 <span class="num-pill">681 篇</span>，同一篇兩者同時出現 <span class="num-pill">383 篇（9.5%）</span>。這讓不同預算的讀者都能在同一篇文章裡找到入口。</p>
+    </div>
+
+    <!-- 4 -->
+    <div class="card fu">
+      <div class="card-num">4</div>
+      <h3>視覺素材高度外包給 IG 與小紅書</h3>
+      <p>超過 <span class="num-pill">46%</span> 的文章主視覺來自社群平台截圖（IG@ 標注 <span class="num-pill">1,290 篇</span>、小紅書 <span class="num-pill">594 篇</span>），而非自製拍攝或品牌授權。讀者看到的圖片本來就是她們在滑社群時會遇到的畫面，<span class="hl">閱讀門檻極低，天然貼近社群語境</span>。</p>
+    </div>
+
+    <!-- 5 -->
+    <div class="card fu">
+      <div class="card-num">5</div>
+      <h3>雙軌格式並行：快訊型 ＋ 指南型</h3>
+      <table class="mini-table">
+        <thead>
+          <tr><th>格式</th><th>代表標題特徵</th><th style="text-align:right;">篇數</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name td-type type-fast">快訊型</td>
+            <td class="td-note">爆紅、搶先看、已開賣、曝光</td>
+            <td class="td-num">485 篇</td>
+          </tr>
+          <tr>
+            <td class="td-name td-type type-guide">指南型</td>
+            <td class="td-note">推薦、攻略、秘訣、教學、這樣做</td>
+            <td class="td-num">628 篇</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:14px;">快訊型製造即時感與 FOMO，指南型建立實用感與信任，兩種格式輪替互補，形成完整的讀者黏著機制。</p>
+    </div>
+
+    <!-- 6 -->
+    <div class="card fu">
+      <div class="card-num">6</div>
+      <h3>語氣：親密閨密感，不像媒體像朋友</h3>
+      <p>多為網路原生語言，讀者感受到的是同伴在推薦，不是媒體在發稿。</p>
+      <table class="mini-table">
+        <thead>
+          <tr><th>語氣詞</th><th style="text-align:right;">整體出現次數</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="td-name">「我們」</td><td class="td-num">917 次</td></tr>
+          <tr><td class="td-name">「爆紅」</td><td class="td-num">894 次</td></tr>
+          <tr><td class="td-name">「入手」</td><td class="td-num">824 次</td></tr>
+          <tr><td class="td-name">「大家」</td><td class="td-num">799 次</td></tr>
+          <tr><td class="td-name">「NG」（負面預警）</td><td class="td-num">552 次</td></tr>
+          <tr><td class="td-name">「女孩」</td><td class="td-num">415 次</td></tr>
+          <tr><td class="td-name">「地雷／踩雷」</td><td class="td-num">237 次</td></tr>
+          <tr><td class="td-name">「姐妹」</td><td class="td-num">71 次</td></tr>
+        </tbody>
+      </table>
+      <div class="pin-note">📌 幾乎不用「讀者」，而用「女孩」「大家」「我們」，讀者感受到的是同伴，不是媒體。</div>
+    </div>
+
+  </div><!-- /cards-grid -->
+
+  <!-- 7. 文章長度結構 -->
+  <div class="sub-h fu">7. 文章長度結構</div>
+  <div class="tbl-wrap fu">
+    <div class="tbl-title"><div class="dot"></div>文章內文長度分佈</div>
+    <table>
+      <thead>
+        <tr>
+          <th>長度區間</th>
+          <th style="text-align:right;">篇數</th>
+          <th style="text-align:right;">佔比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-main">＜ 300 字元（圖文簡介型）</td>
+          <td class="td-count">1,990 篇</td>
+          <td class="td-pct"><strong style="color:var(--accent);">49.3%</strong></td>
+        </tr>
+        <tr>
+          <td class="td-main">800–2,000 字元（中等實用型）</td>
+          <td class="td-count">1,723 篇</td>
+          <td class="td-pct">42.7%</td>
+        </tr>
+        <tr>
+          <td class="td-main">2,000–5,000 字元（深度長文）</td>
+          <td class="td-count">241 篇</td>
+          <td class="td-pct">6.0%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pin-note fu">📌 近半數文章是圖文快訊型（&lt;300 字），另外 43% 是有實質內容的中長文，幾乎沒有超過 5,000 字的重磅深文。快、準、好懂是主要訴求。</div>
+
+  <!-- 一句話定義 -->
+  <div class="quote-card fu">
+    <div class="q-label">一句話定義女大筆觸</div>
+    <p>用<span>年齡焦慮</span>製造閱讀動機、用<span>明星背書</span>降低購買門檻、用<span>社群圖片</span>拉近語境距離，讓每一篇都像閨密在群組裡傳的「妳一定要看這個」連結。</p>
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════
+     SECTION 2 — 關鍵字與議題
+══════════════════════════════════ -->
+<section id="s2">
+  <div class="sec-label fu">Section 02</div>
+  <h2 class="sec-title fu">二、喜歡寫的關鍵字與議題</h2>
+
+  <!-- 核心議題分布 -->
+  <div class="sub-h fu">核心議題分布</div>
+  <div class="tbl-wrap fu">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:42%;">議題標籤</th>
+          <th style="width:30%;"></th>
+          <th style="text-align:right;width:80px;">篇數</th>
+          <th style="text-align:right;width:70px;">佔比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-main">#名人穿搭</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:100%"></div></div></td>
+          <td class="td-count">2,057</td>
+          <td class="td-pct"><strong style="color:var(--accent);">51.0%</strong></td>
+        </tr>
+        <tr>
+          <td class="td-main">#韓國日本購物攻略</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:61%"></div></div></td>
+          <td class="td-count">1,261</td>
+          <td class="td-pct">31.3%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#精品包錶</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:49%"></div></div></td>
+          <td class="td-count">1,010</td>
+          <td class="td-pct">25.0%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#顯瘦體態</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:30%"></div></div></td>
+          <td class="td-count">626</td>
+          <td class="td-pct">15.5%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#鞋款推薦</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:29%"></div></div></td>
+          <td class="td-count">602</td>
+          <td class="td-pct">14.9%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#保濕保養</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:26%"></div></div></td>
+          <td class="td-count">540</td>
+          <td class="td-pct">13.4%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#好市多平價購物</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:23%"></div></div></td>
+          <td class="td-count">472</td>
+          <td class="td-pct">11.7%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#節慶活動（金鐘金馬時裝週）</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:21%"></div></div></td>
+          <td class="td-count">431</td>
+          <td class="td-pct">10.7%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#抗老凍齡</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:21%"></div></div></td>
+          <td class="td-count">427</td>
+          <td class="td-pct">10.6%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#永續時尚</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:18%"></div></div></td>
+          <td class="td-count">371</td>
+          <td class="td-pct">9.2%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#髮型燙染</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:17%"></div></div></td>
+          <td class="td-count">344</td>
+          <td class="td-pct">8.5%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#飲食健康美容</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:15%"></div></div></td>
+          <td class="td-count">316</td>
+          <td class="td-pct">7.8%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#彩妝</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:12%"></div></div></td>
+          <td class="td-count">237</td>
+          <td class="td-pct">5.9%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#熟齡更年期</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:9%"></div></div></td>
+          <td class="td-count">190</td>
+          <td class="td-pct">4.7%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#香水香氛</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:8%"></div></div></td>
+          <td class="td-count">173</td>
+          <td class="td-pct">4.3%</td>
+        </tr>
+        <tr>
+          <td class="td-main">#防曬美白</td>
+          <td><div class="bar-bg"><div class="bar-fill" style="width:7%"></div></div></td>
+          <td class="td-count">152</td>
+          <td class="td-pct">3.8%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 社群平台 & 品牌通路 -->
+  <div class="g2">
+    <div>
+      <div class="sub-h fu">最常被引用的社群平台</div>
+      <div class="tbl-wrap fu">
+        <table>
+          <thead>
+            <tr><th>類別</th><th>平台</th><th style="text-align:right;">出現篇數</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag tag-sns">社群平台</span></td>
+              <td class="td-main">IG / Instagram</td>
+              <td class="td-count">1,398 篇</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-sns">社群平台</span></td>
+              <td class="td-main">小紅書</td>
+              <td class="td-count">596 篇</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-sns">社群平台</span></td>
+              <td class="td-main">Threads</td>
+              <td class="td-count">163 篇</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-sns">社群平台</span></td>
+              <td class="td-main">Dcard / PTT</td>
+              <td class="td-count">50 篇</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div class="sub-h fu">最常被引用的品牌／通路</div>
+      <div class="tbl-wrap fu">
+        <table>
+          <thead>
+            <tr><th>類別</th><th>品牌</th><th style="text-align:right;">出現篇數</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="tag tag-lux">精品高端</span></td><td class="td-main">愛馬仕 Hermès</td><td class="td-count">266 篇</td></tr>
+            <tr><td><span class="tag tag-lux">精品高端</span></td><td class="td-main">香奈兒 Chanel</td><td class="td-count">250 篇</td></tr>
+            <tr><td><span class="tag tag-lux">精品高端</span></td><td class="td-main">LV Louis Vuitton</td><td class="td-count">243 篇</td></tr>
+            <tr><td><span class="tag tag-lux">精品高端</span></td><td class="td-main">Dior</td><td class="td-count">111 篇</td></tr>
+            <tr><td><span class="tag tag-lux">精品高端</span></td><td class="td-main">BV Bottega Veneta</td><td class="td-count">76 篇</td></tr>
+            <tr><td><span class="tag tag-lux">精品高端</span></td><td class="td-main">Loro Piana</td><td class="td-count">62 篇</td></tr>
+            <tr><td><span class="tag tag-mid">平價時尚</span></td><td class="td-main">GU</td><td class="td-count">187 篇</td></tr>
+            <tr><td><span class="tag tag-mid">平價時尚</span></td><td class="td-main">UNIQLO</td><td class="td-count">149 篇</td></tr>
+            <tr><td><span class="tag tag-mid">平價時尚</span></td><td class="td-main">ZARA</td><td class="td-count">124 篇</td></tr>
+            <tr><td><span class="tag tag-low">平價通路</span></td><td class="td-main">好市多 Costco</td><td class="td-count">81 篇</td></tr>
+            <tr><td><span class="tag tag-low">平價通路</span></td><td class="td-main">寶雅 Poya</td><td class="td-count">45 篇</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 最高頻明星 -->
+  <div class="sub-h fu">最高頻出現的明星</div>
+  <div class="tbl-wrap fu">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:48px;">名次</th>
+          <th>明星</th>
+          <th style="text-align:right;">篇數</th>
+          <th style="text-align:right;">屬性</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="td-rank">1</td><td class="td-main">IU</td><td class="td-count">178</td><td style="text-align:right;"><span class="tag tag-kr">韓星</span></td></tr>
+        <tr><td class="td-rank">2</td><td class="td-main">Jennie</td><td class="td-count">175</td><td style="text-align:right;"><span class="tag tag-kr">韓星</span></td></tr>
+        <tr><td class="td-rank">3</td><td class="td-main">藍心湄</td><td class="td-count">148</td><td style="text-align:right;"><span class="tag tag-tw">台灣藝人</span></td></tr>
+        <tr><td class="td-rank">4</td><td class="td-main">LISA</td><td class="td-count">130</td><td style="text-align:right;"><span class="tag tag-kr">韓星</span></td></tr>
+        <tr><td class="td-rank">5</td><td class="td-main">徐若瑄</td><td class="td-count">108</td><td style="text-align:right;"><span class="tag tag-tw">台灣藝人</span></td></tr>
+        <tr><td class="td-rank">6</td><td class="td-main">蔡依林</td><td class="td-count">104</td><td style="text-align:right;"><span class="tag tag-tw">台灣藝人</span></td></tr>
+        <tr><td class="td-rank">7</td><td class="td-main">宋慧喬</td><td class="td-count">102</td><td style="text-align:right;"><span class="tag tag-kr">韓星</span></td></tr>
+        <tr><td class="td-rank">8</td><td class="td-main">趙露思</td><td class="td-count">100</td><td style="text-align:right;"><span class="tag tag-cn">中國藝人</span></td></tr>
+        <tr><td class="td-rank">9</td><td class="td-main">BLACKPINK（集體）</td><td class="td-count">97</td><td style="text-align:right;"><span class="tag tag-kr">韓星</span></td></tr>
+        <tr><td class="td-rank">10</td><td class="td-main">昆凌</td><td class="td-count">94</td><td style="text-align:right;"><span class="tag tag-tw">台灣藝人</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pin-note fu">📌 韓星佔前十名中 5 位，韓台出現篇數比為 <strong>1.1:1</strong>，兩者幾乎並駕齊驅，反映女大在本土藝人與韓流明星之間均衡操作，而非單一依賴。</div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════
+     SECTION 3 — 主要讀者是誰
+══════════════════════════════════ -->
+<section id="s3">
+  <div class="sec-label fu">Section 03</div>
+  <h2 class="sec-title fu">三、主要讀者是誰</h2>
+
+  <!-- 讀者情境詞 -->
+  <div class="sub-h fu">讀者生活情境關鍵詞</div>
+  <div class="tbl-wrap fu">
+    <table>
+      <thead>
+        <tr>
+          <th>情境詞</th>
+          <th style="text-align:right;">篇數</th>
+          <th>推論意義</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="td-main">媽媽</td><td class="td-count">197</td><td class="td-note">已婚／有子女讀者為大宗</td></tr>
+        <tr><td class="td-main">貴婦</td><td class="td-count">178</td><td class="td-note">高端消費的身份認同嚮往</td></tr>
+        <tr><td class="td-main">名媛</td><td class="td-count">142</td><td class="td-note">同上，向上仰望的消費慾</td></tr>
+        <tr><td class="td-main">小資</td><td class="td-count">98</td><td class="td-note">預算有限但重視外貌的族群</td></tr>
+        <tr><td class="td-main">40 歲</td><td class="td-count">93</td><td class="td-note">熟齡議題受高度重視</td></tr>
+        <tr><td class="td-main">老公</td><td class="td-count">83</td><td class="td-note">已婚女性讀者為主</td></tr>
+        <tr><td class="td-main">職場</td><td class="td-count">63</td><td class="td-note">有工作的都會女性</td></tr>
+        <tr><td class="td-main">50 歲</td><td class="td-count">59</td><td class="td-note">更熟齡受眾也在服務</td></tr>
+        <tr><td class="td-main">更年期</td><td class="td-count">14</td><td class="td-note">少量但存在的熟齡保健需求</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Persona -->
+  <div class="persona-box fu">
+    <h3>核心讀者畫像</h3>
+    <div class="persona-core">
+      <div class="c-label">Core Audience</div>
+      <p>核心讀者：30–45 歲、台灣都會已婚女性，有消費能力但精打細算</p>
+    </div>
+    <p style="font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:16px;">她們同時存在兩個自我：</p>
+    <div class="self-two">
+      <div class="self-lux">
+        <div class="icon">✨</div>
+        <h4>嚮往的自我</h4>
+        <p>一個嚮往「貴婦／名媛」生活（香奈兒、愛馬仕、凍齡女神）</p>
+      </div>
+      <div class="self-bud">
+        <div class="icon">🛒</div>
+        <h4>現實的自我</h4>
+        <p>一個踩在「小資／媽媽」現實（好市多、開架彩妝、快速實用攻略）</p>
+      </div>
+    </div>
+    <div class="conclusion">
+      女人我最大的內容正好活在這兩個自我之間——<strong>用明星和精品夢吸引目光，用平價推薦和實用攻略促成行動</strong>。
+    </div>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>女人我最大 — 2025 年時尚、美妝 4,035 篇文章分析報告</p>
+  <p style="margin-top:8px;">以 <strong>Claude Code ＋ Python 文字分析</strong> 全量讀取生成・2026</p>
+</footer>
+
+<script>
+// Scroll fade-in
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
+document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+
+// Bar animation
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(b => {
+        const w = b.style.width; b.style.width = '0%';
+        requestAnimationFrame(() => setTimeout(() => b.style.width = w, 80));
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.tbl-wrap').forEach(el => barObs.observe(el));
+
+// Nav active highlight
+const secs = document.querySelectorAll('section[id]');
+const navAs = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  navAs.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
