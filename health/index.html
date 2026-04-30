@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TVBS 健康2.0 — 2025 年度文章分析報告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --green:#2d8c4e;--green-light:#e8f5ee;--green-mid:#4caf78;--green-dark:#1a5c32;
+  --gray-900:#1d1d1f;--gray-700:#3d3d3f;--gray-500:#6e6e73;--gray-200:#d2d2d7;--gray-100:#f5f5f7;
+  --white:#fff;--radius:18px;--shadow:0 4px 24px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif;background:var(--gray-100);color:var(--gray-900);font-size:16px;line-height:1.7}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--gray-200);padding:0 24px}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:8px;height:52px;overflow-x:auto}
+.nav-inner a{white-space:nowrap;font-size:13px;font-weight:500;color:var(--gray-700);text-decoration:none;padding:6px 12px;border-radius:20px;transition:background .2s,color .2s}
+.nav-inner a:hover{background:var(--green-light);color:var(--green-dark)}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#0f3d22 0%,#1a5c32 50%,#2d8c4e 100%);color:#fff;padding:80px 24px 70px;text-align:center}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 16px;font-size:13px;letter-spacing:.04em;margin-bottom:20px}
+.hero h1{font-size:clamp(28px,6vw,54px);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
+.hero h1 span{color:#7dffa8}
+.hero-sub{font-size:15px;opacity:.7;margin-bottom:40px}
+.hero-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+.hero-stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:16px 28px;min-width:130px}
+.hero-stat .num{font-size:28px;font-weight:700;color:#7dffa8;display:block}
+.hero-stat .lbl{font-size:12px;opacity:.75;margin-top:2px}
+
+/* SECTION */
+.section{padding:64px 24px}
+.section:nth-child(odd){background:var(--white)}
+.section:nth-child(even){background:var(--gray-100)}
+.container{max-width:1100px;margin:0 auto}
+.section-tag{display:inline-block;background:var(--green-light);color:var(--green-dark);font-size:12px;font-weight:600;padding:3px 12px;border-radius:12px;margin-bottom:12px;letter-spacing:.04em}
+.section-title{font-size:clamp(22px,4vw,36px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.section-desc{color:var(--gray-500);font-size:15px;margin-bottom:36px;max-width:680px}
+
+/* CARDS */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-bottom:32px}
+.card{background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.card h3{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--green-dark)}
+.card p{font-size:14px;color:var(--gray-500);line-height:1.6}
+.card .big{font-size:36px;font-weight:700;color:var(--green);margin:8px 0 4px}
+
+/* INSIGHT BOX */
+.insight{background:var(--green-light);border-left:4px solid var(--green);border-radius:0 12px 12px 0;padding:16px 20px;margin:20px 0;font-size:14px;line-height:1.7;color:var(--gray-700)}
+.insight strong{color:var(--green-dark)}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;margin:20px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:var(--green);color:#fff;padding:10px 14px;text-align:left;font-weight:600;white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--gray-200);vertical-align:top}
+tr:hover td{background:var(--green-light)}
+tr:nth-child(even) td{background:#fafafa}
+tr:nth-child(even):hover td{background:var(--green-light)}
+
+/* CHART BOX */
+.chart-box{background:var(--white);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin:24px 0}
+.chart-box h3{font-size:16px;font-weight:600;margin-bottom:20px;color:var(--gray-700)}
+.chart-wrap{position:relative;height:320px}
+.chart-wrap.tall{height:480px}
+.chart-wrap.short{height:220px}
+
+/* PROGRESS BAR TABLE */
+.bar-row{display:flex;align-items:center;gap:12px;margin:8px 0}
+.bar-label{flex:0 0 160px;font-size:13px;color:var(--gray-700);text-align:right}
+.bar-track{flex:1;height:10px;background:var(--gray-200);border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--green-mid),var(--green-dark));transition:width .6s ease}
+.bar-pct{flex:0 0 48px;font-size:13px;font-weight:600;color:var(--green-dark);text-align:right}
+
+/* JOURNEY */
+.journey{display:flex;flex-direction:column;gap:0}
+.journey-step{display:flex;gap:20px;padding:20px 0}
+.journey-step:not(:last-child){border-bottom:1px dashed var(--gray-200)}
+.j-icon{flex:0 0 44px;height:44px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+.j-body h4{font-size:15px;font-weight:600;color:var(--green-dark)}
+.j-body p{font-size:14px;color:var(--gray-500);margin-top:4px}
+
+/* DNA */
+.dna-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin:24px 0}
+.dna-card{background:var(--green-dark);color:#fff;border-radius:16px;padding:20px;text-align:center}
+.dna-card .letter{font-size:48px;font-weight:800;color:#7dffa8;line-height:1}
+.dna-card h4{font-size:13px;font-weight:600;margin:8px 0 6px;opacity:.9}
+.dna-card p{font-size:12px;opacity:.7;line-height:1.5}
+
+/* QUOTE */
+.quote-box{background:linear-gradient(135deg,var(--green-dark),var(--green));border-radius:20px;padding:40px;text-align:center;color:#fff;margin:24px 0}
+.quote-box blockquote{font-size:clamp(16px,3vw,22px);font-weight:600;line-height:1.5;margin-bottom:16px}
+.quote-box cite{font-size:13px;opacity:.7}
+
+/* OPPORTUNITY / GAP */
+.opp-list,.gap-list{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.opp-item,.gap-item{background:var(--white);border-radius:14px;padding:16px 20px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:flex-start}
+.opp-icon{flex:0 0 32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff}
+.opp-item .opp-icon{background:var(--green)}
+.gap-item .opp-icon{background:#e85d4a}
+.opp-body{font-size:14px;color:var(--gray-700);line-height:1.6}
+.opp-body strong{display:block;font-size:15px;color:var(--gray-900);margin-bottom:4px}
+
+/* SLEEP STATS */
+.sleep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin:20px 0}
+.sleep-card{background:var(--white);border-radius:14px;padding:18px 14px;text-align:center;box-shadow:var(--shadow)}
+.sleep-card .kw{font-size:18px;font-weight:700;color:var(--green-dark);margin-bottom:4px}
+.sleep-card .cnt{font-size:28px;font-weight:800;color:var(--green)}
+.sleep-card .unit{font-size:11px;color:var(--gray-500);margin-top:2px}
+
+/* FOOTER */
+footer{background:var(--gray-900);color:rgba(255,255,255,.5);text-align:center;padding:32px 24px;font-size:13px}
+
+/* STAT BADGE */
+.stat-method{background:var(--gray-100);border:1px solid var(--gray-200);border-radius:8px;padding:10px 16px;font-size:13px;color:var(--gray-500);margin-bottom:20px;line-height:1.6}
+
+/* responsive */
+@media(max-width:640px){
+  .bar-label{flex:0 0 110px;font-size:11px}
+  .dna-grid{grid-template-columns:1fr 1fr}
+  .hero-stats{gap:10px}
+  .hero-stat{padding:12px 18px;min-width:100px}
+  .hero-stat .num{font-size:22px}
+}
+
+/* TOC */
+.toc{background:var(--white);border-radius:var(--radius);padding:28px 32px;box-shadow:var(--shadow);margin:32px auto;max-width:700px}
+.toc h2{font-size:16px;font-weight:600;margin-bottom:16px;color:var(--green-dark)}
+.toc ol{padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:var(--green);text-decoration:none;font-size:16px}
+.toc a:hover{text-decoration:underline}
+
+/* sub-h2 */
+h2.sub{font-size:20px;font-weight:700;margin:36px 0 12px;color:var(--gray-900)}
+h2.sub::before{content:'';display:inline-block;width:4px;height:20px;background:var(--green);border-radius:2px;margin-right:10px;vertical-align:middle}
+
+/* group cards */
+.group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin:20px 0}
+.group-card{border-radius:14px;padding:20px;border-left:4px solid var(--green)}
+.group-card.a{background:#e8f5ee;border-color:#2d8c4e}
+.group-card.b{background:#e8f0fa;border-color:#3b6cc7}
+.group-card.c{background:#fdf3e0;border-color:#d4860a}
+.group-card.d{background:#fce8e8;border-color:#d43a3a}
+.group-card.e{background:#ede8fc;border-color:#7c4ec7}
+.group-card h3{font-size:14px;font-weight:700;margin-bottom:6px}
+.group-card .topics{font-size:12px;color:var(--gray-500);margin-bottom:8px}
+.group-card .insight-text{font-size:13px;line-height:1.6;color:var(--gray-700)}
+
+/* BUBBLE CLOUD */
+.bubble-cloud{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;padding:24px 16px;background:#f5f5f7;border-radius:16px;min-height:240px}
+.bubble{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;color:#fff;text-decoration:none;transition:transform .2s,box-shadow .2s,filter .2s;cursor:default;box-shadow:0 2px 8px rgba(45,140,78,0.15);padding:8px 12px;min-width:80px;overflow:hidden;text-align:center}
+.bubble:hover{transform:scale(1.1);box-shadow:0 6px 20px rgba(45,140,78,0.3);filter:brightness(1.15)}
+.bubble-text{font-weight:600;text-align:center;line-height:1.1;word-wrap:break-word;word-break:break-word;overflow:hidden;max-height:50%;padding:0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.bubble-count{font-weight:700;margin-top:3px;opacity:.95;white-space:nowrap}
+
+/* 顏色層級 - 根據相對大小分配 */
+.bubble.tier1{background:linear-gradient(135deg,#1a5c32,#2d8c4e);box-shadow:0 2px 8px rgba(26,92,50,0.2)}
+.bubble.tier2{background:linear-gradient(135deg,#2d8c4e,#4caf78);box-shadow:0 2px 8px rgba(45,140,78,0.2)}
+.bubble.tier3{background:linear-gradient(135deg,#4caf78,#7dffa8);color:#1a5c32;box-shadow:0 2px 8px rgba(76,175,120,0.2)}
+.bubble.tier4{background:linear-gradient(135deg,#7dffa8,#b8ffe0);color:#1a5c32;box-shadow:0 2px 8px rgba(125,255,168,0.2)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<div class="nav-inner">
+  <a href="#preface">前言</a>
+  <a href="#sec1">編輯風格</a>
+  <a href="#sec2">熱門議題</a>
+  <a href="#sec3">症狀分析</a>
+  <a href="#sec4">篇幅統計</a>
+  <a href="#sec5">讀者輪廓</a>
+  
+  <a href="#sec7">結論定位</a>
+  <a href="#sec8">睡眠主題</a>
+  <a href="#sec9">TOP7特徵分析</a>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">2025 年度分析報告</div>
+  <h1>TVBS 健康2.0<span>文章內容剖析</span></h1>
+  <p class="hero-sub">資料區間：2025/01/01 ～ 2025/12/31　｜　報告產製：2026年4月28日</p>
+  <div class="hero-stats">
+  </div>
+</section>
+
+<!-- TOC -->
+<div class="container" style="padding:0 24px">
+<div class="toc">
+  <h2>📋 報告目錄</h2>
+  <ol>
+    <li><a href="#preface">前言 / 摘要</a></li>
+    <li><a href="#sec1">編輯筆觸風格分析</a>（1-1 整體定位・1-2 專家引用・1-3 解讀）</li>
+    <li><a href="#sec2">熱門議題分析</a>（2-1 議題排行・2-2 議題分群・2-3 癌症統計）</li>
+    <li><a href="#sec3">偏好書寫的症狀分析</a>（3-1 症狀排行・3-2 症狀族群・3-3 解讀）</li>
+    <li><a href="#sec4">文章篇幅、類別統計</a>（4-1 標題・4-2 內文・4-3 黃金篇幅・4-4 分類篇幅・4-5 分類佔比・4-6 政策公衛・4-7 每月發文）</li>
+    <li><a href="#sec5">讀者輪廓深度分析</a>（5-1 語氣・5-2 族群・5-3 輪廓・用戶旅程・5-4 一句話）</li>
+    <li><a href="#sec7">結論與品牌定位</a>（6-1 內容DNA・6-2 機會觀察・6-3 建議補足）</li>
+    <li><a href="#sec8">Bonus Track：睡眠主題耕耘</a></li>
+    <li><a href="#sec9">Bonus Track II：GA4 瀏覽數 TOP7 文章特徵分析</a></li>
+  </ol>
+</div>
+</div>
+
+<!-- ===== 前言 ===== -->
+<section class="section" id="preface">
+<div class="container">
+  <span class="section-tag">PREFACE</span>
+  <h1 class="section-title">前言 / 摘要</h1>
+  <p class="section-desc">本報告依據 TVBS「健康2.0」網站 2025 年全年度發布之 7,982 篇文章（2025/01/01～2025/12/31），對全體文章進行逐篇閱讀與系統化量化分析，涵蓋編輯風格、熱門議題、症狀偏好、文章篇幅、讀者輪廓、政策連動，以及睡眠主題深度耕耘等面向，旨在提供編輯、產品、業務等團隊內容策略參考依據。<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">注意：此分析是針對內容「回推」文章可能帶給讀者的影響，不是在分析點擊成效！</mark></p>
+
+  <h2 class="sub">【核心發現速覽】</h2>
+  <div class="cards">
+    <div class="card"><h3>📅 2025年發佈篇數</h3><div class="big">7,982篇</div><p>全年共發布 7,982 篇文章，月均約 665 篇，12月發文量最高（730篇），顯示年末健康意識的衝刺策略。</p></div>
+    <div class="card"><h3>🥗 核心議題：飲食／營養</h3><div class="big">54.7%</div><p><mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">飲食／營養（54.7%）、運動體能（38.5%）、免疫發炎（37.0%）為三大核心議題</mark>，呈現「吃得對、動得到、不發炎」的整體內容策略。</p></div>
+    <div class="card"><h3>🩺 名醫背書</h3><div class="big">62.7%</div><p>逾 62.7% 文章引用醫師，19.1% 引用營養師，顯示<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">「名醫背書」是健康2.0最核心的信任背書機制。</mark></p></div>
+    <div class="card"><h3>🌙 睡眠機會</h3><div class="big">18.2%</div><p>睡眠相關文章達 1,456 篇（18.2%），但標題明確標示「睡眠」者僅 170 篇，有高度未開發的「好眠」內容機會。</p></div>
+    <div class="card"><h3>🫩 最常提及：疲勞/倦怠</h3><div class="big">1,136篇</div><p>疲勞/倦怠以 14.2% 高居症狀首位，<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">但「疲勞」本身並不是一個單一疾病——它是幾乎所有慢性病、睡眠問題、心理健康問題的共同症狀。這意味著健康2.0以「疲勞」作為超級引導入口。</mark></p></div>
+    <div class="card"><h3>👩 密集讀者</h3><div class="big">45-60歲</div><p>35-65 歲為主要核心，45-60 歲是最密集區間，以女性為主的「主動健康管理者」，具慢性病預防意識，習慣透過手機碎片化閱讀獲取健康知識。</p></div>
+  </div>
+
+</div>
+</section>
+
+<!-- ===== 一 ===== -->
+<section class="section" id="sec1">
+<div class="container">
+  <span class="section-tag">CHAPTER 1</span>
+  <h1 class="section-title">一、編輯筆觸風格分析</h1>
+
+  <h2 class="sub">1-1 整體編輯風格定位</h2>
+  <p style="margin-bottom:16px">健康2.0 的整體編輯風格可歸納為「專家權威 × 實用清單 × 危機警示」三角模型：</p>
+  <div class="cards">
+    <div class="card"><h3>🏥 專家權威軸</h3><p>逾 62.7% 文章援引醫師，開篇即拋出醫師姓名與服務機構，以白袍信任感降低讀者的認知門檻。</p></div>
+    <div class="card"><h3>📋 實用清單軸</h3><p>67.9% 的文章標題含數字，19.4% 採「X大/X招」結構，正文高度使用小標、條列呈現，讓資訊快速被掃讀。</p></div>
+    <div class="card"><h3>⚠️ 危機警示軸</h3><p>72.4% 的文章在正文中含有<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">「小心、危險、注意、千萬別」</mark>等警示性語言，以危機感驅動讀者點閱與閱讀完成。</p></div>
+  </div>
+  <div class="insight">這三個軸的交叉運作，構成健康2.0<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">「你可能不知道，但醫師說這樣做才對」</mark>的核心內容語氣——既生活化又權威，既親切又具警示性。</div>
+
+  <h2 class="sub">1-2 專家引用職稱分布（引用來源）</h2>
+  <div class="stat-method">統計方法：搜尋每篇文章「內文」（content）含特定職稱詞彙的篇數，同一篇含多個職稱只計各自1次。</div>
+
+  <div class="chart-box">
+    <h3>專家職稱出現篇數與占比</h3>
+    <div class="chart-wrap tall"><canvas id="expertChart"></canvas></div>
+  </div>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>職稱類型</th><th>出現篇數</th><th>占比（%）</th></tr>
+    <tr><td>醫師（西醫）</td><td>5,003</td><td>62.7%</td></tr>
+    <tr><td>專家（泛稱）</td><td>4,906</td><td>61.5%</td></tr>
+    <tr><td>主任（科主任）</td><td>1,927</td><td>24.1%</td></tr>
+    <tr><td>營養師</td><td>1,528</td><td>19.1%</td></tr>
+    <tr><td>中醫師</td><td>1,014</td><td>12.7%</td></tr>
+    <tr><td>外科醫師</td><td>560</td><td>7.0%</td></tr>
+    <tr><td>院長</td><td>556</td><td>7.0%</td></tr>
+    <tr><td>內科醫師</td><td>498</td><td>6.2%</td></tr>
+    <tr><td>教授</td><td>452</td><td>5.7%</td></tr>
+    <tr><td>博士</td><td>205</td><td>2.6%</td></tr>
+    <tr><td>副院長</td><td>201</td><td>2.5%</td></tr>
+    <tr><td>護理師</td><td>179</td><td>2.2%</td></tr>
+    <tr><td>藥師</td><td>143</td><td>1.8%</td></tr>
+    <tr><td>心理師</td><td>132</td><td>1.7%</td></tr>
+    <tr><td>執行長</td><td>126</td><td>1.6%</td></tr>
+    <tr><td>董事長</td><td>103</td><td>1.3%</td></tr>
+    <tr><td>物理治療師</td><td>78</td><td>1.0%</td></tr>
+    <tr><td>牙醫師</td><td>67</td><td>0.8%</td></tr>
+    <tr><td>研究員</td><td>63</td><td>0.8%</td></tr>
+    <tr><td>諮商師</td><td>25</td><td>0.3%</td></tr>
+  </table>
+  </div>
+
+  <h2 class="sub">1-3 小節（解讀）</h2>
+  <div class="insight"><strong>【解讀一：醫師是第一公信力來源】</strong><br>
+  醫師（西醫）出現於 62.7% 文章，幾乎覆蓋三分之二內容，且多以「OO醫院OO科主任/醫師OOO表示」的標準句型亮相。這種格式化引用，不只是信任背書，更是隱性的 <mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">SEO 策略：讀者搜尋「XX症狀 醫師推薦」時，此類格式文章的 EEAT 分數</mark>（Expertise, Authoritativeness, Trustworthiness）相對較高。</div>
+  <div class="insight"><strong>【解讀二：營養師是第二主力，且高性價比】</strong><br>
+  營養師出現篇數（19.1%）遠低於醫師，但在「飲食類」文章中的密度極高。由於飲食議題在本資料庫佔比達 54.7%，代表<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">「醫師點出問題、營養師給出飲食解方」</mark>是健康2.0成熟的雙人配合默契。</div>
+  <div class="insight"><strong>【解讀三：中醫師構成獨特的第二內容生態】</strong><br>
+  中醫師出現於 12.7% 文章，且多與節氣、養生補身、調理體質相關，形成與西醫主流平行的「傳統醫學敘事圈」，服務的是偏好自然療法、整體調理觀念的讀者族群。</div>
+  <div class="insight"><strong>【解讀四：執行長、董事長、理事長的出現】</strong><br>
+  此類機構領導者的引用（共約 480 篇），說明健康2.0有一定比例的「組織代言」內容——如癌症基金會、健康協會等機構的衛教推廣，有助提升報導的公益性與深度。</div>
+</div>
+</section>
+
+<!-- ===== 二 ===== -->
+<section class="section" id="sec2">
+<div class="container">
+  <span class="section-tag">CHAPTER 2</span>
+  <h1 class="section-title">二、熱門議題分析</h1>
+  <div class="stat-method">統計方法：搜尋各議題關鍵字出現於文章「內文」（content）的篇數，採同義詞對應（Synonym Mapping）合併相關詞彙後，計算含該群組的文章篇數及佔比（÷ 總文章數 7,982）。同一篇含多群組關鍵字，各群組均各自計1篇。</div>
+
+  <h2 class="sub">2-1 熱門議題排行</h2>
+  <div class="chart-box">
+    <h3>by 詞雲圖</h3>
+    <div class="bubble-cloud" id="topicBubbles"></div>
+  </div>
+  <div class="chart-box">
+    <h3>by 長條圖</h3>
+    <div class="chart-wrap tall"><canvas id="topicChart"></canvas></div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>排名</th><th>議題</th><th>出現篇數</th><th>占比（%）</th></tr>
+    <tr><td>1</td><td>飲食/營養</td><td>4,370</td><td>54.7%</td></tr>
+    <tr><td>2</td><td>運動/體能</td><td>3,070</td><td>38.5%</td></tr>
+    <tr><td>3</td><td>免疫/過敏/發炎</td><td>2,951</td><td>37.0%</td></tr>
+    <tr><td>4</td><td>情緒/心理健康</td><td>2,818</td><td>35.3%</td></tr>
+    <tr><td>5</td><td>心血管疾病</td><td>2,515</td><td>31.5%</td></tr>
+    <tr><td>6</td><td>腸胃/消化系統</td><td>2,432</td><td>30.5%</td></tr>
+    <tr><td>7</td><td>老化/銀髮族</td><td>2,263</td><td>28.4%</td></tr>
+    <tr><td>8</td><td>體重/減重</td><td>2,133</td><td>26.7%</td></tr>
+    <tr><td>9</td><td>糖尿病/血糖</td><td>2,123</td><td>26.6%</td></tr>
+    <tr><td>10</td><td>中醫/傳統醫學</td><td>2,030</td><td>25.4%</td></tr>
+    <tr><td>11</td><td>癌症</td><td>1,863</td><td>23.3%</td></tr>
+    <tr><td>12</td><td>皮膚健康</td><td>1,811</td><td>22.7%</td></tr>
+    <tr><td>13</td><td>睡眠</td><td>1,584</td><td>19.8%</td></tr>
+    <tr><td>14</td><td>骨骼/關節</td><td>1,183</td><td>14.8%</td></tr>
+    <tr><td>15</td><td>兒童/青少年健康</td><td>1,159</td><td>14.5%</td></tr>
+    <tr><td>16</td><td>更年期/荷爾蒙</td><td>1,102</td><td>13.8%</td></tr>
+    <tr><td>17</td><td>腎臟疾病</td><td>959</td><td>12.0%</td></tr>
+    <tr><td>18</td><td>呼吸系統</td><td>919</td><td>11.5%</td></tr>
+    <tr><td>19</td><td>肝臟疾病</td><td>901</td><td>11.3%</td></tr>
+    <tr><td>20</td><td>視力/眼睛</td><td>730</td><td>9.1%</td></tr>
+    <tr><td>21</td><td>性/婦科健康</td><td>721</td><td>9.0%</td></tr>
+    <tr><td>22</td><td>疫苗/防疫</td><td>647</td><td>8.1%</td></tr>
+    <tr><td>23</td><td>口腔/牙齒</td><td>424</td><td>5.3%</td></tr>
+    <tr><td>24</td><td>甲狀腺</td><td>265</td><td>3.3%</td></tr>
+  </table>
+  </div>
+
+  <h2 class="sub">2-2 議題分群深度探索</h2>
+  <p style="margin-bottom:16px">依據議題性質，可分為以下五大內容群：</p>
+  <div class="group-grid">
+    <div class="group-card a">
+      <h3>【A群】生活型態管理（最大核心圈）</h3>
+      <p class="topics">涵蓋議題：飲食/營養、運動/體能、體重/減重、睡眠</p>
+      <p class="insight-text">解讀：合計涵蓋文章超過 50%（各群有重疊），代表健康2.0最基礎的內容地基。這類文章的共通特色是<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">「讀者自己就能行動」，無需就醫，閱讀後有立即可操作的行動建議，轉換率（收藏、分享）最高。</mark></p>
+    </div>
+    <div class="group-card b">
+      <h3>【B群】慢性病管理（第二核心圈）</h3>
+      <p class="topics">涵蓋議題：糖尿病/血糖、心血管疾病、高血壓、高血脂</p>
+      <p class="insight-text">解讀：此群議題高度關聯 45 歲以上讀者的切身需求，且具有長尾搜尋價值——「血糖高怎麼辦」「血壓 180 要急診嗎」等 <mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">FAQ 型文章在此群最多。</mark></p>
+    </div>
+    <div class="group-card c">
+      <h3>【C群】系統性疾病深度報導（專業圈）</h3>
+      <p class="topics">涵蓋議題：癌症、腎臟、肝臟、甲狀腺、呼吸系統</p>
+      <p class="insight-text">解讀：此群文章篇幅較長（癌症分類平均 1,368 字），<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">讀者多為有具體需求（自身或家人確診），是高意圖、高黏著的讀者群。</mark></p>
+    </div>
+    <div class="group-card d">
+      <h3>【D群】心身健康（新興成長圈）</h3>
+      <p class="topics">涵蓋議題：情緒/心理健康、免疫/過敏/發炎、皮膚健康</p>
+      <p class="insight-text">解讀：情緒心理健康以 35.3% 高比例入榜，顯示健康2.0已在傳統生理健康之外，<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">積極布局「全人健康」概念，反映後疫情時代對心理健康的重視趨勢。</mark></p>
+    </div>
+    <div class="group-card e">
+      <h3>【E群】生命歷程健康（分衆圈）</h3>
+      <p class="topics">涵蓋議題：老化/銀髮、更年期/荷爾蒙、兒童/青少年、性/婦科</p>
+      <p class="insight-text">解讀：此群服務特定人生階段的讀者，壯世代（420篇）、更年期（1,102篇）的高比例，呼應台灣高齡化社會與女性健康意識抬頭的雙重趨勢。</p>
+    </div>
+  </div>
+
+  <h2 class="sub">2-3 提及的癌症類別統計</h2>
+  <div class="stat-method">統計方法：搜尋各癌症名稱（含同義詞）出現於文章「內文」的篇數，計算實際涉及該癌症的文章篇數及佔比。</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
+  <div class="chart-box" style="margin:0">
+    <h3>癌症類別出現篇數</h3>
+    <div class="chart-wrap tall"><canvas id="cancerChart"></canvas></div>
+  </div>
+  <div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>排名</th><th>癌症類別</th><th>篇數</th><th>占比</th></tr>
+    <tr><td>1</td><td>大腸癌/直腸癌</td><td>446</td><td>5.6%</td></tr>
+    <tr><td>2</td><td>乳癌</td><td>416</td><td>5.2%</td></tr>
+    <tr><td>3</td><td>肺癌</td><td>341</td><td>4.3%</td></tr>
+    <tr><td>4</td><td>肝癌</td><td>247</td><td>3.1%</td></tr>
+    <tr><td>5</td><td>胃癌</td><td>160</td><td>2.0%</td></tr>
+    <tr><td>6</td><td>胰臟癌</td><td>142</td><td>1.8%</td></tr>
+    <tr><td>7</td><td>攝護腺癌</td><td>134</td><td>1.7%</td></tr>
+    <tr><td>8</td><td>血癌/淋巴癌</td><td>123</td><td>1.5%</td></tr>
+    <tr><td>9</td><td>食道癌</td><td>89</td><td>1.1%</td></tr>
+    <tr><td>10</td><td>口腔癌</td><td>78</td><td>1.0%</td></tr>
+    <tr><td>11</td><td>卵巢癌</td><td>73</td><td>0.9%</td></tr>
+    <tr><td>12</td><td>子宮頸癌</td><td>69</td><td>0.9%</td></tr>
+    <tr><td>13</td><td>皮膚癌</td><td>68</td><td>0.9%</td></tr>
+    <tr><td>14</td><td>子宮內膜癌</td><td>59</td><td>0.7%</td></tr>
+    <tr><td>15</td><td>腎臟癌</td><td>49</td><td>0.6%</td></tr>
+    <tr><td>16</td><td>膀胱癌</td><td>49</td><td>0.6%</td></tr>
+    <tr><td>17</td><td>腦瘤</td><td>44</td><td>0.6%</td></tr>
+    <tr><td>18</td><td>甲狀腺癌</td><td>41</td><td>0.5%</td></tr>
+    <tr><td>19</td><td>鼻咽癌</td><td>41</td><td>0.5%</td></tr>
+    <tr><td>20</td><td>骨癌</td><td>8</td><td>0.1%</td></tr>
+  </table>
+  </div>
+  </div>
+  </div>
+  <div class="insight">【解讀】大腸癌（446篇）、乳癌（416篇）、肺癌（341篇）排名前三，與台灣衛福部公布的十大癌症發生率高度吻合，顯示健康2.0的癌症報導緊貼公共衛生現實。胰臟癌（142篇）出現比例相對偏高，可能反映該病症「早期難發現、致死率高」的強烈搜索意圖。</div>
+</div>
+</section>
+
+<!-- ===== 三 ===== -->
+<section class="section" id="sec3">
+<div class="container">
+  <span class="section-tag">CHAPTER 3</span>
+  <h1 class="section-title">三、偏好書寫的症狀分析</h1>
+  <div class="stat-method">統計方法：搜尋各症狀詞彙及同義詞出現於文章「內文」的篇數，同一篇含同義詞群中任一詞即計為1篇，避免重複計算。占比 = 該症狀文章數 ÷ 7,982 × 100%。</div>
+
+  <h2 class="sub">3-1 症狀關鍵字出現篇數</h2>
+  <div class="chart-box">
+    <h3>by 詞雲圖</h3>
+    <div class="bubble-cloud" id="symptomBubbles"></div>
+  </div>
+  <div class="chart-box">
+    <h3>by 長條圖</h3>
+    <div class="chart-wrap tall"><canvas id="symptomChart"></canvas></div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>排名</th><th>症狀類別</th><th>出現篇數</th><th>占比（%）</th></tr>
+    <tr><td>1</td><td>疲勞/倦怠</td><td>1,136</td><td>14.2%</td></tr>
+    <tr><td>2</td><td>糖尿病相關症狀（多尿多喝）</td><td>1,089</td><td>13.6%</td></tr>
+    <tr><td>3</td><td>焦慮</td><td>1,019</td><td>12.8%</td></tr>
+    <tr><td>4</td><td>高血壓</td><td>822</td><td>10.3%</td></tr>
+    <tr><td>5</td><td>皮膚癢/過敏</td><td>781</td><td>9.8%</td></tr>
+    <tr><td>6</td><td>水腫</td><td>735</td><td>9.2%</td></tr>
+    <tr><td>7</td><td>失眠/睡眠問題</td><td>614</td><td>7.7%</td></tr>
+    <tr><td>8</td><td>頭痛</td><td>552</td><td>6.9%</td></tr>
+    <tr><td>9</td><td>胃痛/胃脹/逆流</td><td>537</td><td>6.7%</td></tr>
+    <tr><td>10</td><td>憂鬱/情緒低落</td><td>517</td><td>6.5%</td></tr>
+    <tr><td>11</td><td>腹瀉</td><td>494</td><td>6.2%</td></tr>
+    <tr><td>12</td><td>咳嗽</td><td>486</td><td>6.1%</td></tr>
+    <tr><td>13</td><td>呼吸困難/氣喘</td><td>455</td><td>5.7%</td></tr>
+    <tr><td>14</td><td>心悸</td><td>454</td><td>5.7%</td></tr>
+    <tr><td>15</td><td>高血脂</td><td>453</td><td>5.7%</td></tr>
+    <tr><td>16</td><td>頭暈/眩暈</td><td>436</td><td>5.5%</td></tr>
+    <tr><td>17</td><td>腰背痛</td><td>387</td><td>4.8%</td></tr>
+    <tr><td>18</td><td>頻尿/排尿困難</td><td>350</td><td>4.4%</td></tr>
+    <tr><td>19</td><td>關節痛</td><td>316</td><td>4.0%</td></tr>
+    <tr><td>20</td><td>肩頸痠痛</td><td>245</td><td>3.1%</td></tr>
+    <tr><td>21</td><td>眼睛乾/視力模糊</td><td>241</td><td>3.0%</td></tr>
+    <tr><td>22</td><td>掉髮</td><td>203</td><td>2.5%</td></tr>
+    <tr><td>23</td><td>肌肉痠痛</td><td>192</td><td>2.4%</td></tr>
+    <tr><td>24</td><td>耳鳴</td><td>141</td><td>1.8%</td></tr>
+    <tr><td>25</td><td>便秘</td><td>48</td><td>0.6%</td></tr>
+  </table>
+  </div>
+
+  <h2 class="sub">3-2 症狀類別分群</h2>
+  <p style="margin-bottom:16px">依症狀性質分群：</p>
+  <div class="group-grid">
+    <div class="group-card a">
+      <h3>▶ 慢性系統性症狀</h3>
+      <p class="topics">涵蓋：高血壓、高血脂、糖尿病症狀、心悸</p>
+      <p class="insight-text">解讀：三高相關症狀合計約 2,000+ 篇次，是健康2.0最核心的症狀書寫軸，與台灣慢性病高盛行率直接對應。</p>
+    </div>
+    <div class="group-card d">
+      <h3>▶ 身心壓力症狀</h3>
+      <p class="topics">涵蓋：疲勞/倦怠、焦慮、憂鬱、失眠</p>
+      <p class="insight-text">解讀：合計超過 3,000 篇次，是成長最快的書寫領域，反映後疫情時代讀者對身心雙重健康的強烈需求。</p>
+    </div>
+    <div class="group-card b">
+      <h3>▶ 腸胃皮膚症狀</h3>
+      <p class="topics">涵蓋：胃痛/胃脹、腹瀉、皮膚癢/過敏</p>
+      <p class="insight-text">解讀：日常最常見的不適感，文章通常附帶即時可操作的飲食建議。</p>
+    </div>
+    <div class="group-card c">
+      <h3>▶ 疼痛類症狀</h3>
+      <p class="topics">涵蓋：頭痛、腰背痛、關節痛、肩頸痠痛</p>
+      <p class="insight-text">解讀：與辦公族、中老年讀者高度重疊，但目前覆蓋率相對偏低，有補足空間。</p>
+    </div>
+    <div class="group-card e">
+      <h3>▶ 特定器官症狀</h3>
+      <p class="topics">涵蓋：掉髮、耳鳴、眼睛乾</p>
+      <p class="insight-text">解讀：出現比例偏低，但搜索意圖明確，可發展為垂直深耕專題。</p>
+    </div>
+  </div>
+
+  <h2 class="sub">3-3 小節（解讀）</h2>
+  <div class="insight"><strong>【解讀一：「疲勞」是最被低估的症狀入口】</strong><br>
+  疲勞/倦怠以 14.2% 高居症狀首位，但「疲勞」本身並不是一個單一疾病——它是幾乎所有慢性病、睡眠問題、心理健康問題的共同症狀。這意味著健康2.0以「疲勞」作為超級引導入口，從單一搜尋詞分流至貧血、甲狀腺、睡眠、心理等不同深度專題。</div>
+  <div class="insight"><strong>【解讀二：「便秘」出現比例異常偏低（0.6%）】</strong><br>
+  便秘為全球最常見的腸胃症狀之一，但在健康2.0僅出現 48 篇，遠低於腹瀉（494篇）。原因可能是在搜尋上「便秘」常以「排便不順、腸道不通」等婉轉用語出現，但若加入同義詞擴充後仍偏低，可能是內容缺口，值得補足。</div>
+  <div class="insight"><strong>【解讀三：心理症狀比例快速上升】</strong><br>
+  焦慮（12.8%）、憂鬱（6.5%）合計出現超過 1,500 篇次，顯示健康2.0已明顯向「心理健康」延伸。然而，若與飲食/運動等成熟議題相比，心理類內容仍有更大的發展空間。</div>
+</div>
+</section>
+
+<!-- ===== 四 ===== -->
+<section class="section" id="sec4">
+<div class="container">
+  <span class="section-tag">CHAPTER 4</span>
+  <h1 class="section-title">四、文章篇幅、類別統計</h1>
+
+  <h2 class="sub">4-1 標題的句型與長度分析</h2>
+  <div class="stat-method">統計說明：以 Python len() 計算標題字元數（含標點），分析全體 7,982 篇文章標題。</div>
+  <div class="cards">
+    <div class="card"><h3>平均標題長度</h3><div class="big">30.3字</div><p>中位數 31 字，最長 83 字</p></div>
+    <div class="card"><h3>主要集中區間</h3><div class="big">25-35字</div><p>佔全體標題 80.1%，形成高度標準化的標題長度</p></div>
+    <div class="card"><h3>含數字標題</h3><div class="big">67.9%</div><p>5,416 篇，數字強化資訊密度與點擊吸引力</p></div>
+    <div class="card"><h3>含驚嘆號標題</h3><div class="big">69.1%</div><p>5,516 篇，驚嘆號製造緊迫感與情緒強度</p></div>
+  </div>
+
+  <p style="font-weight:600;margin:20px 0 12px">標題句型分析：</p>
+  <div class="chart-box">
+    <h3>標題句型特徵分佈</h3>
+    <div class="chart-wrap short"><canvas id="titleTypeChart"></canvas></div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>句型特徵</th><th>篇數</th><th>占比（%）</th></tr>
+    <tr><td>含驚嘆號（！）</td><td>5,516</td><td>69.1%</td></tr>
+    <tr><td>含數字（1、2、3...）</td><td>5,416</td><td>67.9%</td></tr>
+    <tr><td>含問號（？）</td><td>2,263</td><td>28.4%</td></tr>
+    <tr><td>清單式（X大/X招/X種）</td><td>1,549</td><td>19.4%</td></tr>
+  </table>
+  </div>
+  <div class="insight">【解讀】健康2.0的標題高度標準化，幾乎每篇都含有「數字＋驚嘆號」雙重強化結構（如「吃這3種食物！血壓立降20mmHg！」），目的是在社群媒體的資訊流中快速抓住眼球。28.4% 的問句標題則扮演「挑起讀者好奇心」的角色，引發讀者點進文章尋求解答。</div>
+
+  <h2 class="sub">4-2 內文的屬性與長度分析</h2>
+  <div class="stat-method">統計說明：以 Python len() 計算 content 欄位字元數（含HTML/標點），分析全體 7,982 篇文章。</div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>指標</th><th>數值</th></tr>
+    <tr><td>平均內文長度</td><td>1,269 字</td></tr>
+    <tr><td>中位數內文長度</td><td>1,123 字</td></tr>
+    <tr><td>最長內文</td><td>14,362 字</td></tr>
+    <tr><td>最長文章 ID</td><td>359171</td></tr>
+    <tr><td>最長文章標題</td><td><a href="https://health.tvbs.com.tw/medical/359171" target="_blank">猛健樂比週纖達更快瘦？1個月瘦多少？2025最新價格、副作用指南</a></td></tr>
+  </table>
+  </div>
+  <div class="insight">【最長文章說明】ID 359171 長達 14,362 字，屬於「懶人包/完整指南」類型，一次整合問答、比較、副作用、使用方式等多層資訊，為 SEO 深度內容策略的極端案例。</div>
+
+  <h2 class="sub">4-3 黃金篇幅分析</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;flex-wrap:wrap">
+  <div class="chart-box" style="margin:0">
+    <h3>內文篇幅分佈</h3>
+    <div class="chart-wrap"><canvas id="lengthChart"></canvas></div>
+  </div>
+  <div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>篇幅區間</th><th>篇數</th><th>占比（%）</th></tr>
+    <tr><td>500字以下</td><td>31</td><td>0.4%</td></tr>
+    <tr><td>500-999字</td><td>2,662</td><td>33.4%</td></tr>
+    <tr style="background:#e8f5ee"><td><strong>1,000-1,999字（黃金區）</strong></td><td><strong>4,776</strong></td><td><strong>59.8%</strong></td></tr>
+    <tr><td>2,000-2,999字</td><td>370</td><td>4.6%</td></tr>
+    <tr><td>3,000-4,999字</td><td>73</td><td>0.9%</td></tr>
+    <tr><td>5,000字以上</td><td>70</td><td>0.9%</td></tr>
+  </table>
+  </div>
+  <div class="insight" style="margin-top:16px"><strong>【黃金篇幅：1,000-1,999字，占比高達59.8%】</strong><br>原因分析：</div>
+  <ul style="margin:8px 0 0 20px;font-size:14px;color:var(--gray-700);line-height:1.8">
+    <li>閱讀時間約 3-5 分鐘，符合手機用戶碎片化閱讀習慣，不會太短（資訊不足）也不會太長（中途放棄）。</li>
+    <li>足夠容納：1個問題陳述 ＋ 2-3個專家引言 ＋ 3-5個小節條列 ＋ 1個總結，完整達成「衛教」目的。</li>
+    <li>搜尋引擎評估：對健康類關鍵字，此篇幅通常足以涵蓋語意相關段落，有助排名。</li>
+    <li>圖片配置：此篇幅通常嵌入 2-3 張圖片，使版面節奏感強，提升閱讀體驗。</li>
+  </ul>
+  </div>
+  </div>
+
+  <h2 class="sub">4-4 主分類文章篇幅統計</h2>
+  <div class="chart-box">
+    <h3>各主分類平均內文長度</h3>
+    <div class="chart-wrap"><canvas id="catLenChart"></canvas></div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>主分類</th><th>篇數</th><th>平均內文長度</th><th>中位數</th></tr>
+    <tr><td>醫學百科</td><td>5</td><td>2,429字</td><td>1,441字</td></tr>
+    <tr><td>癌症</td><td>439</td><td>1,368字</td><td>1,317字</td></tr>
+    <tr><td>醫療</td><td>1,888</td><td>1,338字</td><td>1,222字</td></tr>
+    <tr><td>營養好食</td><td>1,155</td><td>1,317字</td><td>1,101字</td></tr>
+    <tr><td>影音</td><td>355</td><td>1,282字</td><td>1,205字</td></tr>
+    <tr><td>樂生活</td><td>1,985</td><td>1,261字</td><td>1,084字</td></tr>
+    <tr><td>廣告業務</td><td>90</td><td>1,217字</td><td>1,156字</td></tr>
+    <tr><td>養生</td><td>1,132</td><td>1,212字</td><td>1,073字</td></tr>
+    <tr><td>壯世代</td><td>420</td><td>1,202字</td><td>1,142字</td></tr>
+    <tr><td>中醫</td><td>307</td><td>1,168字</td><td>1,116字</td></tr>
+    <tr><td>運動</td><td>26</td><td>1,156字</td><td>1,005字</td></tr>
+    <tr><td>其他</td><td>38</td><td>889字</td><td>780字</td></tr>
+    <tr><td>食譜</td><td>142</td><td>704字</td><td>686字</td></tr>
+  </table>
+  </div>
+  <div class="insight">【解讀】「癌症」分類平均篇幅最長（1,368字），反映讀者對癌症資訊有更高的深度需求。「食譜」分類最短（704字），符合食譜類內容以食材清單、步驟圖為主的結構特性。</div>
+
+  <h2 class="sub">4-5 文章分類</h2>
+  <p style="font-weight:600;margin-bottom:12px">主分類分佈：</p>
+  <div class="chart-box">
+    <h3>主分類篇數佔比</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+    <div class="chart-wrap"><canvas id="mainCatChart"></canvas></div>
+    <div class="tbl-wrap">
+    <table>
+      <tr><th>主分類</th><th>篇數</th><th>占比</th></tr>
+      <tr><td>樂生活</td><td>1,985</td><td>24.9%</td></tr>
+      <tr><td>醫療</td><td>1,888</td><td>23.7%</td></tr>
+      <tr><td>營養好食</td><td>1,155</td><td>14.5%</td></tr>
+      <tr><td>養生</td><td>1,132</td><td>14.2%</td></tr>
+      <tr><td>癌症</td><td>439</td><td>5.5%</td></tr>
+      <tr><td>壯世代</td><td>420</td><td>5.3%</td></tr>
+      <tr><td>影音</td><td>355</td><td>4.4%</td></tr>
+      <tr><td>中醫</td><td>307</td><td>3.8%</td></tr>
+      <tr><td>食譜</td><td>142</td><td>1.8%</td></tr>
+      <tr><td>廣告業務</td><td>90</td><td>1.1%</td></tr>
+      <tr><td>其他</td><td>38</td><td>0.5%</td></tr>
+      <tr><td>運動</td><td>26</td><td>0.3%</td></tr>
+      <tr><td>醫學百科</td><td>5</td><td>0.1%</td></tr>
+    </table>
+    </div>
+    </div>
+  </div>
+  <div class="insight">【解讀】「樂生活」（24.9%）以些微差距壓過「醫療」（23.7%）排名第一，<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">顯示健康2.0已成功從純醫療衛教導向，向「健康生活風格媒體」轉型</mark>——讀者來此不只是找病症解答，更是尋找「更好的生活方式」。</div>
+  <h2 class="sub">4-6 政策/補貼/公衛統計、解析</h2>
+  <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">
+    <div class="chart-box" style="flex:1;min-width:280px;max-width:48%;">
+      <h3>政策/公衛相關文章 by柱狀圖</h3>
+      <div class="chart-wrap short"><canvas id="policyChart"></canvas></div>
+    </div>
+    <div class="chart-box" style="flex:1;min-width:280px;max-width:48%;">
+      <h3>政策/公衛相關文章 by雷達圖</h3>
+      <div class="chart-wrap short"><canvas id="policyRadarChart"></canvas></div>
+    </div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>政策類型</th><th>出現篇數</th><th>占比（%）</th></tr>
+    <tr><td>健保/醫療補助</td><td>544</td><td>6.8%</td></tr>
+    <tr><td>食安政策</td><td>263</td><td>3.3%</td></tr>
+    <tr><td>長照政策</td><td>129</td><td>1.6%</td></tr>
+    <tr><td>疫苗政策</td><td>128</td><td>1.6%</td></tr>
+    <tr><td>癌症篩檢</td><td>108</td><td>1.4%</td></tr>
+    <tr><td>空污/環境健康</td><td>95</td><td>1.2%</td></tr>
+  </table>
+  </div>
+  <div class="insight">【解讀】健保相關（544篇，6.8%）是政策類最大宗，多為「健保有無給付」「自費與健保的差異」等讀者最直接關心的消費決策資訊。食安政策（263篇）則呈現「下架、汙染、食品成分揭露」等危機型內容，與健康2.0的警示語氣高度契合。長照與疫苗政策各約 128-129 篇，顯示公共衛生政策面向尚有更大的報導空間。</div>
+
+  <h2 class="sub">4-7 全年發文量月份統計，與節氣節慶政策相關性</h2>
+  <div class="chart-box">
+    <h3>2025年全年月份發文量</h3>
+    <div class="chart-wrap"><canvas id="monthlyChart"></canvas></div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>月份</th><th>發文篇數</th><th>對應節氣/節慶/趨勢</th></tr>
+    <tr><td>2025-01</td><td>579</td><td>農曆年前備戰（健康零食、年節飲食）</td></tr>
+    <tr><td>2025-02</td><td>644</td><td>農曆春節/元宵，年後健康話題高峰</td></tr>
+    <tr><td>2025-03</td><td>687</td><td>驚蟄節氣、春季養生啟動</td></tr>
+    <tr><td>2025-04</td><td>688</td><td>清明節、春季過敏、換季保健</td></tr>
+    <tr><td>2025-05</td><td>680</td><td>母親節、端午備戰、立夏</td></tr>
+    <tr><td>2025-06</td><td>642</td><td>端午節後、夏至、夏季防曬飲食</td></tr>
+    <tr><td>2025-07</td><td>684</td><td>大暑、夏季消暑養生、中暑警示</td></tr>
+    <tr><td>2025-08</td><td>688</td><td>處暑、父親節、夏秋換季</td></tr>
+    <tr><td>2025-09</td><td>681</td><td>中秋節、重陽前哨、秋補啟動</td></tr>
+    <tr><td>2025-10</td><td>659</td><td>重陽節、秋季養生高峰</td></tr>
+    <tr><td>2025-11</td><td>620</td><td>立冬進補、感冒季警示</td></tr>
+    <tr><td>2025-12</td><td>730</td><td>冬至、年末健康盤點、聖誕、跨年</td></tr>
+  </table>
+  </div>
+  <div class="insight">【解讀】12月發文量最高（730篇），推測為年末內容衝刺、冬至節氣（71篇）聯動及年末健康總結帶動。1月最低（579篇），可能受農曆年假影響，產製量下降。整體全年發文分佈相當穩定（月均 665 篇），顯示健康2.0已建立成熟的內容排班系統，節氣節慶為「加碼點」而非「主要波動因素」。</div>
+</div>
+</section>
+
+<!-- ===== 五 ===== -->
+<section class="section" id="sec5">
+<div class="container">
+  <span class="section-tag">CHAPTER 5</span>
+  <h1 class="section-title">五、讀者輪廓深度分析</h1>
+  <p class="section-desc">分析方法：從文章「內文」中出現的目標族群提示語（同義詞對應）、寫作語氣模式、文章議題，交叉推斷健康2.0的核心讀者特徵。全數 7,982 篇逐篇分析，不抽樣。<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">再次強調：這是利用文章回推出來用戶可能的樣貌，不是在分析GA4數據結果唷！</mark></p>
+
+  <h2 class="sub">5-1 文章寫作語氣</h2>
+  <div class="chart-box">
+    <h3>寫作語氣模式出現篇數</h3>
+    <div class="chart-wrap short"><canvas id="toneChart"></canvas></div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>語氣類型</th><th>出現篇數</th><th>占比（%）</th><th>說明</th></tr>
+    <tr><td>警示型（小心、危險、千萬別）</td><td>5,775</td><td>72.4%</td><td>最主要語氣，以危機感驅動點閱</td></tr>
+    <tr><td>解答型（怎麼辦、教你、方法）</td><td>4,199</td><td>52.6%</td><td>提供可執行的行動步驟</td></tr>
+    <tr><td>數字列舉型（1.2.3./第一第二）</td><td>3,403</td><td>42.6%</td><td>清單結構，便於快速掃讀</td></tr>
+    <tr><td>名醫背書型（醫師指出、研究顯示）</td><td>2,196</td><td>27.5%</td><td>以專業權威建立信任</td></tr>
+    <tr><td>提問式/教育型（你知道嗎？）</td><td>657</td><td>8.2%</td><td>挑起好奇心的引導型語氣</td></tr>
+  </table>
+  </div>
+  <div class="insight">【解讀】警示型（72.4%）＋解答型（52.6%）構成最主流的「問題-解法」二段式語氣公式，幾乎每篇都是：「這個症狀很危險！→ 醫師說這樣做」。這種格式貼近讀者的實際使用情境：感覺哪裡不對勁 → 搜尋 → 得到解答。</div>
+
+  <h2 class="sub">5-2 讀者族群探索</h2>
+  <div class="chart-box">
+    <h3>目標族群提示語出現篇數</h3>
+    <div class="chart-wrap short"><canvas id="groupChart"></canvas></div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>族群</th><th>出現篇數</th><th>占比（%）</th></tr>
+    <tr><td>中老年/熟齡（50-65歲）</td><td>1,798</td><td>22.5%</td></tr>
+    <tr><td>女性族群</td><td>1,698</td><td>21.3%</td></tr>
+    <tr><td>上班族（久坐/職場壓力）</td><td>1,031</td><td>12.9%</td></tr>
+    <tr><td>慢性病患者/三高族群</td><td>1,014</td><td>12.7%</td></tr>
+    <tr><td>家長/父母</td><td>724</td><td>9.1%</td></tr>
+    <tr><td>青年族群（20-30歲）</td><td>631</td><td>7.9%</td></tr>
+    <tr><td>癌友/癌症家屬</td><td>623</td><td>7.8%</td></tr>
+    <tr><td>孕婦</td><td>464</td><td>5.8%</td></tr>
+  </table>
+  </div>
+
+  <h2 class="sub">5-3 讀者輪廓深度解析</h2>
+  <p style="margin-bottom:16px">交叉分析議題偏好（飲食54.7%、運動38.5%、心血管31.5%）、族群提示語（中老年22.5%、女性21.3%）、語氣模式（警示72.4%），健康2.0的核心讀者輪廓如下：</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>讀者特徵維度</th><th>描述</th></tr>
+    <tr><td>年齡層</td><td>35-65 歲為主要核心，45-60 歲是最密集區間</td></tr>
+    <tr><td>性別</td><td>女性略佔多數（更年期、婦科、骨鬆、皮膚相關文章比重高）</td></tr>
+    <tr><td>健康狀態</td><td>已有慢性病者（三高、糖尿病）或強烈預防意識的「潛在患者」</td></tr>
+    <tr><td>教育背景</td><td>高中至大學程度，能理解醫學術語但需要通俗化解釋</td></tr>
+    <tr><td>生活型態</td><td>忙碌的家庭照顧者（需兼顧自身與長輩健康）</td></tr>
+    <tr><td>行為模式</td><td>透過 LINE 分享文章給家人，Google 搜尋症狀入口點進網站</td></tr>
+    <tr><td>動機</td><td>「看到症狀→確認自己或家人是否需要就醫」的功能性閱讀</td></tr>
+  </table>
+  </div>
+
+  <h2 class="sub">5-3 讀者資訊行為模式（用戶旅程）</h2>
+  <div class="chart-box">
+  <h3>讀者用戶旅程六階段</h3>
+  <div class="journey">
+    <div class="journey-step"><div class="j-icon">1</div><div class="j-body"><h4>觸發</h4><p>出現身體症狀（疲勞、頭痛、血壓異常）或看到親友分享的健康新聞</p></div></div>
+    <div class="journey-step"><div class="j-icon">2</div><div class="j-body"><h4>搜尋</h4><p>以症狀或食物名稱 Google 搜尋（如「高血壓 怎麼辦」「吃樹葡萄 功效」）</p></div></div>
+    <div class="journey-step"><div class="j-icon">3</div><div class="j-body"><h4>閱讀</h4><p>點入 TVBS 健康2.0，快速掃讀標題→小標→專家姓名→結論</p></div></div>
+    <div class="journey-step"><div class="j-icon">4</div><div class="j-body"><h4>評估</h4><p>根據「醫師/營養師說可以」決定是否採取行動</p></div></div>
+    <div class="journey-step"><div class="j-icon">5</div><div class="j-body"><h4>行動</h4><p>改變飲食習慣、購買保健品、預約門診、或分享給家人</p></div></div>
+    <div class="journey-step"><div class="j-icon">6</div><div class="j-body"><h4>回訪</h4><p>設定健康2.0 LINE 帳號，或收藏網頁，下次出現症狀再回查</p></div></div>
+  </div>
+  </div>
+
+  <h2 class="sub">5-4 最適合的一句話描述健康2.0的讀者</h2>
+  <div class="quote-box">
+    <blockquote>「擔心自己和家人健康的 45 歲女性，在 LINE 看到文章後，想知道量到的「血壓 138」 ，到底需不需要看醫生。」</blockquote>
+    <cite>— 健康2.0核心讀者輪廓定義</cite>
+  </div>
+</div>
+</section>
+
+<!-- ===== 七 ===== -->
+<section class="section" id="sec7">
+<div class="container">
+  <span class="section-tag">CHAPTER 6</span>
+  <h1 class="section-title">六、結論與品牌定位</h1>
+
+  <h2 class="sub">6-1 健康2.0的內容DNA</h2>
+  <p style="margin-bottom:20px">經過全數 7,982 篇文章的逐一分析，健康2.0的內容DNA可歸納為以下五條核心鏈：</p>
+  <div class="dna-grid">
+    <div class="dna-card"><div class="letter">D</div><h4>醫生背書<br>Doctor-endorsed</h4><p>62.7% 文章引用醫師，以「醫師說」為最強信任鎖鏈，降低讀者質疑門檻。</p></div>
+    <div class="dna-card"><div class="letter">N</div><h4>數字化<br>Numbered</h4><p>67.9% 標題含數字，42.6% 正文使用數字列舉，把複雜醫學知識轉化為可快速掃讀的清單。</p></div>
+    <div class="dna-card"><div class="letter">A</div><h4>可行動<br>Actionable</h4><p>52.6% 文章採解答型語氣，每篇皆提供「這樣做就對了」的即時可操作建議。</p></div>
+    <div class="dna-card"><div class="letter">W</div><h4>警示驅動<br>Warning-driven</h4><p>72.4% 文章含警示語言，以「你可能犯了這個錯！」激發讀者的危機感與點閱動機。</p></div>
+    <div class="dna-card"><div class="letter">S</div><h4>搜尋優化<br>Search-optimized</h4><p>標題平均 30 字、黃金篇幅 1,000-1,999 字、結構清晰，符合 Google 健康類 EEAT 內容指引。</p></div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>DNA 元素</th><th>說明</th></tr>
+    <tr><td>D 醫生背書（Doctor-endorsed）</td><td>62.7% 文章引用醫師，以「醫師說」為最強信任鎖鏈，降低讀者質疑門檻。</td></tr>
+    <tr><td>N 數字化（Numbered）</td><td>67.9% 標題含數字，42.6% 正文使用數字列舉，把複雜醫學知識轉化為可快速掃讀的清單。</td></tr>
+    <tr><td>A 可行動（Actionable）</td><td>52.6% 文章採解答型語氣，每篇皆提供「這樣做就對了」的即時可操作建議。</td></tr>
+    <tr><td>W 警示驅動（Warning-driven）</td><td>72.4% 文章含警示語言，以「你可能犯了這個錯！」激發讀者的危機感與點閱動機。</td></tr>
+    <tr><td>S 搜尋優化（Search-optimized）</td><td>標題平均 30 字、黃金篇幅 1,000-1,999 字、結構清晰，符合 Google 健康類 EEAT 內容指引。</td></tr>
+  </table>
+  </div>
+
+  <h2 class="sub">6-2 內容機會觀察</h2>
+  <div class="opp-list">
+    <div class="opp-item"><div class="opp-icon">1</div><div class="opp-body"><strong>【機會一】睡眠垂直深耕</strong>1,456 篇相關但標題明確標示「睡眠」者僅 170 篇，睡眠是現代人最痛的健康需求之一，可系統化建立「好眠專區」。</div></div>
+    <div class="opp-item"><div class="opp-icon">2</div><div class="opp-body"><strong>【機會二】男性健康切入</strong>父親節（9篇）、男性癌症（攝護腺134篇）等男性相關內容偏少，可強化「男性專區」以平衡讀者結構。</div></div>
+    <div class="opp-item"><div class="opp-icon">3</div><div class="opp-body"><strong>【機會三】心理健康成熟化</strong>焦慮（1,019篇）、憂鬱（517篇）雖已有基礎，但缺乏系統化的「心理健康專欄」，可建立更完整的心理健康內容架構。</div></div>
+    <div class="opp-item"><div class="opp-icon">4</div><div class="opp-body"><strong>【機會四】便秘等腸道微生態議題</strong>便秘（48篇）相較其他腸胃症狀明顯偏低，微生物菌叢、益生菌、腸道健康等新興議題可強化佈局。</div></div>
+    <div class="opp-item"><div class="opp-icon">5</div><div class="opp-body"><strong>【機會五】長照實務</strong>長照政策（129篇）未充分轉化為「照顧者實務指南」，可從「家有失智長輩怎麼辦」等具體場景切入，服務中壯年照顧者讀者。</div></div>
+  </div>
+
+  <h2 class="sub">6-3 需要補足的地方</h2>
+  <div class="gap-list">
+    <div class="gap-item"><div class="opp-icon">1</div><div class="opp-body"><strong>【補足一】讀者互動機制</strong>目前文章多為單向輸出，缺乏讀者提問、回饋互動機制，難以即時掌握讀者需求演化。</div></div>
+    <div class="gap-item"><div class="opp-icon">2</div><div class="opp-body"><strong>【補足二】數據追蹤整合</strong>建議結合 GA4 閱讀完成率、熱區地圖分析，了解「哪些議題讀者讀完率最高」而非只看篇數。</div></div>
+    <div class="gap-item"><div class="opp-icon">3</div><div class="opp-body"><strong>【補足三】圖表可視化不足</strong>多數文章以文字為主，醫學數據（如血壓數值比較、癌症五年存活率）若能以原創圖表呈現，可大幅提升內容可信度與社群分享率。</div></div>
+    <div class="gap-item"><div class="opp-icon">4</div><div class="opp-body"><strong>【補足四】最新研究即時性</strong>部分文章引用研究年份較早（2013、2017年），建議建立「研究更新機制」，定期翻新重要文章的引用數據。</div></div>
+    <div class="gap-item"><div class="opp-icon">5</div><div class="opp-body"><strong>【補足五】地域化內容</strong>台灣各地的飲食習慣、氣候差異（如南北飲食文化差異）可發展更在地化的健康內容，提升讀者認同感。</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ===== 八 ===== -->
+<section class="section" id="sec8">
+<div class="container">
+  <span class="section-tag">BONUS TRACK</span>
+  <h1 class="section-title">七、「睡眠」主題的耕耘</h1>
+  <div class="stat-method">分析方法：全數 7,982 篇文章逐篇閱讀，搜尋睡眠相關關鍵字出現於「內文」的篇數，標題含睡眠關鍵字者另行統計。不抽樣、不只看標題。</div>
+
+  <h2 class="sub">7-1 好眠/睡眠為主軸的文章篇幅</h2>
+  <div class="cards">
+    <div class="card"><h3>🌙 廣義睡眠相關文章</h3><div class="big">1,456篇</div><p>內文含睡眠、失眠、好眠等關鍵字，占全體文章 18.2%</p></div>
+    <div class="card"><h3>📰 標題明確含睡眠關鍵字</h3><div class="big">170篇</div><p>僅占全體 2.1%，顯示睡眠多以「配角」而非「主角」出現</p></div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>統計項目</th><th>篇數</th><th>占比（%）</th></tr>
+    <tr><td>廣義睡眠相關文章（內文含睡眠、失眠、好眠等）</td><td>1,456</td><td>18.2%</td></tr>
+    <tr><td>標題明確含睡眠關鍵字文章</td><td>170</td><td>2.1%</td></tr>
+  </table>
+  </div>
+  <div class="insight">【解讀】睡眠議題在內文層面的滲透率（18.2%）遠高於標題層面（2.1%），表示「睡眠」常以「提及」而非「主角」的姿態出現在各類健康文章中——如「運動有助睡眠」「焦慮導致失眠」「中醫調理睡眠品質」等。這也代表「以睡眠為明確主角」的文章在本資料庫中仍屬少數，內容機會空間巨大。</div>
+
+  <h2 class="sub">7-2 好眠探討的面相</h2>
+  <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">
+    <div class="chart-box" style="flex:1;min-width:280px;max-width:48%;">
+      <h3>睡眠議題探討面相 by柱狀圖</h3>
+      <div class="chart-wrap short"><canvas id="sleepAspectChart"></canvas></div>
+    </div>
+    <div class="chart-box" style="flex:1;min-width:280px;max-width:48%;">
+      <h3>睡眠議題探討面相 by雷達圖</h3>
+      <div class="chart-wrap short"><canvas id="sleepAspectRadar"></canvas></div>
+    </div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>面相</th><th>出現篇數</th><th>統計方式</th></tr>
+    <tr><td>睡眠與疾病（睡不好引發心血管、糖尿病等）</td><td>449</td><td>內文搜尋</td></tr>
+    <tr><td>睡眠與體重（睡不好容易胖）</td><td>250</td><td>內文搜尋</td></tr>
+    <tr><td>睡眠與老化（年紀大睡眠品質變差）</td><td>247</td><td>內文搜尋</td></tr>
+    <tr><td>睡前習慣（就寢前的行為建議）</td><td>214</td><td>內文搜尋</td></tr>
+    <tr><td>失眠原因探討（找出失眠根因）</td><td>23</td><td>內文搜尋</td></tr>
+    <tr><td>睡眠時間長短（最佳睡幾小時）</td><td>9</td><td>內文搜尋</td></tr>
+  </table>
+  </div>
+  <div class="insight">【解讀】睡眠與疾病的連結（449篇）是最常見的切入角度，健康2.0傾向用「睡不好會得病」的警示路徑切入睡眠議題，而「怎麼樣能睡好」的解方型內容相對偏少（失眠原因探討僅23篇，最佳睡眠時間僅9篇）。這是一個明顯的內容斷層——警示了問題，但解方內容的深度尚不足。</div>
+
+  <h2 class="sub">7-3 睡眠主題關鍵字分析</h2>
+  <div class="chart-box">
+    <div class="bubble-cloud" id="sleepBubbles"></div>
+  </div>
+  <div class="tbl-wrap" style="margin-top:16px">
+  <table>
+    <tr><th>睡眠關鍵字</th><th>出現篇數</th></tr>
+    <tr><td>失眠</td><td>495</td></tr>
+    <tr><td>睡眠品質</td><td>428</td></tr>
+    <tr><td>睡前</td><td>364</td></tr>
+    <tr><td>助眠</td><td>203</td></tr>
+    <tr><td>睡眠時間</td><td>103</td></tr>
+    <tr><td>褪黑激素</td><td>98</td></tr>
+    <tr><td>好眠</td><td>95</td></tr>
+    <tr><td>睡眠障礙</td><td>89</td></tr>
+    <tr><td>睡眠呼吸中止</td><td>77</td></tr>
+    <tr><td>多夢</td><td>51</td></tr>
+    <tr><td>睡姿</td><td>47</td></tr>
+    <tr><td>熟睡</td><td>39</td></tr>
+    <tr><td>打呼</td><td>34</td></tr>
+    <tr><td>午睡</td><td>32</td></tr>
+    <tr><td>深度睡眠</td><td>32</td></tr>
+    <tr><td>早醒</td><td>26</td></tr>
+    <tr><td>入睡困難</td><td>25</td></tr>
+    <tr><td>半夜醒</td><td>22</td></tr>
+    <tr><td>打鼾</td><td>20</td></tr>
+    <tr><td>睡不夠</td><td>7</td></tr>
+  </table>
+  </div>
+
+  <h2 class="sub">7-4 好眠解方分析</h2>
+  <div class="chart-box">
+    <h3>好眠解方出現篇數</h3>
+    <div class="chart-wrap short"><canvas id="sleepSolChart"></canvas></div>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>好眠解方</th><th>出現篇數</th><th>占全體文章（%）</th></tr>
+    <tr><td>運動改善睡眠（運動、有氧、走路等）</td><td>756</td><td>9.5%</td></tr>
+    <tr><td>呼吸/冥想/正念</td><td>495</td><td>6.2%</td></tr>
+    <tr><td>睡眠環境調整（溫度、遮光、寢具）</td><td>370</td><td>4.6%</td></tr>
+    <tr><td>飲食調整（助眠食物、色胺酸）</td><td>304</td><td>3.8%</td></tr>
+    <tr><td>中醫調理（針灸、藥膳、穴位）</td><td>287</td><td>3.6%</td></tr>
+    <tr><td>3C/藍光管控</td><td>170</td><td>2.1%</td></tr>
+    <tr><td>就醫/藥物（安眠藥、睡眠門診）</td><td>129</td><td>1.6%</td></tr>
+    <tr><td>褪黑激素補充</td><td>98</td><td>1.2%</td></tr>
+  </table>
+  </div>
+  <div class="insight">【解讀】「運動」是最常被提及的好眠解方（756篇），但多半是以「其他議題文章的附帶提及」（如「規律運動有助睡眠」），而非聚焦探討「哪種運動、什麼時段、多少強度最能改善睡眠」的深度內容。這恰恰是內容深耕的機會所在。</div>
+
+  <h2 class="sub">7-5「好眠」的內容機會</h2>
+  <div class="opp-list">
+    <div class="opp-item"><div class="opp-icon">1</div><div class="opp-body"><strong>【機會一：建立「好眠實驗室」專欄】</strong>以系列文章形式，每週深入一個睡眠主題（如：「打呼的真相」「褪黑激素怎麼吃才對」「睡眠呼吸中止如何診斷」），建立健康2.0在睡眠領域的品牌權威。</div></div>
+    <div class="opp-item"><div class="opp-icon">2</div><div class="opp-body"><strong>【機會二：睡眠自我評估工具】</strong>開發互動式「睡眠品質自我檢測」問答，增加讀者停留時間與回訪動機。</div></div>
+    <div class="opp-item"><div class="opp-icon">3</div><div class="opp-body"><strong>【機會三：跨族群睡眠議題】</strong>分別針對「更年期女性的失眠」「銀髮族的睡眠型態改變」「上班族的睡眠債」等不同族群開發垂直內容，提升精準觸及。</div></div>
+    <div class="opp-item"><div class="opp-icon">4</div><div class="opp-body"><strong>【機會四：好眠飲食懶人包】</strong>「色胺酸食物大全」「助眠茶飲比較」「睡前不能吃的食物」等實用型內容，可能在 LINE 分享率高。</div></div>
+    <div class="opp-item"><div class="opp-icon">5</div><div class="opp-body"><strong>【機會五：睡眠裝置報導】</strong>智慧戒指、睡眠追蹤手環等穿戴式裝置的評測與建議，連結科技健康生活，吸引年輕讀者族群。</div></div>
+  </div>
+
+  <h2 class="sub">7-6 針對「好眠」議題，需補足的地方</h2>
+  <div class="gap-list">
+    <div class="gap-item"><div class="opp-icon">1</div><div class="opp-body"><strong>【補足一】睡眠醫學專家引用不足</strong>目前睡眠內容多依附在「名醫談慢性病附帶提到睡眠」的框架，缺乏睡眠醫學科專科醫師（如睡眠科主任、睡眠技師）的引用，公信力有待強化。</div></div>
+    <div class="gap-item"><div class="opp-icon">2</div><div class="opp-body"><strong>【補足二】睡眠呼吸中止症深度不足</strong>雖有 77 篇提及，但內容多為表淺介紹，缺乏「如何診斷、CPAP 機器如何選用、手術選項」等實操性深度報導。</div></div>
+    <div class="gap-item"><div class="opp-icon">3</div><div class="opp-body"><strong>【補足三】青年失眠視角缺失</strong>「社交時差（週末晚睡早起的作息混亂）」「輪班族睡眠」「考生睡眠策略」等年輕人睡眠議題幾乎付之闕如。</div></div>
+    <div class="gap-item"><div class="opp-icon">4</div><div class="opp-body"><strong>【補足四】睡眠追蹤/量化健康內容稀少</strong>「如何看懂睡眠 App 的報告」「睡眠分期（REM/深睡）各代表什麼」等科普性內容，目前在資料庫中極為罕見，是吸引科技族讀者的機會切口。</div></div>
+    <div class="gap-item"><div class="opp-icon">5</div><div class="opp-body"><strong>【補足五】解方內容深度不足</strong>「3C 睡前使用建議」（170篇提及）大多只有「睡前一小時不要滑手機」的表面建議，缺少「為什麼」「藍光具體影響機制」「替代方案推薦」等能讓讀者真正改變行為的深度解析。</div></div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <p>TVBS 健康2.0 ｜ 2025 年度文章分析報告</p>
+  <p style="margin-top:6px">資料區間：2025/01/01 ～ 2025/12/31　｜　總文章數：7,982篇　｜　報告產製：2026年4月28日</p>
+  <p style="margin-top:8px;opacity:.4">本報告依據 7,982 篇文章逐篇分析，此為內容回推分析，非流量成效報告。</p>
+</footer>
+
+<script>
+const GREEN = '#2d8c4e';
+const GREEN2 = '#4caf78';
+const GREEN3 = '#7dffa8';
+const GREENS = ['#1a5c32','#2d8c4e','#4caf78','#6abf8e','#88cfa4','#a6dfba','#c4efd0'];
+const PALETTE = ['#2d8c4e','#3b8fb5','#d4860a','#d43a3a','#7c4ec7','#c7844e','#4e8dc7','#c74e8d','#8dc74e','#4ec7c7'];
+
+Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif";
+Chart.defaults.color = '#3d3d3f';
+
+// 1. 專家職稱水平 bar
+new Chart(document.getElementById('expertChart'), {
+  type:'bar',
+  data:{
+    labels:['醫師（西醫）','專家（泛稱）','主任（科主任）','營養師','中醫師','外科醫師','院長','內科醫師','教授','博士','副院長','護理師','藥師','心理師','執行長','董事長','物理治療師','牙醫師','研究員','諮商師'],
+    datasets:[{label:'出現篇數',data:[5003,4906,1927,1528,1014,560,556,498,452,205,201,179,143,132,126,103,78,67,63,25],backgroundColor:function(ctx){const v=ctx.raw;return v>2000?GREEN:v>500?GREEN2:'#88cfa4';},borderRadius:4}]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString()} 篇（${(ctx.raw/7982*100).toFixed(1)}%）`}}},scales:{x:{grid:{color:'#f0f0f0'},ticks:{callback:v=>v.toLocaleString()}},y:{grid:{display:false}}}}
+});
+
+// 2. 議題排行水平 bar
+new Chart(document.getElementById('topicChart'), {
+  type:'bar',
+  data:{
+    labels:['飲食/營養','運動/體能','免疫/過敏/發炎','情緒/心理健康','心血管疾病','腸胃/消化系統','老化/銀髮族','體重/減重','糖尿病/血糖','中醫/傳統醫學','癌症','皮膚健康','睡眠','骨骼/關節','兒童/青少年','更年期/荷爾蒙','腎臟疾病','呼吸系統','肝臟疾病','視力/眼睛','性/婦科健康','疫苗/防疫','口腔/牙齒','甲狀腺'],
+    datasets:[{label:'出現篇數',data:[4370,3070,2951,2818,2515,2432,2263,2133,2123,2030,1863,1811,1584,1183,1159,1102,959,919,901,730,721,647,424,265],backgroundColor:ctx=>{const i=ctx.dataIndex;return i<3?GREEN:i<6?GREEN2:i<10?'#6abf8e':'#a6dfba';},borderRadius:4}]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString()} 篇（${(ctx.raw/7982*100).toFixed(1)}%）`}}},scales:{x:{grid:{color:'#f0f0f0'},ticks:{callback:v=>v.toLocaleString()}},y:{grid:{display:false},ticks:{font:{size:11}}}}}
+});
+
+// 3. 癌症橫條
+new Chart(document.getElementById('cancerChart'), {
+  type:'bar',
+  data:{
+    labels:['大腸癌/直腸癌','乳癌','肺癌','肝癌','胃癌','胰臟癌','攝護腺癌','血癌/淋巴癌','食道癌','口腔癌','卵巢癌','子宮頸癌','皮膚癌','子宮內膜癌','腎臟癌','膀胱癌','腦瘤','甲狀腺癌','鼻咽癌','骨癌'],
+    datasets:[{label:'出現篇數',data:[446,416,341,247,160,142,134,123,89,78,73,69,68,59,49,49,44,41,41,8],backgroundColor:GREEN2,borderRadius:3}]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'#f0f0f0'}},y:{grid:{display:false},ticks:{font:{size:10}}}}}
+});
+
+// 4. 症狀橫條
+new Chart(document.getElementById('symptomChart'), {
+  type:'bar',
+  data:{
+    labels:['疲勞/倦怠','糖尿病相關','焦慮','高血壓','皮膚癢/過敏','水腫','失眠/睡眠','頭痛','胃痛/胃脹','憂鬱/情緒','腹瀉','咳嗽','呼吸困難','心悸','高血脂','頭暈/眩暈','腰背痛','頻尿/排尿','關節痛','肩頸痠痛','眼睛乾','掉髮','肌肉痠痛','耳鳴','便秘'],
+    datasets:[{label:'出現篇數',data:[1136,1089,1019,822,781,735,614,552,537,517,494,486,455,454,453,436,387,350,316,245,241,203,192,141,48],backgroundColor:ctx=>ctx.dataIndex<3?GREEN:GREEN2,borderRadius:3}]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'#f0f0f0'}},y:{grid:{display:false},ticks:{font:{size:10}}}}}
+});
+
+// 5. 標題句型
+new Chart(document.getElementById('titleTypeChart'), {
+  type:'bar',
+  data:{
+    labels:['含驚嘆號（！）','含數字','含問號（？）','清單式（X大/X招）'],
+    datasets:[{label:'篇數',data:[5516,5416,2263,1549],backgroundColor:[GREEN,GREEN2,'#6abf8e','#a6dfba'],borderRadius:6}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString()} 篇（${(ctx.raw/7982*100).toFixed(1)}%）`}}},scales:{y:{grid:{color:'#f0f0f0'},ticks:{callback:v=>v.toLocaleString()}},x:{grid:{display:false}}}}
+});
+
+// 6. 篇幅分佈甜甜圈
+new Chart(document.getElementById('lengthChart'), {
+  type:'doughnut',
+  data:{
+    labels:['500字以下','500-999字','1,000-1,999字（黃金區）','2,000-2,999字','3,000-4,999字','5,000字以上'],
+    datasets:[{data:[31,2662,4776,370,73,70],backgroundColor:['#d2d2d7','#a6dfba','#2d8c4e','#6abf8e','#4caf78','#1a5c32'],borderWidth:0}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:11},padding:12}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw.toLocaleString()} 篇（${(ctx.raw/7982*100).toFixed(1)}%）`}}}}
+});
+
+// 7. 主分類平均長度
+new Chart(document.getElementById('catLenChart'), {
+  type:'bar',
+  data:{
+    labels:['醫學百科','癌症','醫療','營養好食','影音','樂生活','廣告業務','養生','壯世代','中醫','運動','其他','食譜'],
+    datasets:[{label:'平均內文長度（字）',data:[2429,1368,1338,1317,1282,1261,1217,1212,1202,1168,1156,889,704],backgroundColor:ctx=>ctx.raw>1300?GREEN:ctx.raw>1000?GREEN2:'#a6dfba',borderRadius:4}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'#f0f0f0'},min:0,ticks:{callback:v=>v.toLocaleString()}},x:{grid:{display:false}}}}
+});
+
+// 8. 主分類甜甜圈
+new Chart(document.getElementById('mainCatChart'), {
+  type:'doughnut',
+  data:{
+    labels:['樂生活','醫療','營養好食','養生','癌症','壯世代','影音','中醫','食譜','廣告業務','其他','運動','醫學百科'],
+    datasets:[{data:[1985,1888,1155,1132,439,420,355,307,142,90,38,26,5],backgroundColor:['#2d8c4e','#3b8fb5','#d4860a','#d43a3a','#7c4ec7','#c7844e','#4e8dc7','#c74e8d','#8dc74e','#4ec7c7','#aaaaaa','#888','#555'],borderWidth:0}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},padding:8}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw.toLocaleString()} 篇（${(ctx.raw/7982*100).toFixed(1)}%）`}}}}
+});
+
+// 9. 語氣
+new Chart(document.getElementById('toneChart'), {
+  type:'bar',
+  data:{
+    labels:['警示型','解答型','數字列舉型','名醫背書型','提問式'],
+    datasets:[{label:'出現篇數',data:[5775,4199,3403,2196,657],backgroundColor:[GREEN,'#3b8fb5','#d4860a','#7c4ec7','#c7844e'],borderRadius:6}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString()} 篇（${(ctx.raw/7982*100).toFixed(1)}%）`}}},scales:{y:{grid:{color:'#f0f0f0'},ticks:{callback:v=>v.toLocaleString()}},x:{grid:{display:false}}}}
+});
+
+// 10. 讀者族群
+new Chart(document.getElementById('groupChart'), {
+  type:'bar',
+  data:{
+    labels:['中老年/熟齡','女性族群','上班族','慢性病患','家長/父母','青年族群','癌友/家屬','孕婦'],
+    datasets:[{label:'出現篇數',data:[1798,1698,1031,1014,724,631,623,464],backgroundColor:PALETTE,borderRadius:6}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString()} 篇（${(ctx.raw/7982*100).toFixed(1)}%）`}}},scales:{y:{grid:{color:'#f0f0f0'},ticks:{callback:v=>v.toLocaleString()}},x:{grid:{display:false},ticks:{font:{size:10}}}}}
+});
+
+// 13. 政策
+new Chart(document.getElementById('policyChart'), {
+  type:'bar',
+  data:{
+    labels:['健保/醫療補助','食安政策','長照政策','疫苗政策','癌症篩檢','空污/環境健康'],
+    datasets:[{label:'出現篇數',data:[544,263,129,128,108,95],backgroundColor:[GREEN,GREEN2,'#6abf8e','#88cfa4','#a6dfba','#c4efd0'],borderRadius:6}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'#f0f0f0'}},x:{grid:{display:false}}}}
+});
+
+// 13b. 政策/公衛 雷達圖
+new Chart(document.getElementById('policyRadarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['健保/醫療補助', '食安政策', '長照政策', '疫苗政策', '癌症篩檢', '空污/環境健康'],
+    datasets: [{
+      label: '出現篇數',
+      data: [544, 263, 129, 128, 108, 95],
+      backgroundColor: 'rgba(42,183,120,0.25)',
+      borderColor: '#2ab778',
+      borderWidth: 2,
+      pointBackgroundColor: '#2ab778',
+      pointRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      r: {
+        beginAtZero: true,
+        min: 0,
+        max: 600,
+        ticks: { stepSize: 150, font: { size: 10 }, color: '#888' },
+        pointLabels: { font: { size: 11 }, color: '#333' },
+        grid: { color: '#e0e0e0' },
+        angleLines: { color: '#e0e0e0' }
+      }
+    }
+  }
+});
+
+// 14. 月份折線
+new Chart(document.getElementById('monthlyChart'), {
+  type:'line',
+  data:{
+    labels:['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+    datasets:[{label:'發文篇數',data:[579,644,687,688,680,642,684,688,681,659,620,730],borderColor:GREEN,backgroundColor:'rgba(45,140,78,0.1)',borderWidth:2.5,pointBackgroundColor:GREEN,pointRadius:5,fill:true,tension:.3}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw} 篇`}}},scales:{y:{grid:{color:'#f0f0f0'},min:500,ticks:{callback:v=>v.toLocaleString()}},x:{grid:{display:false}}}}
+});
+
+// 15. 睡眠面相
+new Chart(document.getElementById('sleepAspectChart'), {
+  type:'bar',
+  data:{
+    labels:['睡眠與疾病','睡眠與體重','睡眠與老化','睡前習慣','失眠原因探討','睡眠時間長短'],
+    datasets:[{label:'出現篇數',data:[449,250,247,214,23,9],backgroundColor:ctx=>ctx.raw>200?GREEN:ctx.raw>20?GREEN2:'#a6dfba',borderRadius:4}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'#f0f0f0'}},x:{grid:{display:false},ticks:{font:{size:10}}}}}
+});
+
+// 15b. 好眠探討面相 雷達圖
+new Chart(document.getElementById('sleepAspectRadar'), {
+  type: 'radar',
+  data: {
+    labels: ['睡眠與疾病', '睡眠與體重', '睡眠與老化', '睡前習慣', '失眠原因探討', '睡眠時間長短'],
+    datasets: [{
+      label: '出現篇數',
+      data: [449, 250, 247, 214, 23, 9],
+      backgroundColor: 'rgba(42,183,120,0.25)',
+      borderColor: '#2ab778',
+      borderWidth: 2,
+      pointBackgroundColor: '#2ab778',
+      pointRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      r: {
+        beginAtZero: true,
+        min: 0,
+        max: 500,
+        ticks: { stepSize: 100, font: { size: 10 }, color: '#888' },
+        pointLabels: { font: { size: 11 }, color: '#333' },
+        grid: { color: '#e0e0e0' },
+        angleLines: { color: '#e0e0e0' }
+      }
+    }
+  }
+});
+
+// 16. 好眠解方
+new Chart(document.getElementById('sleepSolChart'), {
+  type:'bar',
+  data:{
+    labels:['運動改善睡眠','呼吸/冥想/正念','睡眠環境調整','飲食調整','中醫調理','3C/藍光管控','就醫/藥物','褪黑激素補充'],
+    datasets:[{label:'出現篇數',data:[756,495,370,304,287,170,129,98],backgroundColor:[GREEN,GREEN2,'#6abf8e','#88cfa4','#a6dfba','#c4efd0','#d2d2d7','#e0e0e0'],borderRadius:4}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'#f0f0f0'}},x:{grid:{display:false},ticks:{font:{size:10}}}}}
+});
+
+// 氣泡雲渲染函數
+function renderBubbleCloud(containerId, data) {
+  const container = document.getElementById(containerId);
+  const maxValue = Math.max(...data.map(d => d[1]));
+  const minValue = Math.min(...data.map(d => d[1]));
+
+  data.forEach(item => {
+    const text = item[0];
+    const count = item[1];
+    // 基礎尺寸 + 按比例縮放
+    const sizeRatio = (count - minValue) / (maxValue - minValue);
+    const height = 48 + sizeRatio * 72; // 48px 到 120px
+    const width = height * 1.8; // 橢圓形寬度比例（更寬）
+
+    // 根據數值大小分配顏色層級
+    let tier = 'tier4';
+    if (sizeRatio > 0.75) tier = 'tier1';
+    else if (sizeRatio > 0.5) tier = 'tier2';
+    else if (sizeRatio > 0.25) tier = 'tier3';
+
+    const bubble = document.createElement('div');
+    bubble.className = `bubble ${tier}`;
+    bubble.style.width = width + 'px';
+    bubble.style.height = height + 'px';
+    bubble.style.borderRadius = (height / 2) + 'px';
+
+    // 動態調整字體大小（根據泡泡大小）
+    const textFontSize = Math.max(10, Math.min(13, height * 0.14)); // 10-13px
+    const countFontSize = Math.max(11, Math.min(16, height * 0.18)); // 11-16px
+
+    bubble.innerHTML = `<span class="bubble-text" style="font-size:${textFontSize}px">${text}</span><span class="bubble-count" style="font-size:${countFontSize}px">${count}</span>`;
+
+    container.appendChild(bubble);
+  });
+}
+
+// 議題詞雲圖
+const topicData = [
+  ['飲食/營養', 4370],
+  ['運動/體能', 3070],
+  ['免疫/過敏/發炎', 2951],
+  ['情緒/心理健康', 2818],
+  ['心血管疾病', 2515],
+  ['腸胃/消化系統', 2432],
+  ['老化/銀髮族', 2263],
+  ['體重/減重', 2133],
+  ['糖尿病/血糖', 2123],
+  ['中醫/傳統醫學', 2030],
+  ['癌症', 1863],
+  ['皮膚健康', 1811],
+  ['睡眠', 1584],
+  ['骨骼/關節', 1183],
+  ['兒童/青少年健康', 1159],
+  ['更年期/荷爾蒙', 1102],
+  ['腎臟疾病', 959],
+  ['呼吸系統', 919],
+  ['肝臟疾病', 901],
+  ['視力/眼睛', 730],
+  ['性/婦科健康', 721],
+  ['疫苗/防疫', 647],
+  ['口腔/牙齒', 424],
+  ['甲狀腺', 265]
+];
+renderBubbleCloud('topicBubbles', topicData);
+
+// 症狀詞雲圖
+const symptomData = [
+  ['疲勞/倦怠', 1136],
+  ['糖尿病相關症狀', 1089],
+  ['焦慮', 1019],
+  ['高血壓', 822],
+  ['皮膚癢/過敏', 781],
+  ['水腫', 735],
+  ['失眠/睡眠問題', 614],
+  ['頭痛', 552],
+  ['胃痛/胃脹/逆流', 537],
+  ['憂鬱/情緒低落', 517],
+  ['腹瀉', 494],
+  ['咳嗽', 486],
+  ['呼吸困難/氣喘', 455],
+  ['心悸', 454],
+  ['高血脂', 453],
+  ['頭暈/眩暈', 436],
+  ['腰背痛', 387],
+  ['頻尿/排尿困難', 350],
+  ['關節痛', 316],
+  ['肩頸痠痛', 245],
+  ['眼睛乾/視力模糊', 241],
+  ['掉髮', 203],
+  ['肌肉痠痛', 192],
+  ['耳鳴', 141],
+  ['便秘', 48]
+];
+renderBubbleCloud('symptomBubbles', symptomData);
+
+// 睡眠關鍵字詞雲圖
+const sleepData = [
+  ['失眠', 495],
+  ['睡眠品質', 428],
+  ['睡前', 364],
+  ['助眠', 203],
+  ['睡眠時間', 103],
+  ['褪黑激素', 98],
+  ['好眠', 95],
+  ['睡眠障礙', 89],
+  ['睡眠呼吸中止', 77],
+  ['多夢', 51],
+  ['睡姿', 47],
+  ['熟睡', 39],
+  ['打呼', 34],
+  ['午睡', 32],
+  ['深度睡眠', 32],
+  ['早醒', 26],
+  ['入睡困難', 25],
+  ['半夜醒', 22],
+  ['打鼾', 20],
+  ['睡不夠', 7]
+];
+renderBubbleCloud('sleepBubbles', sleepData);
+</script>
+
+<!-- ===== 九：TOP7特徵分析 ===== -->
+<section class="section" id="sec9">
+<div class="container">
+  <span class="section-tag">BONUS TRACK II</span>
+  <h1 class="section-title">GA4 瀏覽數 TOP7 文章特徵分析</h1>
+  <p class="section-desc">針對 2025/1/1-2026/4/28 GA4 瀏覽數(Web PV) TOP10 榜單中，有 7 篇文章是 2025 年發佈的，逐篇完整閱讀全文後，對照本報告分析框架（編輯風格 DNA、議題分群、標題句型、讀者輪廓等），進行系統化特徵比對，找出這 7 篇文章的共同成功要素。<br><span style="font-size:13px;color:var(--gray-500)">分析日期：2026年4月29日</span></p>
+
+  <div class="stat-method">分析對象：下表 7 篇文章均完整閱讀全文後，對照《2025年度文章分析報告》各節基準值進行逐項比對。</div>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Top</th><th>文章標題</th><th>分類</th><th style="text-align:right">Web PV</th></tr>
+    <tr><td>1</td><td>奇亞籽功效：一天吃多少？營養師推正確吃法和禁忌 比較表一次看</td><td>營養好食</td><td style="text-align:right;font-weight:700;color:var(--green-dark)">414,167</td></tr>
+    <tr><td>2</td><td>72歲張艾嘉不進健身房，公開「不老祕訣」靠這招！醫讚：能防骨鬆</td><td>養生</td><td style="text-align:right;font-weight:700;color:var(--green-dark)">390,794</td></tr>
+    <tr><td>3</td><td>降壞膽固醇天菜，比奇亞籽更厲害！研究證實「餐前1杯」糞便排油量增55%</td><td>營養好食</td><td style="text-align:right;font-weight:700;color:var(--green-dark)">374,902</td></tr>
+    <tr><td>4</td><td>5種營養素護眼更全面！這水果比藍莓更抗氧化 保護黃斑部調節老花眼</td><td>營養好食</td><td style="text-align:right;font-weight:700;color:var(--green-dark)">342,071</td></tr>
+    <tr><td>5</td><td>早餐別只顧蛋白質！每天第一餐「多加2樣」降膽固醇 腸道順暢100％</td><td>營養好食</td><td style="text-align:right;font-weight:700;color:var(--green-dark)">316,516</td></tr>
+    <tr><td>6</td><td>4種杯子不要用！小心釋放毒物傷大腦、重金屬中毒 這種陶瓷杯也NG</td><td>樂生活</td><td style="text-align:right;font-weight:700;color:var(--green-dark)">313,846</td></tr>
+    <tr><td>7</td><td>前立委林正峰染病5年逝 遍訪名醫才找到病因 每年新增患者500人</td><td>醫療</td><td style="text-align:right;font-weight:700;color:var(--green-dark)">313,718</td></tr>
+  </table>
+  </div>
+
+  <figure style="margin:16px 0 32px;text-align:center;">
+    <img src="looker.png" alt="Looker Studio Web PV Top 文章" style="max-width:100%;height:auto;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+    <figcaption style="margin-top:8px;font-size:12px;color:var(--gray-500);">資料來源：<a href="https://datastudio.google.com/u/0/reporting/6c0a20f5-16df-4a04-b9cd-fa33827e685b/page/p_8j1qx49mfd" target="_blank" rel="noopener" style="color:var(--gray-500);text-decoration:underline;">looker studio</a></figcaption>
+  </figure>
+
+  <!-- 一、標題句型 -->
+  <h2 class="sub">標題句型特徵分析</h2>
+  <p style="margin-bottom:12px;font-size:14px;color:var(--gray-500)">對照報告第4-1節：全體 7,982 篇標題分析</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>句型特徵</th><th>全體占比</th><th>7篇命中情況</th><th>7篇命中率</th></tr>
+    <tr><td>含驚嘆號（！）</td><td>69.1%（5,516篇）</td><td>Top1 奇亞籽、Top2 張艾嘉、Top3 降膽固醇、Top4 5種護眼、Top5 早餐蛋白質、Top6 4種杯子 共6篇</td><td><strong>6/7 = 85.7%</strong></td></tr>
+    <tr><td>含數字</td><td>67.9%（5,416篇）</td><td>全部7篇均含數字（1天、72歲、5種、2樣、4種、5年、55%）</td><td><strong>7/7 = 100%</strong></td></tr>
+    <tr><td>含問號（？）</td><td>28.4%（2,263篇）</td><td>Top1 奇亞籽 共1篇</td><td>1/7 = 14.3%</td></tr>
+    <tr><td>清單式（X大/X種/X招）</td><td>19.4%（1,549篇）</td><td>Top1 奇亞籽（X吃法）、Top4 5種護眼（5種）、Top6 4種杯子（4種）共3篇</td><td>3/7 = 42.9%</td></tr>
+  </table>
+  </div>
+
+  <div class="insight"><strong>【解讀】</strong><br>
+  這 7 篇文章「含數字」達到 100% 命中率，遠高於全體平均的 67.9%。驚嘆號命中率 85.7% 也高於全體平均的 69.1%。<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">數字＋驚嘆號的「雙重強化標題結構」是這批高瀏覽文章的共同標配。</mark>唯一低於全體平均的是「問號」（14.3% vs 28.4%），顯示這批高流量文章傾向「給答案」而非「問問題」。</div>
+
+  <h2 class="sub" style="margin-top:32px">標題長度分析</h2>
+  <p style="margin-bottom:12px;font-size:14px;color:var(--gray-500)">全體文章：標題 25–35字 占80.1%，而 SEO 黃金區間落在 25-30字</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Top</th><th>標題</th><th>字數</th><th>評估</th></tr>
+    <tr><td>1</td><td>奇亞籽功效：一天吃多少？營養師推正確吃法和禁忌 比較表一次看</td><td>26字</td><td>✅ 黃金區間（25-30字）</td></tr>
+    <tr><td>2</td><td>72歲張艾嘉不進健身房，公開「不老祕訣」靠這招！醫讚：能防骨鬆</td><td>32字</td><td>☑️ 略超黃金區間</td></tr>
+    <tr><td>3</td><td>降壞膽固醇天菜，比奇亞籽更厲害！研究證實「餐前1杯」糞便排油量增55%</td><td>35字</td><td>☑️ 略超黃金區間</td></tr>
+    <tr><td>4</td><td>5種營養素護眼更全面！這水果比藍莓更抗氧化 保護黃斑部調節老花眼</td><td>31字</td><td>☑️ 略高黃金區間</td></tr>
+    <tr><td>5</td><td>早餐別只顧蛋白質！每天第一餐「多加2樣」降膽固醇 腸道順暢100％</td><td>35字</td><td>☑️ 略超黃金區間</td></tr>
+    <tr><td>6</td><td>4種杯子不要用！小心釋放毒物傷大腦、重金屬中毒 這種陶瓷杯也NG</td><td>32字</td><td>☑️ 略超黃金區間</td></tr>
+    <tr><td>7</td><td>前立委林正峰染病5年逝 遍訪名醫才找到病因 每年新增患者500人</td><td>32字</td><td>☑️ 略超黃金區間</td></tr>
+  </table>
+  </div>
+
+  <!-- 二、DNA符合度 -->
+  <h2 class="sub">編輯風格 DNA 符合度</h2>
+  <p style="margin-bottom:12px;font-size:14px;color:var(--gray-500)">對照報告第6-1節：健康2.0內容 DNA（D-N-A-W-S 框架）</p>
+
+  <div class="insight"><strong>【核心發現】</strong><br>
+  這 7 篇文章在 D-N-A-W-S 五個 DNA 元素上幾乎全數命中，且命中率普遍高於全體平均。尤其「醫生背書（D）」「數字化（N）」「可行動（A）」三項達到 100%，遠高於全體平均的 62.7%、67.9%、52.6%。<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">高瀏覽文章並非偶然爆紅，而是高度符合健康2.0核心內容 DNA 的必然結果。</mark></div>
+
+  <div class="dna-grid">
+    <div class="dna-card">
+      <div class="letter">D</div>
+      <h4>醫生背書<br>Doctor-endorsed</h4>
+      <p>全體 62.7%<br>7篇命中率 <strong style="color:#7dffa8;font-size:16px">100%</strong></p>
+    </div>
+    <div class="dna-card">
+      <div class="letter">N</div>
+      <h4>數字化<br>Numbered</h4>
+      <p>全體 67.9%<br>7篇命中率 <strong style="color:#7dffa8;font-size:16px">100%</strong></p>
+    </div>
+    <div class="dna-card">
+      <div class="letter">A</div>
+      <h4>可行動<br>Actionable</h4>
+      <p>全體 52.6%<br>7篇命中率 <strong style="color:#7dffa8;font-size:16px">100%</strong></p>
+    </div>
+    <div class="dna-card">
+      <div class="letter">W</div>
+      <h4>警示驅動<br>Warning-driven</h4>
+      <p>全體 72.4%<br>7篇命中率 <strong style="color:#7dffa8;font-size:16px">100%</strong></p>
+    </div>
+    <div class="dna-card">
+      <div class="letter">S</div>
+      <h4>搜尋優化<br>Search-optimized</h4>
+      <p>全體 ~80%<br>7篇命中率 <strong style="color:#7dffa8;font-size:16px">~100%</strong></p>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>DNA元素</th><th>全體基準</th><th>7篇文章對應舉例</th><th>命中率</th></tr>
+    <tr>
+      <td><strong>D 醫生背書</strong></td>
+      <td>全體62.7%引用醫師</td>
+      <td>Top1 奇亞籽（蔡玲貞、林旻樺）／Top2 張艾嘉（陳渝仁醫師）／Top3 降膽固醇（蕭捷健醫師）／Top4 5種護眼（官珮慈醫師）／Top5 早餐蛋白質（鄭姿綺、盧泰潤、姜惠珊醫師）／Top6 4種杯子（蕭瑋霖營養師）／Top7 林正峰漸凍症（吳鴻明教授）</td>
+      <td><strong>7/7 = 100%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>N 數字化</strong></td>
+      <td>67.9%標題含數字<br>42.6%正文數字列舉</td>
+      <td>除了Top1 奇亞籽、Top2 張艾嘉，其他標題均含數字，正文均大量使用條列／小標／表格</td>
+      <td><strong>7/7 = 100%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>A 可行動</strong></td>
+      <td>52.6%解答型語氣</td>
+      <td>Top1 奇亞籽（怎麼吃、比較表）／Top2 張艾嘉（5大安全守則、暖身動作）／Top3 降膽固醇（洋車前子、奇亞籽攝取建議）／Top4 5種護眼（5種護眼營養素）／Top5 早餐蛋白質（早餐加纖維+益生菌）／Top6 4種杯子（3招選杯子）／Top7 林正峰漸凍症（3-6個月症狀觀察建議）</td>
+      <td><strong>7/7 = 100%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>W 警示驅動</strong></td>
+      <td>72.4%含警示語</td>
+      <td>Top3 降膽固醇（千萬別以為纖維都有用！選錯恐白忙一場）／Top4 5種護眼（葉黃素吃錯視力越補越壞）／Top6 4種杯子（喝水也可能中毒？）／Top7 林正峰漸凍症（確診後存活期僅2-5年）</td>
+      <td><strong>7/7 = 100%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>S 搜尋優化</strong></td>
+      <td>標題黃金篇幅25-35字<br>符合EEAT結構</td>
+      <td>Top6 4種杯子/Top7 林正峰漸凍症，落在26-37字，Top1 奇亞籽為最長（長篇懶人包型），其餘均在黃金篇幅區間內</td>
+      <td><strong>6-7/7 ≈ 100%</strong></td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- 三、議題分群 -->
+  <h2 class="sub">議題分群歸屬</h2>
+  <p style="margin-bottom:12px;font-size:14px;color:var(--gray-500)">對照報告第2-2節：議題五大分群（A～E群）</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>文章</th><th>A群 生活型態</th><th>B群 慢性病</th><th>C群 系統疾病</th><th>D群 心身健康</th><th>E群 生命歷程</th></tr>
+    <tr><td>奇亞籽</td><td>✅ A群（飲食/營養）</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>張艾嘉</td><td>✅ A群（運動/體能）</td><td>—</td><td>—</td><td>✅ D群（老化）</td><td>✅ E群（銀髮族）</td></tr>
+    <tr><td>降膽固醇</td><td>✅ A群（飲食/營養）</td><td>✅ B群（高血脂/心血管）</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>5種護眼</td><td>✅ A群（飲食/營養）</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>早餐蛋白質</td><td>✅ A群（飲食/營養）</td><td>✅ B群（高血脂）</td><td>—</td><td>✅ D群（免疫/發炎）</td><td>—</td></tr>
+    <tr><td>4種杯子</td><td>—</td><td>—</td><td>—</td><td>✅ D群（環境健康）</td><td>—</td></tr>
+    <tr><td>林正峰漸凍症</td><td>—</td><td>—</td><td>✅ C群（系統性疾病）</td><td>—</td><td>—</td></tr>
+  </table>
+  </div>
+
+  <div class="insight"><strong>【解讀】</strong><br>
+  A群（生活型態管理）是最大宗，7篇中有5篇屬於此群，完全呼應 A群「讀者自己就能行動、無需就醫、轉換率最高」的特性。<br><br>
+  <strong>Top7 林正峰漸凍症</strong>是唯一屬於 C群 的文章，卻同樣進入高流量榜單，原因是：該文兼具「名人新聞鉤」（前立委過世）與「警示提醒」（初期症狀易被忽略）雙重驅動，符合 W（警示驅動）DNA 元素的極端案例。<br><br>
+  <strong>Top6 4種杯子</strong>屬於「生活日常警示型」，核心驅動力純粹來自「危機警示」——「你每天用的杯子可能讓你中毒」這個高恐慌感的切入點，是 W 元素的最強體現。</div>
+
+  <!-- 四、寫作語氣 -->
+  <h2 class="sub">寫作語氣模式符合度</h2>
+  <p style="margin-bottom:12px;font-size:14px;color:var(--gray-500)">對照報告第5-1節：文章寫作語氣分析</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>語氣類型</th><th>全體基準</th><th>7篇對應文字證據</th><th>7篇命中率</th></tr>
+    <tr>
+      <td><strong>警示型</strong>（小心、危險、千萬別）</td>
+      <td>全體 72.4%</td>
+      <td>Top1 奇亞籽：「不適合人群」「食用禁忌」／Top3 降膽固醇：「千萬別以為纖維都有用！選錯恐白忙一場」／Top4 5種護眼：「葉黃素吃錯，視力越補越壞」／Top6 4種杯子：「喝水也可能中毒？4種有毒杯子！」／Top7 林正峰漸凍症：「確診後存活期僅2-5年」</td>
+      <td><strong>7/7 = 100%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>解答型</strong>（怎麼辦、教你、方法）</td>
+      <td>全體 52.6%</td>
+      <td>Top1 奇亞籽：「比較表一次看」／Top2 張艾嘉：「5大安全守則」／Top3 降膽固醇：「可溶性纖維怎麼選、怎麼吃」／Top6 4種杯子：「3招選安全杯子」／Top7 林正峰漸凍症：「3-6個月內症狀觀察建議」</td>
+      <td><strong>7/7 = 100%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>數字列舉型</strong>（1.2.3./第一第二）</td>
+      <td>全體 42.6%</td>
+      <td>全7篇正文均大量使用條列式小標、編號與表格</td>
+      <td><strong>7/7 = 100%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>名醫背書型</strong>（醫師指出、研究顯示）</td>
+      <td>全體 27.5%</td>
+      <td>全7篇均引用專業人士（醫師/教授/營養師），多以「OO醫院OO科OOO表示」格式亮相</td>
+      <td><strong>7/7 = 100%</strong></td>
+    </tr>
+    <tr>
+      <td><strong>提問式/教育型</strong>（你知道嗎？）</td>
+      <td>全體 8.2%</td>
+      <td>Top1 奇亞籽：「奇亞籽是什麼？與山粉圓差在哪？」／Top3 降膽固醇：「不只排油！你知道萬人研究的結果嗎？」</td>
+      <td>2/7 = 28.6%</td>
+    </tr>
+  </table>
+  </div>
+
+  <div class="insight"><strong>【解讀】</strong><br>
+  這 7 篇文章在前 4 種語氣模式（警示型、解答型、數字列舉型、名醫背書型）全數達到 100% 命中率，均高於或遠高於全體平均水準。尤其「名醫背書型」命中率 <mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">100% vs 全體 27.5%，差距懸殊，顯示高流量文章對「權威引用」的依賴程度遠超平均。</mark></div>
+
+  <!-- 五、讀者輪廓 -->
+  <h2 class="sub">讀者族群與輪廓對應</h2>
+  <p style="margin-bottom:12px;font-size:14px;color:var(--gray-500)">對照報告第5-2、5-3節：讀者族群探索與輪廓深度解析</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Top</th><th>目標讀者群</th><th>對應說明</th></tr>
+    <tr><td>1 奇亞籽</td><td>中老年/女性/慢性病患者</td><td>降血糖、助減肥、防便秘的訴求，比較表設計讓不熟悉保健品的中年讀者可快速查閱。</td></tr>
+    <tr><td>2 張艾嘉</td><td>中老年/女性/銀髮族</td><td>72歲名人＝目標讀者的年齡投射。跑步+骨鬆防護，是45歲+女性讀者高度關心的健康課題。</td></tr>
+    <tr><td>3 降膽固醇</td><td>慢性病患者/中老年</td><td>「膽固醇超標」是45+讀者最常見的健檢焦慮，「餐前一杯就能降膽固醇」完美命中痛點。</td></tr>
+    <tr><td>4 護眼</td><td>中老年/3C族/上班族</td><td>黃斑部病變、老花眼明確鎖定40+讀者；同時兼顧3C重度使用者，觸及範圍廣。</td></tr>
+    <tr><td>5 早餐蛋白質</td><td>上班族/家長/中年族</td><td>早餐是全民共通生活場景，「膳食纖維攝取不足」點出國人普遍問題，訴求對象廣。</td></tr>
+    <tr><td>6 4種杯子</td><td>全族群（家庭主婦/家長尤其敏感）</td><td>「你每天用的杯子可能含毒」觸及所有人。提及鉛影響兒童智力，讓家長族群焦慮感倍增。</td></tr>
+    <tr><td>7 林正峰漸凍症</td><td>中老年/家屬照顧者</td><td>名人死亡新聞具天然流量。初期症狀（走路跌倒、拿東西掉落）讓讀者產生自我對照的焦慮。</td></tr>
+  </table>
+  </div>
+
+  <h2 class="sub" style="margin-top:32px">對應報告核心讀者輪廓</h2>
+  <div class="insight">報告定義核心讀者：<mark style="background-color: #FFD700; color: #333; padding: 0 3px; border-radius: 2px; font-weight: bold;">「擔心自己和家人健康的45歲女性，在LINE看到文章後，想知道量到的血壓138，到底需不需要看醫生。」</mark></div>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>讀者輪廓要素</th><th>7篇對應情況</th><th>符合程度</th></tr>
+    <tr><td>年齡35-65歲（45-60歲最密集）</td><td>Top2 張艾嘉（72歲名人但讀者為50+）、Top3 降膽固醇、Top7 林正峰漸凍症（漸凍症50-60歲發病）均強烈對應中老年族群</td><td>✅ 高度符合</td></tr>
+    <tr><td>女性略佔多數</td><td>Top2 張艾嘉（女性名人張艾嘉，女性讀者投射）、Top4 5種護眼（眼睛保養）、Top5 早餐蛋白質（早餐/家庭飲食管理）高度吸引女性讀者</td><td>✅ 符合</td></tr>
+    <tr><td>有慢性病或強烈預防意識</td><td>Top3 降膽固醇、Top5 早餐蛋白質直接針對三高族群；Top1 奇亞籽以「超級食物」預防醫學角度吸引預防意識強的讀者</td><td>✅ 高度符合</td></tr>
+    <tr><td>透過LINE/Google入口</td><td>Top5 早餐蛋白質「早餐別只顧蛋白質！」、Top6 4種杯子「4種杯子不要用！」均是高度適合LINE分享的標題格式</td><td>✅ 符合</td></tr>
+    <tr><td>功能性閱讀動機（確認是否就醫）</td><td>Top7 林正峰漸凍症（漸凍症初期症狀提醒）、Top2 張艾嘉（跑步傷膝蓋？醫師破解迷思）均觸發「確認自己狀況」的閱讀動機</td><td>✅ 高度符合</td></tr>
+  </table>
+  </div>
+
+  <!-- 六、成功要素總結 -->
+  <h2 class="sub">7篇文章的共同成功要素總結</h2>
+
+  <div class="opp-list">
+    <div class="opp-item">
+      <div class="opp-icon" style="background:var(--green);flex-shrink:0">1</div>
+      <div class="opp-body">
+        <strong>痛點極度精準</strong>
+        每篇都鎖定一個具體、普遍、讓人焦慮的健康痛點：「膽固醇超標」「早餐吃錯」「杯子含毒」「名人死於罕病」。沒有一篇泛泛談「健康很重要」——每篇都在回答「我現在怎麼辦？」
+      </div>
+    </div>
+    <div class="opp-item">
+      <div class="opp-icon" style="background:var(--green);flex-shrink:0">2</div>
+      <div class="opp-body">
+        <strong>標題數字化＋驚嘆號雙強化</strong>
+        7篇100%含數字、85.7%含驚嘆號，完全命中健康2.0最高效的標題公式。數字製造信息密度感（「1杯」「5種」「55%」），驚嘆號製造緊迫感，兩者結合在社群資訊流中最大化抓眼球的機率。
+      </div>
+    </div>
+    <div class="opp-item">
+      <div class="opp-icon" style="background:var(--green);flex-shrink:0">3</div>
+      <div class="opp-body">
+        <strong>可操作性：讀完就能做</strong>
+        7篇全部提供具體可執行的行動建議：Top1 奇亞籽（比較表）、Top2 張艾嘉（5大安全守則+3個暖身動作）、Top3 降膽固醇（食物清單）、Top4 5種護眼（5種護眼營養素補充指南）、Top5 早餐蛋白質（纖維+益生菌搭配建議）、Top6 4種杯子（3招挑選安全杯子）、Top7 林正峰漸凍症（3-6個月症狀觀察建議）。讀者閱讀後有立即可執行的行動，這是轉換率最高的根本原因。
+      </div>
+    </div>
+    <div class="opp-item">
+      <div class="opp-icon" style="background:var(--green);flex-shrink:0">4</div>
+      <div class="opp-body">
+        <strong>專家多層背書</strong>
+        7篇100%引用具名專家，且通常引用2人以上：Top1 奇亞籽（4位：蔡玲貞、林旻樺、蕭捷健等）、Top5 早餐蛋白質（3位：鄭姿綺、盧泰潤、姜惠珊）。多位專家交叉背書，大幅提升內容可信度，也符合 Google EEAT 評分標準。
+      </div>
+    </div>
+    <div class="opp-item">
+      <div class="opp-icon" style="background:var(--green);flex-shrink:0">5</div>
+      <div class="opp-body">
+        <strong>警示語氣驅動焦慮</strong>
+        7篇100%使用警示型語氣，且各篇都有「你可能以為沒問題，但其實有危險」的對比結構：Top3 降膽固醇「不是所有纖維都有用！選錯恐白忙一場」、Top4 5種護眼「葉黃素吃半年眼睛更模糊」、Top6 4種杯子「喝水也可能中毒？」。這種「反直覺警示」是點擊率和分享率的最強驅動器。
+      </div>
+    </div>
+    <div class="opp-item">
+      <div class="opp-icon" style="background:var(--green);flex-shrink:0">6</div>
+      <div class="opp-body">
+        <strong>觸及受眾夠廣，題目夠大</strong>
+        膽固醇（Top3 降膽固醇、Top5 早餐蛋白質）：台灣逾300萬高血脂患者；眼睛保健（Top4 5種護眼）：全年齡層共同需求；早餐（Top5 早餐蛋白質）：全民共通生活場景；杯子（Top6 4種杯子）：家家戶戶都有杯子；奇亞籽（Top1 奇亞籽）：保健食品全民話題。題目越大，潛在讀者越多，高瀏覽的天花板也越高。
+      </div>
+    </div>
+  </div>
+
+  <!-- 七、特殊案例 -->
+  <h2 class="sub">特殊案例分析：Top7（前立委林正峰染病5年逝 遍訪名醫才找到病因 每年新增患者500人）</h2>
+  <p style="margin-bottom:16px;font-size:14px;color:var(--gray-500)">為何一篇「C群：系統性疾病」的罕病文章能入榜高瀏覽？</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>成功因素</th><th>說明</th></tr>
+    <tr><td><strong>名人＋死亡事件的新聞鉤</strong></td><td>前立委林正峰過世的新聞本身具有天然流量。「名人」提供信任感（他一定有就醫），「死亡」引發好奇與恐懼雙重情緒。</td></tr>
+    <tr><td><strong>確診困難的焦慮放大</strong></td><td>「染病5年、遍訪名醫才找到病因」——這句話讓讀者產生「要是我，能找到病因嗎？」的高度焦慮。</td></tr>
+    <tr><td><strong>初期症狀與日常行為高度重疊</strong></td><td>「走路容易跌倒、手拿東西容易掉落」——這些症狀很多人日常都有，讓讀者對號入座，焦慮自我檢查。</td></tr>
+    <tr><td><strong>W（警示驅動）的極端案例</strong></td><td>「確診後存活期平均2-5年」「10年存活率10%」——數字直白呈現，警示效果極強。</td></tr>
+    <tr><td><strong>解答型結尾降低焦慮</strong></td><td>最後提供「3-6個月內症狀越來越頻繁才需就醫」的篩選標準，讓讀者在焦慮後得到具體行動指引，完成 A（可行動）元素。</td></tr>
+  </table>
+  </div>
+
+  <!-- 結語 -->
+  <div class="quote-box" style="margin-top:40px">
+    <blockquote>「找到讀者最痛的健康焦慮，<br>用數字化標題吸引點擊，<br>以名醫背書建立信任，<br>用警示語氣深化焦慮，<br>最後給出讀完就能做的具體行動。」</blockquote>
+    <cite>這五個步驟，是這7篇文章共同走過的路，也是健康2.0內容策略最清晰的縮影。<br>報告產製：2026年4月29日</cite>
+  </div>
+
+</div>
+</section>
+
+<footer>
+  <p>TVBS 健康2.0 ｜ 2025 年度文章分析報告　｜　報告產製：2026年4月29日</p>
+</footer>
+
+</body>
+</html>
