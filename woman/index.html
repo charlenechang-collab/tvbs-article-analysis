@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>女人我最大｜2025 年度文章分析報告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#c82855;--pink-light:#f5cdd9;--pink-dark:#a01f44;
+  --navy:#1a1a6e;--navy-light:#35358a;
+  --purple:#6030a0;
+  --gold:#b8860b;
+  --gray-1:#f9f9f9;--gray-2:#f2f2f2;--gray-3:#e5e5e5;
+  --text:#1d1d1f;--text-muted:#6e6e73;
+  --radius:18px;--radius-sm:10px;
+  --shadow:0 4px 28px rgba(0,0,0,.09);
+  --shadow-lg:0 16px 60px rgba(0,0,0,.14);
+  --font: -apple-system,'PingFang TC','Microsoft JhengHei','Noto Sans TC',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--text);background:#fff;overflow-x:hidden;line-height:1.7}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;left:0;width:100%;z-index:999;
+  background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,0,0,.08);
+  padding:0 5vw;display:flex;align-items:center;justify-content:space-between;height:56px;
+  transition:background .3s;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:32px;height:32px;background:var(--pink);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;letter-spacing:.5px;flex-shrink:0}
+.nav-logo span{font-size:15px;font-weight:700;color:var(--pink);letter-spacing:.5px}
+.nav-links{display:flex;gap:6px}
+.nav-links a{font-size:12px;color:var(--text-muted);text-decoration:none;padding:5px 11px;border-radius:20px;transition:all .2s}
+.nav-links a:hover{background:var(--pink-light);color:var(--pink)}
+@media(max-width:700px){.nav-links{display:none}}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:80px 5vw 60px;
+  background:linear-gradient(135deg,#fff8fa 0%,#fce4ed 40%,#ede8f9 100%);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(200,40,85,.06),transparent),
+             radial-gradient(ellipse 60% 80% at 80% 70%,rgba(96,48,160,.06),transparent);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-block;background:rgba(200,40,85,.1);color:var(--pink);
+  font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  padding:6px 16px;border-radius:20px;margin-bottom:28px;
+  border:1px solid rgba(200,40,85,.2);
+}
+.hero h1{
+  font-size:clamp(2.4rem,7vw,5rem);font-weight:800;
+  background:linear-gradient(135deg,var(--pink),var(--navy));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1.15;letter-spacing:-.5px;margin-bottom:12px;
+}
+.hero-subtitle{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--text-muted);margin-bottom:38px;letter-spacing:.5px}
+.hero-meta{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:50px}
+.hero-meta span{font-size:13px;color:var(--text-muted)}
+.hero-meta strong{color:var(--pink)}
+.hero-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;width:100%;max-width:860px;margin:0 auto 50px}
+.kpi-card{
+  background:#fff;border-radius:var(--radius);padding:22px 18px;box-shadow:var(--shadow);
+  border:1px solid var(--gray-3);transition:transform .3s,box-shadow .3s;
+  opacity:0;transform:translateY(30px);
+}
+.kpi-card.visible{opacity:1;transform:translateY(0)}
+.kpi-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.kpi-num{font-size:1.9rem;font-weight:800;color:var(--pink);line-height:1.1;margin-bottom:4px}
+.kpi-label{font-size:11.5px;color:var(--text-muted);letter-spacing:.3px}
+.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.5;animation:bounce 2s infinite}
+.scroll-hint span{font-size:12px;color:var(--text-muted);letter-spacing:1px}
+.scroll-hint-arrow{width:20px;height:20px;border-right:2px solid var(--pink);border-bottom:2px solid var(--pink);transform:rotate(45deg)}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ===== SECTION WRAPPER ===== */
+.section{padding:90px 5vw;position:relative}
+.section:nth-child(even){background:var(--gray-1)}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-tag{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--pink);background:rgba(200,40,85,.08);padding:4px 14px;border-radius:20px;margin-bottom:14px;
+}
+.section-title{font-size:clamp(1.7rem,4vw,2.6rem);font-weight:800;color:var(--navy);margin-bottom:10px;line-height:1.25}
+.section-desc{font-size:1rem;color:var(--text-muted);margin-bottom:46px;max-width:640px;line-height:1.7}
+.stat-note{font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:24px;padding:8px 14px;background:var(--gray-2);border-radius:8px;border-left:3px solid var(--pink-light)}
+
+/* ===== FADE IN ===== */
+.fade-up{opacity:0;transform:translateY(36px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.fade-up.visible{opacity:1;transform:none}
+.fade-up.d1{transition-delay:.1s}.fade-up.d2{transition-delay:.2s}.fade-up.d3{transition-delay:.3s}
+.fade-up.d4{transition-delay:.4s}.fade-up.d5{transition-delay:.5s}
+
+/* ===== CHART CONTAINERS ===== */
+.chart-wrap{background:#fff;border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);border:1px solid var(--gray-3);margin-bottom:28px}
+.chart-title{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:18px}
+.chart-note{font-size:12px;color:var(--text-muted);margin-top:14px;line-height:1.6}
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-bottom:32px}
+
+/* ===== TABLES ===== */
+.tbl-wrap{overflow-x:auto;border-radius:var(--radius-sm);box-shadow:var(--shadow);margin-bottom:28px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead tr{background:var(--pink);color:#fff}
+thead th{padding:13px 14px;text-align:left;font-weight:600;white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--gray-3);transition:background .15s}
+tbody tr:hover{background:var(--pink-light)}
+tbody tr:nth-child(even){background:rgba(200,40,85,.03)}
+tbody td{padding:11px 14px;vertical-align:top;line-height:1.5}
+tbody td:first-child{font-weight:600;color:var(--navy);white-space:nowrap}
+.rank-badge{display:inline-block;width:24px;height:24px;border-radius:50%;background:var(--pink);color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:24px}
+.rank-1{background:linear-gradient(135deg,#ffd700,#ffb300)!important;color:#000!important}
+.rank-2{background:linear-gradient(135deg,#c0c0c0,#a0a0a0)!important}
+.rank-3{background:linear-gradient(135deg,#cd7f32,#a0522d)!important}
+.highlight-row td{background:rgba(200,40,85,.08)!important;font-weight:600}
+.star-row{background:rgba(200,40,85,.06)!important}
+
+/* ===== INSIGHT CARDS ===== */
+.insight{
+  background:linear-gradient(135deg,rgba(200,40,85,.07),rgba(96,48,160,.07));
+  border-radius:var(--radius);padding:22px 24px;border-left:4px solid var(--pink);
+  margin:20px 0;line-height:1.7;font-size:14px;
+}
+.insight strong{color:var(--pink)}
+.insight-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin:24px 0}
+.insight-card{
+  background:#fff;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);
+  border:1px solid var(--gray-3);position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;
+}
+.insight-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.insight-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--pink)}
+.insight-card h4{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:10px}
+.insight-card p{font-size:13px;color:var(--text-muted);line-height:1.65}
+.insight-card .icon{font-size:24px;margin-bottom:10px;display:block}
+
+/* ===== DONUT / HORIZONTAL BAR ===== */
+.donut-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+@media(max-width:600px){.donut-row{grid-template-columns:1fr}}
+
+/* ===== PROGRESS BAR ===== */
+.prog-list{display:flex;flex-direction:column;gap:12px}
+.prog-item{display:flex;flex-direction:column;gap:5px}
+.prog-label{display:flex;justify-content:space-between;font-size:13px}
+.prog-label span:first-child{color:var(--text);font-weight:500}
+.prog-label span:last-child{color:var(--pink);font-weight:700}
+.prog-bar-bg{background:var(--gray-3);border-radius:6px;height:8px;overflow:hidden}
+.prog-bar{height:8px;border-radius:6px;background:linear-gradient(90deg,var(--pink),var(--navy-light));width:0;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+
+/* ===== JOURNEY ===== */
+.journey{display:flex;flex-direction:column;gap:0}
+.journey-step{
+  display:flex;gap:20px;position:relative;padding-bottom:32px;
+  opacity:0;transform:translateX(-30px);transition:all .6s;
+}
+.journey-step.visible{opacity:1;transform:none}
+.journey-left{display:flex;flex-direction:column;align-items:center}
+.journey-num{
+  width:42px;height:42px;border-radius:50%;background:var(--pink);color:#fff;
+  font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;z-index:1;
+}
+.journey-line{width:2px;background:var(--pink-light);flex:1;margin-top:0}
+.journey-step:last-child .journey-line{display:none}
+.journey-body{padding-top:8px}
+.journey-trigger{font-size:11px;color:var(--pink);font-weight:600;letter-spacing:.5px;margin-bottom:4px}
+.journey-content{font-size:14px;color:var(--text-muted);line-height:1.6}
+.journey-tag{display:inline-block;background:rgba(200,40,85,.1);color:var(--pink);font-size:11px;padding:2px 8px;border-radius:10px;margin-top:6px}
+
+/* ===== DNA CARDS ===== */
+.dna-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin:24px 0}
+.dna-card{
+  background:#fff;border-radius:var(--radius);padding:24px;
+  box-shadow:var(--shadow);border-top:4px solid var(--pink);
+  transition:transform .3s;
+}
+.dna-card:hover{transform:translateY(-5px)}
+.dna-icon{font-size:28px;margin-bottom:12px}
+.dna-title{font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:6px}
+.dna-formula{font-size:12px;color:var(--pink);font-weight:600;margin-bottom:8px;font-style:italic}
+.dna-desc{font-size:12.5px;color:var(--text-muted);line-height:1.6}
+
+/* ===== OPPORTUNITY / ISSUE CARD ===== */
+.opp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin:24px 0}
+.opp-card{
+  border-radius:var(--radius);padding:22px;border:1px solid var(--gray-3);
+  background:#fff;box-shadow:var(--shadow);
+  transition:transform .3s,box-shadow .3s;
+}
+.opp-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.opp-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.opp-icon{font-size:20px}
+.opp-label{font-size:.85rem;font-weight:700;color:var(--navy)}
+.opp-status{font-size:12px;color:var(--text-muted);margin-bottom:8px;padding:6px 10px;background:var(--gray-2);border-radius:8px;line-height:1.5}
+.opp-suggest{font-size:12.5px;color:var(--pink);font-weight:600;line-height:1.6}
+
+/* ===== QUOTE ===== */
+.big-quote{
+  text-align:center;padding:50px 5%;margin:40px 0;
+  background:linear-gradient(135deg,rgba(200,40,85,.06),rgba(96,48,160,.06));
+  border-radius:var(--radius);
+}
+.big-quote p{
+  font-size:clamp(1.1rem,3vw,1.5rem);font-weight:700;color:var(--navy);
+  line-height:1.6;letter-spacing:.3px;
+}
+.big-quote span{color:var(--pink)}
+.big-quote .author{font-size:.85rem;color:var(--text-muted);margin-top:16px;font-style:italic}
+
+/* ===== FOOTER ===== */
+footer{
+  text-align:center;padding:40px 5vw;font-size:12px;color:var(--text-muted);
+  border-top:1px solid var(--gray-3);background:var(--gray-1);
+}
+
+/* ===== MISC ===== */
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;vertical-align:middle}
+.badge-pink{background:rgba(200,40,85,.12);color:var(--pink)}
+.badge-navy{background:rgba(26,26,110,.1);color:var(--navy)}
+.badge-gold{background:rgba(184,134,11,.12);color:var(--gold)}
+.flex-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:640px){.flex-2{grid-template-columns:1fr}}
+h2.sub{font-size:1.3rem;font-weight:700;color:var(--navy);margin:32px 0 10px;border-left:4px solid var(--pink);padding-left:12px}
+h3.sub3{font-size:1.05rem;font-weight:700;color:var(--navy-light);margin:24px 0 8px}
+p.body{font-size:14px;color:var(--text);line-height:1.75;margin-bottom:14px}
+ul.body-list{font-size:14px;color:var(--text);line-height:1.75;margin:0 0 14px 1.5em}
+ul.body-list li{margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">女大</div>
+    <span>女人我最大 2025 美妝、時尚文章分析報告</span>
+  </a>
+  <div class="nav-links">
+    <a href="#s1">前言</a>
+    <a href="#s2">筆觸風格</a>
+    <a href="#s3">關鍵字</a>
+    <a href="#s4">篇幅統計</a>
+    <a href="#s5">讀者輪廓</a>
+    <a href="#s6">品牌定位</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">TVBS 女人我最大 · 2025 年度</div>
+  <h1>美妝、時尚<br>文章內容分析報告</h1>
+  <p class="hero-subtitle">僅對「美妝」與「時尚」2025年全年度文章 · 逐篇完整閱讀 · 進行內容回顧分析。</p>
+  <div class="hero-meta">
+    <span>資料來源：<strong>TVBS 女人我最大 </strong> 後台撈取的文章</span>
+    <span>分析日期：<strong>2026-05-05</strong></span>
+  </div>
+
+
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-hint-arrow"></div>
+  </div>
+</section>
+
+<!-- S1 前言 -->
+<section class="section" id="s1">
+  <div class="section-inner">
+    <div class="section-tag fade-up">01 · 前言／摘要</div>
+    <h2 class="section-title fade-up">報告背景與分析框架</h2>
+   
+    <p class="body fade-up">本報告以 TVBS「女人我最大」2025 年度「美妝」與「時尚」兩大分類全數文章為分析對象，共計 <strong>4,710 篇</strong>，逐篇完整閱讀後進行系統性量化與質性分析，供編輯團隊掌握內容 DNA、讀者輪廓與未來優化方向。</p>
+    <p class="body fade-up">「女人我最大」源自 TVBS 同名電視節目，數位化後以女性生活風格為核心主軸，內容橫跨美妝保養、時尚穿搭、瘦身健康、名人動態等領域。網站定位介於「追星陪伴型」與「實用工具型」之間，語氣親切、內容豐富、圖文並茂，是台灣女性數位媒體中具代表性的一員。</p>
+
+    <h2 class="sub fade-up">▌ 關鍵數字速覽</h2>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>指標</th><th>數據</th></tr></thead>
+        <tbody>
+          <tr><td>總分析文章篇數</td><td>4,710 篇</td></tr>
+          <tr><td>美妝類文章</td><td>2,265 篇（48.1%）</td></tr>
+          <tr><td>時尚類文章</td><td>2,445 篇（51.9%）</td></tr>
+          <tr><td>標題平均字數</td><td>38.4 字</td></tr>
+          <tr><td>內文平均字數</td><td>1,330 字</td></tr>
+          <tr><td>內文中位數字數</td><td>1,227 字</td></tr>
+          <tr><td>黃金篇幅區間</td><td>800－1,599 字（合計 62.6%）</td></tr>
+          <tr><td>最長文章</td><td>ID 54752，約 14,191 字（美妝活動懶人包）</td></tr>
+          <tr><td>最短文章</td><td>ID 59959，約 72 字（鎖頭包快訊）</td></tr>
+          <tr><td>最常寫的議題</td><td>穿搭技巧（79.3%）</td></tr>
+          <tr><td>最常寫給什麼樣的讀者</td><td>上班族女性（27.2%）</td></tr>
+          <tr><td>最常引用社群平台</td><td>Instagram / IG（55.7% 篇數提及）</td></tr>
+          <tr><td>最常出現精品品牌</td><td>Louis Vuitton（6.9%）</td></tr>
+          <tr><td>最常出現台灣藝人</td><td>徐若瑄（4.3%）</td></tr>
+          <tr><td>最常出現韓流明星</td><td>BLACKPINK Jennie（2.8%）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- S2 編輯風格 -->
+<section class="section" id="s2">
+  <div class="section-inner">
+    <div class="section-tag fade-up">02 · 編輯筆觸風格分析</div>
+    <h2 class="section-title fade-up">暖閨蜜 × 實用達人的寫作基因</h2>
+    <div class="section-desc fade-up">依據逐篇完整閱讀全部 4,710 篇文章之質性歸納，非抽樣。</div>
+
+    <h2 class="sub fade-up">2-1 整體寫作語感：暖閨蜜 × 實用達人</h2>
+    <p class="body fade-up">女人我最大的編輯文章整體呈現「閨蜜式對話」的核心語感。第二人稱（你／妳）的使用率高達 <strong>59.1%（2,783 篇）</strong>，讀者打開文章，感受到的不是冷冰冰的資訊，而是一位懂你的朋友在對你說話。親切稱謂詞如「姊妹」「女孩們」「大家」散布於 30.2% 的篇章，進一步強化社群歸屬感。</p>
+    <p class="body fade-up">這種語感並非隨性，而是有結構的——文章通常以「痛點切入」（例如：「擦再多還是黯沉？」「為什麼你的底妝總是浮粉？」），接著給出「科學解方 + 明星示範 + 具體產品推薦」，在親切感中又維持了可信度。</p>
+
+    <h2 class="sub fade-up">2-2 五大內容構成模式</h2>
+    <div class="insight-grid fade-up">
+      <div class="insight-card"><span class="icon">⭐</span><h4>① 名人帶路型</h4><p>以明星/KOL 的日常示範引導讀者採購或行為改變，例：宋慧喬的護膚步驟、徐若瑄的穿搭。<br><small style="color:var(--pink)">代表次分類：名人穿搭、美髮造型</small></p></div>
+      <div class="insight-card"><span class="icon">🔬</span><h4>② 科普解說型</h4><p>引用皮膚科醫師、營養師、研究數據，為產品成分或飲食法做背書（21.3% 篇章含專家引用）。<br><small style="color:var(--pink)">代表次分類：肌膚保養、瘦身健康</small></p></div>
+      <div class="insight-card"><span class="icon">📋</span><h4>③ 榜單懶人包型</h4><p>以「TOP N」「5款」「完整清單」為框架，幫讀者做決策，降低選擇焦慮。<br><small style="color:var(--pink)">代表次分類：彩妝美甲、鞋包配件</small></p></div>
+      <div class="insight-card"><span class="icon">⚡</span><h4>④ 快訊追蹤型</h4><p>跟隨品牌發佈、秀場、快閃、聯名活動，即時傳遞流行資訊。<br><small style="color:var(--pink)">代表次分類：潮流快訊、時尚焦點</small></p></div>
+      <div class="insight-card"><span class="icon">💫</span><h4>⑤ 生活情境型</h4><p>融入情境敘事（如：「上班族懶得化妝，5分鐘妝容」），引發讀者代入感。<br><small style="color:var(--pink)">代表次分類：瘦身健康、美髮造型</small></p></div>
+    </div>
+
+    <h2 class="sub fade-up">2-3 語氣模式量化</h2>
+    <div class="stat-note fade-up">統計方法：搜尋各語氣關鍵字出現於文章內文（content）的篇數，計算含該關鍵字群組的文章篇數及佔比（÷ 總文章數 4,710 篇）。</div>
+    <div class="chart-grid fade-up">
+      <div class="chart-wrap">
+        <div class="chart-title">語氣模式分布（篇數）</div>
+        <canvas id="bar-tone" height="240"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">語氣佔比</div>
+        <div class="prog-list">
+          <div class="prog-item"><div class="prog-label"><span>第二人稱呼喚（你／妳）</span><span>59.1%</span></div><div class="prog-bar-bg"><div class="prog-bar" data-w="59.1"></div></div></div>
+          <div class="prog-item"><div class="prog-label"><span>親切稱謂（姊妹／女孩）</span><span>30.2%</span></div><div class="prog-bar-bg"><div class="prog-bar" data-w="30.2"></div></div></div>
+          <div class="prog-item"><div class="prog-label"><span>專業/科普語氣</span><span>28.2%</span></div><div class="prog-bar-bg"><div class="prog-bar" data-w="28.2"></div></div></div>
+          <div class="prog-item"><div class="prog-label"><span>命令呼籲（快來/必入）</span><span>15.1%</span></div><div class="prog-bar-bg"><div class="prog-bar" data-w="15.1"></div></div></div>
+          <div class="prog-item"><div class="prog-label"><span>驚嘆情感共鳴</span><span>12.6%</span></div><div class="prog-bar-bg"><div class="prog-bar" data-w="12.6"></div></div></div>
+          <div class="prog-item"><div class="prog-label"><span>比較語氣（vs/差別）</span><span>12.2%</span></div><div class="prog-bar-bg"><div class="prog-bar" data-w="12.2"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>語氣模式</th><th>篇數</th><th>佔比</th><th>解析</th></tr></thead>
+        <tbody>
+          <tr class="star-row"><td>第二人稱呼喚（你／妳／你們）</td><td>2,783</td><td>59.1%</td><td>最高頻語氣，建立親密感</td></tr>
+          <tr><td>親切稱謂（姊妹／女孩／大家）</td><td>1,424</td><td>30.2%</td><td>拉近讀者關係的社群語言</td></tr>
+          <tr><td>專業/科普語氣（醫師/研究指出）</td><td>1,326</td><td>28.2%</td><td>增加內容可信度</td></tr>
+          <tr><td>命令呼籲（快來/必入/必備）</td><td>711</td><td>15.1%</td><td>促進行動的催促語</td></tr>
+          <tr><td>驚嘆情感共鳴（真的很/超～/也太）</td><td>594</td><td>12.6%</td><td>製造情感波動</td></tr>
+          <tr><td>比較語氣（vs/差別/哪個好）</td><td>576</td><td>12.2%</td><td>協助讀者做選擇</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub fade-up">2-4 圖文比例觀察</h2>
+    <p class="body fade-up"><strong>87.2%（4,105 篇）</strong>的文章內文含圖片來源標注或圖片連結，顯示女人我最大為高度圖文並進的媒體。圖片不只是點綴，而是說故事的核心工具——尤其是「名人穿搭」與「鞋包配件」類別，幾乎以圖片為主要論述，文字以解說圖片為輔。</p>
+    <div class="chart-wrap fade-up" style="max-width:480px">
+      <div class="chart-title">圖文屬性分布（含圖片篇 vs 無圖篇）</div>
+      <canvas id="donut-imgtext" height="180"></canvas>
+    </div>
+
+    <h2 class="sub fade-up">2-5 業配透明度</h2>
+    <p class="body fade-up">正式標注「行銷特輯」或「試用報告」的業配文章共 <strong>26 篇（0.6%）</strong>。然而，若以內文含商業合作相關字眼（業配、合作、推薦碼等）來計算，則有 <strong>578 篇（12.3%）</strong>含商業性質，顯示部分軟性業配未被獨立分類，而是混入常規內容之中。</p>
+    <div class="insight fade-up"><strong>⚠️ 注意：</strong>正式業配標注（0.6%）與含商業字眼篇幅（12.3%）之間存在明顯落差，建議強化業配揭露規範或建立「體驗評測」獨立標籤。</div>
+  </div>
+</section>
+
+<!-- S3 關鍵字與議題 -->
+<section class="section" id="s3">
+  <div class="section-inner">
+    <div class="section-tag fade-up">03 · 關鍵字與議題</div>
+    <h2 class="section-title fade-up">喜歡寫的關鍵字與議題</h2>
+    <div class="section-desc fade-up">同義詞對應（Synonym Mapping）合併後，計算含該關鍵字群組的文章篇數及佔比（÷ 4,710 篇）。</div>
+    <div class="stat-note fade-up">統計方法：搜尋各議題關鍵字出現於文章「內文」（content）的篇數，採同義詞對應合併相關詞彙後計算。</div>
+
+    <h3 class="sub3 fade-up">▌ 熱門議題排行（含該議題篇數）</h3>
+    <div class="chart-wrap fade-up">
+      <div class="chart-title">各議題覆蓋篇數（Top 15）</div>
+      <canvas id="bar-topics" height="260"></canvas>
+    </div>
+    <div class="insight fade-up">「穿搭技巧」覆蓋率高達 <strong>79.3%</strong>，顯示幾乎所有時尚類文章都帶穿搭元素。健康三連（運動 29.0% / 飲食 20.6% / 減重 17.6%）加總覆蓋超過 1/3 篇幅，是美妝版面除保養外的第二大主力。</div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>議題</th><th>關鍵字群組（同義詞）</th><th>篇數</th><th>佔比</th></tr></thead>
+        <tbody>
+          <tr class="star-row"><td>穿搭技巧</td><td>穿搭、搭配、ootd、造型、風格</td><td>3,736</td><td>79.3%</td></tr>
+          <tr><td>運動/健身</td><td>運動、健身、重訓、有氧、瑜伽、皮拉提斯</td><td>1,368</td><td>29.0%</td></tr>
+          <tr><td>包包/配件</td><td>包包、手提包、托特包、斜背包…</td><td>1,182</td><td>25.1%</td></tr>
+          <tr><td>飲食/食療</td><td>飲食、食療、營養、168斷食、低醣</td><td>970</td><td>20.6%</td></tr>
+          <tr><td>減重/減脂</td><td>減重、減脂、瘦身、燃脂、卡路里</td><td>829</td><td>17.6%</td></tr>
+          <tr><td>髮色/染髮</td><td>染髮、髮色、棕色、金色、漂髮</td><td>740</td><td>15.7%</td></tr>
+          <tr><td>保濕/水感</td><td>保濕、水感、玻尿酸、神經醯胺</td><td>640</td><td>13.6%</td></tr>
+          <tr><td>美白/淡斑</td><td>美白、淡斑、維他命C、熊果素</td><td>557</td><td>11.8%</td></tr>
+          <tr><td>抗老/抗皺</td><td>抗老、抗皺、視黃醇、retinol</td><td>485</td><td>10.3%</td></tr>
+          <tr><td>痘痘/毛孔</td><td>痘痘、粉刺、毛孔、控油</td><td>319</td><td>6.8%</td></tr>
+          <tr><td>流行趨勢/秀場</td><td>秀場、時裝週、巴黎、米蘭</td><td>296</td><td>6.3%</td></tr>
+          <tr><td>底妝/粉底</td><td>粉底、底妝、氣墊、遮瑕、BB霜</td><td>292</td><td>6.2%</td></tr>
+          <tr><td>唇彩/口紅</td><td>口紅、唇彩、唇膏、唇釉</td><td>241</td><td>5.1%</td></tr>
+          <tr><td>防曬/SPF</td><td>防曬、SPF、UVA、UVB</td><td>229</td><td>4.9%</td></tr>
+          <tr><td>敏感肌</td><td>敏感肌、脆弱肌、過敏</td><td>229</td><td>4.9%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub fade-up">3-1 最常引用的社群平台</h2>
+    <div class="stat-note fade-up">統計方法：搜尋各平台關鍵字（同義詞對應）出現於文章內文（content）+標題（title）的篇數，÷ 總文章數 4,710 篇。</div>
+    <div class="chart-grid fade-up">
+      <div class="chart-wrap">
+        <div class="chart-title">社群平台引用篇數（Top 7）</div>
+        <canvas id="bar-platform" height="220"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">平台占比（圓餅圖）</div>
+        <canvas id="donut-platform" height="220"></canvas>
+      </div>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>排名</th><th>社群平台</th><th>同義詞群組</th><th>篇數</th><th>佔比</th></tr></thead>
+        <tbody>
+          <tr class="star-row"><td><span class="rank-badge rank-1">1</span></td><td>Instagram / IG</td><td>Instagram、IG、限時動態、Reels、貼文</td><td>2,622</td><td>55.7%</td></tr>
+          <tr><td><span class="rank-badge rank-2">2</span></td><td>小紅書 / Xiaohongshu</td><td>小紅書、xiaohongshu、紅書</td><td>784</td><td>16.6%</td></tr>
+          <tr><td><span class="rank-badge rank-3">3</span></td><td>YouTube / YT</td><td>YouTube、YT、YouTuber、YouTube頻道</td><td>364</td><td>7.7%</td></tr>
+          <tr><td><span class="rank-badge">4</span></td><td>Facebook / FB</td><td>Facebook、FB、臉書</td><td>170</td><td>3.6%</td></tr>
+          <tr><td><span class="rank-badge">5</span></td><td>Pinterest</td><td>Pinterest</td><td>81</td><td>1.7%</td></tr>
+          <tr><td><span class="rank-badge">6</span></td><td>TikTok / 抖音</td><td>TikTok、抖音</td><td>39</td><td>0.8%</td></tr>
+          <tr><td><span class="rank-badge">7</span></td><td>Dcard</td><td>Dcard</td><td>26</td><td>0.6%</td></tr>
+          <tr><td><span class="rank-badge">8</span></td><td>X / Twitter</td><td>Twitter、X.com、推特</td><td>9</td><td>0.2%</td></tr>
+          <tr><td><span class="rank-badge">9</span></td><td>PTT / 批踢踢</td><td>PTT、批踢踢</td><td>9</td><td>0.2%</td></tr>
+          <tr><td><span class="rank-badge">10</span></td><td>LINE</td><td>LINE群、LINE直播</td><td>3</td><td>0.1%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="insight fade-up">Instagram 以壓倒性的 <strong>55.7%</strong> 居首，反映女人我最大的視覺驅動內容策略——IG 的「限時動態」「貼文截圖」「穿搭示範」幾乎成為主要圖片來源。小紅書以 <strong>16.6%</strong> 強勢居次，說明中文圈內容策略正在向中國平台靠攏，尤其美妝保養類文章大量引用小紅書用戶評價與開箱心得。</div>
+
+    <h2 class="sub fade-up">3-2 最常寫到的品牌 TOP 15</h2>
+    <div class="stat-note fade-up">統計方法：搜尋各品牌關鍵字（同義詞對應）出現於文章內文（content）+標題（title）的篇數，÷ 總文章數 4,710 篇。</div>
+    <div class="chart-wrap fade-up">
+      <div class="chart-title">品牌出現篇數 TOP 15</div>
+      <canvas id="bar-brands" height="240"></canvas>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>排名</th><th>品牌</th><th>類型</th><th>篇數</th><th>佔比</th></tr></thead>
+        <tbody>
+          <tr class="star-row"><td><span class="rank-badge rank-1">1</span></td><td>Louis Vuitton / LV</td><td><span class="badge badge-pink">精品</span></td><td>327</td><td>6.9%</td></tr>
+          <tr><td><span class="rank-badge rank-2">2</span></td><td>Chanel</td><td><span class="badge badge-pink">精品/美妝</span></td><td>277</td><td>5.9%</td></tr>
+          <tr><td><span class="rank-badge rank-3">3</span></td><td>Hermès / 愛馬仕</td><td><span class="badge badge-pink">精品</span></td><td>251</td><td>5.3%</td></tr>
+          <tr><td><span class="rank-badge">4</span></td><td>Dior</td><td><span class="badge badge-pink">精品/美妝</span></td><td>228</td><td>4.8%</td></tr>
+          <tr><td><span class="rank-badge">5</span></td><td>Uniqlo</td><td><span class="badge badge-navy">平價時尚</span></td><td>180</td><td>3.8%</td></tr>
+          <tr><td><span class="rank-badge">6</span></td><td>Prada</td><td><span class="badge badge-pink">精品</span></td><td>146</td><td>3.1%</td></tr>
+          <tr><td><span class="rank-badge">7</span></td><td>Miu Miu</td><td><span class="badge badge-pink">精品</span></td><td>117</td><td>2.5%</td></tr>
+          <tr><td><span class="rank-badge">8</span></td><td>ZARA</td><td><span class="badge badge-navy">快時尚</span></td><td>114</td><td>2.4%</td></tr>
+          <tr><td><span class="rank-badge">9</span></td><td>Gucci</td><td><span class="badge badge-pink">精品</span></td><td>112</td><td>2.4%</td></tr>
+          <tr><td><span class="rank-badge">10</span></td><td>Nike</td><td><span class="badge badge-gold">運動</span></td><td>96</td><td>2.0%</td></tr>
+          <tr><td><span class="rank-badge">11</span></td><td>Celine</td><td><span class="badge badge-pink">精品</span></td><td>92</td><td>2.0%</td></tr>
+          <tr><td><span class="rank-badge">12</span></td><td>Adidas</td><td><span class="badge badge-gold">運動</span></td><td>86</td><td>1.8%</td></tr>
+          <tr><td><span class="rank-badge">13</span></td><td>Loewe / 羅意威</td><td><span class="badge badge-pink">精品</span></td><td>77</td><td>1.6%</td></tr>
+          <tr><td><span class="rank-badge">14</span></td><td>MUJI 無印良品</td><td><span class="badge badge-navy">生活風格</span></td><td>70</td><td>1.5%</td></tr>
+          <tr><td><span class="rank-badge">15</span></td><td>YSL 聖羅蘭</td><td><span class="badge badge-pink">精品/美妝</span></td><td>68</td><td>1.4%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="insight fade-up">前 15 名品牌中，有 <strong>9 個屬精品奢侈品類別</strong>，LV、Chanel、Hermès 穩居三甲，合計出現於約 855 篇文章。這呼應女大讀者對「精品夢」的強烈嚮往心理。<strong>Uniqlo（3.8%）</strong>是唯一大量出現的平價品牌，彰顯「CP值穿搭」的持續熱度，同時也體現出女大讀者跨越消費階層的多元性。運動品牌（Nike、Adidas）的中等佔比，對應美妝版「運動健身議題」同樣不容小覷。</div>
+
+    <h2 class="sub fade-up">3-3 最常出現的明星 TOP 15</h2>
+    <div class="stat-note fade-up">統計方法：搜尋各明星中文名／英文名（同義詞對應）出現於文章內文（content）+標題（title）的篇數，÷ 總文章數 4,710 篇。</div>
+    <div class="chart-wrap fade-up">
+      <div class="chart-title">明星出現篇數 TOP 15</div>
+      <canvas id="bar-celeb" height="240"></canvas>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>排名</th><th>明星</th><th>國籍/類型</th><th>篇數</th><th>佔比</th></tr></thead>
+        <tbody>
+          <tr class="star-row"><td><span class="rank-badge rank-1">1</span></td><td>徐若瑄（Vivian Hsu）</td><td>台灣/凍齡代表</td><td>203</td><td>4.3%</td></tr>
+          <tr><td><span class="rank-badge rank-2">2</span></td><td>BLACKPINK Jennie</td><td>韓國/時尚偶像</td><td>131</td><td>2.8%</td></tr>
+          <tr><td><span class="rank-badge rank-3">3</span></td><td>BLACKPINK LISA</td><td>泰國/舞蹈女王</td><td>127</td><td>2.7%</td></tr>
+          <tr><td><span class="rank-badge">4</span></td><td>BLACKPINK（整體）</td><td>韓國/天團</td><td>120</td><td>2.5%</td></tr>
+          <tr><td><span class="rank-badge">5</span></td><td>宋慧喬（Song Hye-kyo）</td><td>韓國/保養女神</td><td>95</td><td>2.0%</td></tr>
+          <tr><td><span class="rank-badge">6</span></td><td>孫芸芸</td><td>台灣/時尚名媛</td><td>66</td><td>1.4%</td></tr>
+          <tr><td><span class="rank-badge">7</span></td><td>孫藝珍（Son Ye-jin）</td><td>韓國/韓劇女神</td><td>62</td><td>1.3%</td></tr>
+          <tr><td><span class="rank-badge">8</span></td><td>許瑋甯</td><td>台灣/女星</td><td>50</td><td>1.1%</td></tr>
+          <tr><td><span class="rank-badge">9</span></td><td>BLACKPINK Jisoo</td><td>韓國/美妝代言</td><td>47</td><td>1.0%</td></tr>
+          <tr><td><span class="rank-badge">10</span></td><td>林志玲</td><td>台灣/美麗代言人</td><td>44</td><td>0.9%</td></tr>
+          <tr><td><span class="rank-badge">11</span></td><td>秀智 Suzy</td><td>韓國/清純女神</td><td>40</td><td>0.8%</td></tr>
+          <tr><td><span class="rank-badge">12</span></td><td>小S（徐熙娣）</td><td>台灣/娛樂主持</td><td>40</td><td>0.8%</td></tr>
+          <tr><td><span class="rank-badge">13</span></td><td>全智賢（Jun Ji-hyun）</td><td>韓國/時尚代表</td><td>39</td><td>0.8%</td></tr>
+          <tr><td><span class="rank-badge">14</span></td><td>Kendall Jenner</td><td>美國/超模</td><td>29</td><td>0.6%</td></tr>
+          <tr><td><span class="rank-badge">15</span></td><td>賈靜雯</td><td>台灣/熟女代表</td><td>26</td><td>0.6%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="insight fade-up">台灣藝人以「<strong>徐若瑄</strong>」居首（4.3%），且遙遙領先，顯示她是女大讀者最認同的本土凍齡 icon，從髮型到保養幾乎全面覆蓋。韓流明星中，<strong>BLACKPINK 成員合計覆蓋約 425 篇</strong>，是女大最重要的韓流流量引擎。歐美明星以 Kendall Jenner 為最高（0.6%），整體曝光遠不及亞洲明星，反映女大讀者的亞洲審美偏好。</div>
+  </div>
+</section>
+
+<!-- S4 篇幅統計 -->
+<section class="section" id="s4">
+  <div class="section-inner">
+    <div class="section-tag fade-up">04 · 文章篇幅與類別統計</div>
+    <h2 class="section-title fade-up">字數、標題、分類的完整樣貌</h2>
+
+    <h2 class="sub fade-up">4-1 標題的句型與長度分析</h2>
+    <div class="stat-note fade-up">統計方法：逐篇分析標題文字，依句型特徵進行多重分類（同一標題可歸屬多種類型）。</div>
+    <h3 class="sub3 fade-up">▶ 標題長度分布</h3>
+    <div class="chart-grid fade-up">
+      <div class="chart-wrap">
+        <div class="chart-title">標題長度分布</div>
+        <canvas id="bar-title-len" height="220"></canvas>
+        <div class="chart-note">📌 黃金長度 31–40 字（59.1%）：足以塞入「明星」「產品」「賣點」三項資訊，不超出手機顯示範圍。</div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">標題句型分布（可複選）</div>
+        <canvas id="bar-title-type" height="220"></canvas>
+        <div class="chart-note">📌 87.3% 含感嘆號，「情緒先行，資訊隨後」是女大標題最標誌性風格。</div>
+      </div>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>長度區間</th><th>篇數</th><th>佔比</th><th>說明</th></tr></thead>
+        <tbody>
+          <tr><td>≤ 20 字</td><td>7</td><td>0.1%</td><td>極短標題，僅限快訊型</td></tr>
+          <tr><td>21–30 字</td><td>268</td><td>5.7%</td><td>簡潔型</td></tr>
+          <tr class="star-row"><td>31–40 字 ★</td><td>2,782</td><td>59.1%</td><td>主流甜蜜點，兼顧資訊量與易讀性</td></tr>
+          <tr><td>41–45 字</td><td>1,214</td><td>25.8%</td><td>資訊豐富型</td></tr>
+          <tr><td>&gt; 45 字</td><td>439</td><td>9.3%</td><td>複合式長標題</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>句型類型</th><th>篇數</th><th>佔比</th><th>典型範例</th></tr></thead>
+        <tbody>
+          <tr class="star-row"><td>感嘆句（含！）</td><td>4,113</td><td>87.3%</td><td>「超棒！」「必入手！」</td></tr>
+          <tr><td>含數字</td><td>2,602</td><td>55.2%</td><td>「5步驟」「TOP10」「2025趨勢」</td></tr>
+          <tr><td>揭秘/懶人包型</td><td>885</td><td>18.8%</td><td>「全公開」「大揭秘」「懶人包」</td></tr>
+          <tr><td>疑問句（含？）</td><td>832</td><td>17.7%</td><td>「你知道嗎？」「真的有效？」</td></tr>
+          <tr><td>清單型</td><td>807</td><td>17.1%</td><td>「盤點」「TOP N款」「前幾名」</td></tr>
+          <tr><td>推薦型</td><td>790</td><td>16.8%</td><td>「必備」「嚴選」「強力推薦」</td></tr>
+          <tr><td>教程型</td><td>525</td><td>11.1%</td><td>「教學」「步驟」「如何做」</td></tr>
+          <tr><td>名人同款型</td><td>386</td><td>8.2%</td><td>「同款」「愛用」「在穿」</td></tr>
+          <tr><td>一般陳述</td><td>73</td><td>1.5%</td><td>純資訊型，無強調語氣</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="insight fade-up">87.3% 的標題含有驚嘆號，這是女大最標誌性的標題風格——「情緒先行，資訊隨後」。感嘆句 + 數字的複合組合出現率極高，例：「<strong>5款必買口紅！這支也太顯白了！</strong>」。相較之下，純陳述型標題（1.5%）幾乎可忽略，顯示女大標題策略高度重視情感驅動。</div>
+
+    <h2 class="sub fade-up">4-2 內文的屬性與長度分析</h2>
+    <div class="stat-note fade-up">統計方法：計算各篇文章 content 字段字元數，並依長度區間分類。</div>
+    <div class="chart-grid fade-up">
+      <div class="chart-wrap">
+        <div class="chart-title">內文長度分布</div>
+        <canvas id="bar-content-len" height="220"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">內文長度圓餅分布</div>
+        <canvas id="donut-content-len" height="220"></canvas>
+      </div>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>長度區間</th><th>篇數</th><th>佔比</th></tr></thead>
+        <tbody>
+          <tr><td>&lt; 300 字（超短）</td><td>438</td><td>9.3%</td></tr>
+          <tr><td>300–499 字</td><td>18</td><td>0.4%</td></tr>
+          <tr><td>500–799 字（短篇）</td><td>281</td><td>6.0%</td></tr>
+          <tr><td>800–1,199 字（標準短）</td><td>1,507</td><td>32.0%</td></tr>
+          <tr class="star-row"><td>1,200–1,999 字（標準長）★</td><td>1,923</td><td>40.8%</td></tr>
+          <tr><td>2,000 字以上（長篇）</td><td>543</td><td>11.5%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="insight fade-up">
+      <strong>📌 最長文章</strong>：ID 54752 ——<a href="https://woman.tvbs.com.tw/beauty/54752" target="_blank">【2025美妝活動懶人包】TIRTIR快閃、媚比琳 X HELLO KITTY聯名太燒了</a>，內文約 14,191 字，為多項活動整合型懶人包，屬高資訊密度的特殊品種。<br><br>
+      <strong>📌 最短文章</strong>：ID 59959 ——<a href="https://woman.tvbs.com.tw/fashion/59959" target="_blank">全新配色回歸！復刻傳奇鎖頭包，經典焦糖色百搭超搶手！百搭單品，你一定要擁有</a>，內文僅 72 字，主要放置節目 YouTube 影音。
+    </div>
+
+    <h2 class="sub fade-up">4-3 黃金篇幅分析</h2>
+    <div class="stat-note fade-up">分析方法：以每 200 字為一個精細區間，計算各區間文章篇數，取篇數最集中的區間為「黃金篇幅」。</div>
+    <div class="chart-wrap fade-up">
+      <div class="chart-title">內文字數精細分布（每 200 字一區間）</div>
+      <canvas id="bar-golden" height="220"></canvas>
+      <div class="chart-note">🎯 <strong>黃金篇幅：800–1,599 字（合計 2,849 篇，62.5%）</strong></div>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>精細區間（每200字）</th><th>篇數</th><th>佔比</th></tr></thead>
+        <tbody>
+          <tr class="star-row"><td>1,000–1,199 字 ★ 最高峰</td><td>861</td><td>18.3%</td></tr>
+          <tr class="star-row"><td>1,200–1,399 字 ★ 次高峰</td><td>780</td><td>16.6%</td></tr>
+          <tr><td>800–999 字</td><td>646</td><td>13.7%</td></tr>
+          <tr><td>1,400–1,599 字</td><td>562</td><td>11.9%</td></tr>
+          <tr><td>1,600–1,799 字</td><td>349</td><td>7.4%</td></tr>
+          <tr><td>600–799 字</td><td>253</td><td>5.4%</td></tr>
+          <tr><td>1,800–1,999 字</td><td>232</td><td>4.9%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="insight fade-up">這個篇幅區間能夠同時滿足「行動裝置閱讀舒適度」與「SEO 收錄效益」兩大需求。<strong>800 字以上</strong>足夠塞入 2–4 張圖片 + 分段小標 + 具體產品資訊，讓讀者「看完有收穫感」；而 <strong>1,600 字以下</strong>則不會讓人感覺太長而跳出。女大的讀者偏向行動裝置滑覽，對超長文字耐心有限，因此「資訊充實但不贅述」的 800–1,600 字恰好是甜蜜點。</div>
+
+    <h2 class="sub fade-up">4-4 主分類文章篇幅統計</h2>
+    <div class="chart-grid fade-up">
+      <div class="chart-wrap">
+        <div class="chart-title">主分類篇數比較</div>
+        <canvas id="bar-main-cat" height="180"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">主分類平均字數</div>
+        <canvas id="bar-main-words" height="180"></canvas>
+      </div>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>主分類</th><th>篇數</th><th>佔比</th><th>平均內文字數</th><th>中位數字數</th></tr></thead>
+        <tbody>
+          <tr><td>美妝</td><td>2,265</td><td>48.1%</td><td>1,376 字</td><td>1,181 字</td></tr>
+          <tr><td>時尚</td><td>2,445</td><td>51.9%</td><td>1,287 字</td><td>1,267 字</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="insight fade-up">美妝類文章平均字數（<strong>1,376 字</strong>）略高於時尚（1,287 字），推測因為美妝需要解釋成分、步驟、專家建議，文字資訊量較大；而時尚類尤其是「名人穿搭」往往以圖片為主，文字量相對精簡。</div>
+
+    <h2 class="sub fade-up">4-5 次分類深度解析</h2>
+    <div class="chart-wrap fade-up">
+      <div class="chart-title">次分類文章篇數分布</div>
+      <canvas id="bar-sub-cat" height="240"></canvas>
+    </div>
+    <div class="chart-wrap fade-up">
+      <div class="chart-title">次分類平均字數比較</div>
+      <canvas id="bar-sub-words" height="240"></canvas>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>次分類</th><th>篇數</th><th>佔比</th><th>平均字數</th><th>中位數字數</th><th>特色說明</th></tr></thead>
+        <tbody>
+          <tr class="star-row"><td>名人穿搭</td><td>1,037</td><td>22.0%</td><td>1,166</td><td>1,193</td><td>最多篇、圖多字少</td></tr>
+          <tr><td>瘦身健康</td><td>851</td><td>18.1%</td><td>1,166</td><td>1,100</td><td>步驟導向、明星佐證</td></tr>
+          <tr><td>鞋包配件</td><td>720</td><td>15.3%</td><td>1,347</td><td>1,328</td><td>精品報導為主</td></tr>
+          <tr><td>肌膚保養</td><td>543</td><td>11.5%</td><td>1,497</td><td>1,245</td><td>成分解說豐富</td></tr>
+          <tr><td>時尚焦點</td><td>498</td><td>10.6%</td><td>1,451</td><td>1,369</td><td>秀場、品牌報導</td></tr>
+          <tr><td>美髮造型</td><td>357</td><td>7.6%</td><td>1,433</td><td>1,171</td><td>髮型趨勢 + 明星同款</td></tr>
+          <tr><td>彩妝美甲</td><td>305</td><td>6.5%</td><td>1,370</td><td>1,184</td><td>教學型、榜單型並存</td></tr>
+          <tr><td>香氛美體</td><td>176</td><td>3.7%</td><td>1,904</td><td>1,567</td><td>最長篇幅、深度評測</td></tr>
+          <tr><td>潮流快訊</td><td>161</td><td>3.4%</td><td>1,225</td><td>1,088</td><td>字數精簡、即時性強</td></tr>
+          <tr><td>行銷特輯</td><td>23</td><td>0.5%</td><td>1,328</td><td>1,114</td><td>業配文字密度正常</td></tr>
+          <tr><td>頂級之夜</td><td>21</td><td>0.4%</td><td>1,779</td><td>1,563</td><td>事件特報、圖文並茂</td></tr>
+          <tr><td>封面故事</td><td>8</td><td>0.2%</td><td>1,260</td><td>1,176</td><td>深度人物訪談</td></tr>
+          <tr><td>美妝快訊</td><td>5</td><td>0.1%</td><td>2,139</td><td>1,537</td><td>數量少但字數高</td></tr>
+          <tr><td>試用報告</td><td>3</td><td>0.1%</td><td>1,096</td><td>1,066</td><td>個人評測</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="insight fade-up">「<strong>香氛美體</strong>」雖篇數不多（176 篇），卻是平均字數最高的次分類（1,904 字），顯示香氛保養是需要深度科普的小眾但精緻議題。「潮流快訊」與「名人穿搭」字數最短，屬快速消費型內容。「<strong>名人穿搭</strong>」以 1,037 篇冠居，是女大最主要的流量引擎次分類。</div>
+  </div>
+</section>
+
+<!-- S5 讀者輪廓 -->
+<section class="section" id="s5">
+  <div class="section-inner">
+    <div class="section-tag fade-up">05 · 讀者輪廓深度分析</div>
+    <h2 class="section-title fade-up">誰會來看女人我最大？</h2>
+    <div class="section-desc fade-up">從文章內文中出現的目標族群提示語、寫作語氣模式、文章議題，交叉推斷核心讀者特徵。逐篇閱讀全部文章，非抽樣分析。</div>
+
+    <h2 class="sub fade-up">5-1 文章寫作語氣</h2>
+    <p class="body fade-up">女大的語氣特徵是「三合一」：<strong>親切如閨蜜 × 專業如達人 × 驚喜如策展人</strong>。</p>
+    <div class="insight-grid fade-up">
+      <div class="insight-card"><span class="icon">💕</span><h4>（1）親切如閨蜜</h4><p>大量使用第二人稱（59.1%）、暖稱呼（30.2%），讓讀者感覺被理解，而非被推銷。</p></div>
+      <div class="insight-card"><span class="icon">🔬</span><h4>（2）專業如達人</h4><p>28.2% 的文章引用醫師或研究佐證，保養類尤甚，讓「推薦」有了信任基礎。</p></div>
+      <div class="insight-card"><span class="icon">✨</span><h4>（3）驚喜如策展人</h4><p>87.3% 的標題帶感嘆號，語氣充滿能量，閱讀節奏明快，「也太好用了吧！」「這個必買」是常見收尾句型。</p></div>
+    </div>
+
+    <h2 class="sub fade-up">5-2 讀者族群探索</h2>
+    <div class="stat-note fade-up">統計方法：搜尋各族群提示語（同義詞對應）出現於文章內文（content）的篇數，÷ 總文章數 4,710 篇。</div>
+    <div class="chart-grid fade-up">
+      <div class="chart-wrap">
+        <div class="chart-title">讀者族群文章覆蓋篇數</div>
+        <canvas id="bar-reader" height="220"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">讀者族群占比分布</div>
+        <canvas id="donut-reader" height="220"></canvas>
+      </div>
+    </div>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>族群標籤</th><th>關鍵字群</th><th>出現篇數</th><th>佔比</th></tr></thead>
+        <tbody>
+          <tr class="star-row"><td>上班族女性</td><td>上班族、職場、辦公室、OL、通勤</td><td>1,283</td><td>27.2%</td></tr>
+          <tr><td>韓妞/追星族</td><td>韓妞、韓系、韓劇、歐膩、韓國風</td><td>615</td><td>13.1%</td></tr>
+          <tr><td>熟女/中年女性</td><td>熟女、媽媽、中年、40歲、50歲、產後</td><td>569</td><td>12.1%</td></tr>
+          <tr><td>年輕女性</td><td>女大生、20歲、25歲、30歲、少女</td><td>508</td><td>10.8%</td></tr>
+          <tr><td>媽媽/親子族</td><td>孕媽咪、孕婦、哺乳、寶寶、育兒</td><td>484</td><td>10.3%</td></tr>
+          <tr><td>愛美族</td><td>愛美、美妝迷、彩妝迷</td><td>471</td><td>10.0%</td></tr>
+          <tr><td>輕熟女</td><td>輕熟、熟齡、抗老、維持年輕</td><td>346</td><td>7.3%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub fade-up">5-3 讀者輪廓深度解析</h2>
+    <p class="body fade-up">交叉比對議題覆蓋、族群提示語、語氣模式、明星偏好，女大核心讀者呈現以下多層樣貌：</p>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>面向</th><th>描述</th></tr></thead>
+        <tbody>
+          <tr><td>年齡帶</td><td>25–45 歲女性（上班族 27.2% + 輕熟女 7.3% 為主力），同時照顧媽媽族（10.3%）與追星族（13.1%）</td></tr>
+          <tr><td>消費心理</td><td>仰望精品（LV/Chanel/Hermès 高覆蓋）、實踐平價（Uniqlo 3.8%）——精品夢 + 庶民實踐的雙軌心態</td></tr>
+          <tr><td>追星傾向</td><td>強烈亞洲偶像認同感，BLACKPINK 系列 + 台灣凍齡女星（徐若瑄、林志玲）是主要 icon</td></tr>
+          <tr><td>資訊習慣</td><td>高度依賴 IG（55.7%）與小紅書（16.6%）作為視覺靈感來源，偏好圖多字少的瀏覽模式</td></tr>
+          <tr><td>健康意識</td><td>29% 文章觸及運動、20.6% 觸及飲食，顯示讀者對「美從內在養成」有強烈需求</td></tr>
+          <tr><td>外貌焦慮點</td><td>抗老（10.3%）、美白（11.8%）、減重（17.6%）三大焦慮並存，驅動高頻的保養 + 健身消費</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub fade-up">5-3 讀者資訊行為模式（用戶旅程）</h2>
+    <p class="body fade-up">根據內容分析，女大讀者的典型用戶旅程如下：</p>
+    <div class="journey fade-up">
+      <div class="journey-step"><div class="journey-left"><div class="journey-num">1</div><div class="journey-line"></div></div><div class="journey-body"><div class="journey-trigger">情感觸發：看到明星/KOL 的IG貼文或小紅書分享</div><div class="journey-content">被明星同款、KOL 穿搭種草後，對女大產生初始興趣。</div><div class="journey-tag">名人穿搭、明星同款型文章</div></div></div>
+      <div class="journey-step"><div class="journey-left"><div class="journey-num">2</div><div class="journey-line"></div></div><div class="journey-body"><div class="journey-trigger">資訊搜尋：Google 搜尋「XX明星同款是什麼」「怎麼瘦」</div><div class="journey-content">SEO 標題型文章（含明星名 + 產品/方法）成為流量入口。</div><div class="journey-tag">含明星 + 產品的 SEO 標題型</div></div></div>
+      <div class="journey-step"><div class="journey-left"><div class="journey-num">3</div><div class="journey-line"></div></div><div class="journey-body"><div class="journey-trigger">比較評估：看多款產品對比、榜單型文章</div><div class="journey-content">透過 TOP N 榜單降低選品決策成本，篩選最適合自己的品項。</div><div class="journey-tag">彩妝美甲、鞋包配件清單型</div></div></div>
+      <div class="journey-step"><div class="journey-left"><div class="journey-num">4</div><div class="journey-line"></div></div><div class="journey-body"><div class="journey-trigger">深度了解：閱讀成分解析、醫師建議</div><div class="journey-content">對有意入手的品項，進一步閱讀科普型文章確認成分與效果。</div><div class="journey-tag">肌膚保養、香氛美體科普型</div></div></div>
+      <div class="journey-step"><div class="journey-left"><div class="journey-num">5</div><div class="journey-line"></div></div><div class="journey-body"><div class="journey-trigger">購買決策：快閃、聯名、限時活動觸發行動</div><div class="journey-content">活動限時資訊成為最終催化劑，驅動購買行動。</div><div class="journey-tag">美妝快訊、潮流快訊</div></div></div>
+      <div class="journey-step"><div class="journey-left"><div class="journey-num">6</div><div class="journey-line"></div></div><div class="journey-body"><div class="journey-trigger">分享社群：上IG/小紅書分享入手品</div><div class="journey-content">讀者分享的內容成為下一波女大素材的循環起點，閉環完成。</div><div class="journey-tag">成為下一波女大素材的循環起點</div></div></div>
+    </div>
+
+    <h2 class="sub fade-up">5-4 最適合的一句話描述女人我最大的讀者</h2>
+    <div class="big-quote fade-up">
+      <p>「每天刷 <span>IG</span> 跟<span>小紅書</span>、夢想擁有 <span>LV 包</span>、正在找適合自己的<span>抗老保養</span>組合，同時也關心如何練出好身材——一位活在現實中卻不放棄精緻感的台灣女性。」</p>
+      <div class="author">— 基於 4,710 篇文章逐篇完整閱讀後歸納</div>
+    </div>
+  </div>
+</section>
+
+<!-- S6 品牌定位 -->
+<section class="section" id="s6">
+  <div class="section-inner">
+    <div class="section-tag fade-up">06 · 結論與品牌定位</div>
+    <h2 class="section-title fade-up">女人我最大的內容 DNA 與未來方向</h2>
+    <p class="body fade-up">（依逐篇完整閱讀全部 4,710 篇文章後綜合歸納，非抽樣分析）</p>
+
+    <h2 class="sub fade-up">6-1 女人我最大的內容 DNA</h2>
+    <p class="body fade-up">從 4,710 篇文章中歸納，女人我最大的核心內容 DNA 可以用「四個公式」來概括：</p>
+    <div class="dna-grid fade-up">
+      <div class="dna-card"><div class="dna-icon">⭐</div><div class="dna-title">追星即入門</div><div class="dna-formula">明星 + 品項 + 如何複製</div><div class="dna-desc">徐若瑄保養法、BLACKPINK同款包，用名人降低選品決策成本</div></div>
+      <div class="dna-card"><div class="dna-icon">🔬</div><div class="dna-title">科學幫你選</div><div class="dna-formula">成分 + 醫師背書 + 推薦清單</div><div class="dna-desc">21.3% 文章有專家引用，讓推薦更可信</div></div>
+      <div class="dna-card"><div class="dna-icon">📋</div><div class="dna-title">榜單即服務</div><div class="dna-formula">TOP N + 使用場景 + 購買管道</div><div class="dna-desc">清單型佔 17.1%，榜單是最高效的讀者服務格式</div></div>
+      <div class="dna-card"><div class="dna-icon">💥</div><div class="dna-title">情緒先行動</div><div class="dna-formula">痛點 + 感嘆號 + 你也可以做到</div><div class="dna-desc">87.3% 標題有感嘆號，情感驅動行動</div></div>
+    </div>
+
+    <h2 class="sub fade-up">6-2 內容機會觀察</h2>
+    <div class="opp-grid fade-up">
+      <div class="opp-card"><div class="opp-head"><div class="opp-icon">👨</div><div class="opp-label">男性友善內容</div></div><div class="opp-status">全站以女性讀者為圓心，男性幾乎不出現</div><div class="opp-suggest">「送禮指南」「情侶穿搭」「男友必看」可作為節慶流量入口，拓寬讀者圈</div></div>
+      <div class="opp-card"><div class="opp-head"><div class="opp-icon">🌿</div><div class="opp-label">永續/環保時尚</div></div><div class="opp-status">品牌提及以消費型精品為主，幾乎無永續議題</div><div class="opp-suggest">「永續時尚」「舊衣新穿」「環保保養品」與年輕讀者的價值觀高度契合</div></div>
+      <div class="opp-card"><div class="opp-head"><div class="opp-icon">👥</div><div class="opp-label">UGC / 讀者投稿</div></div><div class="opp-status">目前內容以編輯產出為主，讀者聲音主要來自引用社群貼文</div><div class="opp-suggest">鼓勵讀者投稿「我的實測心得」，可提升社群黏著度並降低產製成本</div></div>
+      <div class="opp-card"><div class="opp-head"><div class="opp-icon">🤖</div><div class="opp-label">AI工具推薦</div></div><div class="opp-status">幾乎無提及 AI 相關美妝/穿搭工具</div><div class="opp-suggest">「用AI找出最適合你臉型的髮型」等題材對科技敏感讀者極具吸引力</div></div>
+    </div>
+
+    <h2 class="sub fade-up">6-3 需要補足的地方</h2>
+    <div class="tbl-wrap fade-up">
+      <table>
+        <thead><tr><th>問題點</th><th>現狀觀察</th><th>建議補足方向</th></tr></thead>
+        <tbody>
+          <tr><td>業配透明度</td><td>正式標注業配僅 0.6%（26篇），但含商業字眼文章達 12.3%（578篇），落差明顯</td><td>強化業配揭露規範，或明確建立「體驗評測」獨立標籤</td></tr>
+          <tr><td>地理多元性</td><td>內容高度集中於台灣/韓國/歐洲精品品牌，日本美妝品牌雖有出現但佔比不突出</td><td>可強化日系美妝（Canmake/Cezanne）與東南亞品牌（ex: 泰國設計師品牌）的報導，服務多元品味讀者</td></tr>
+          <tr><td>男性 / 非二元讀者</td><td>全站語氣預設「女性讀者」，使用「妳」「姊妹」等詞</td><td>視品牌定位決定是否開拓包容性語言，至少可在健身類建立性別中性語氣</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub fade-up">▌ 品牌定位總結</h2>
+    <div class="big-quote fade-up" style="margin-top:20px">
+      <p>女人我最大 = 台灣女性的<span>「數位閨蜜 + 精品嚮導 + 生活美學顧問」</span><br>以韓流為情感連接、以實用保養為內容支柱、以精品消費夢想為讀者心理原動力，在華語女性媒體市場中佔據「親切感 × 精緻感」的獨特定位。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>本報告由 TVBS 數據分析師依 4,710 篇文章逐篇完整閱讀後產出，所有數據計算公式已於各章節附上，結論與現況文章文本完全對應。</p>
+  <p style="margin-top:8px">© 2026 TVBS 女人我最大 · 內部使用報告 · 分析日期：2026-05-05</p>
+</footer>
+
+<script>
+// ===== INTERSECTION OBSERVER for fade-up =====
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      // trigger progress bars
+      e.target.querySelectorAll && e.target.querySelectorAll('.prog-bar').forEach(b=>{
+        b.style.width = b.dataset.w + '%';
+      });
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.fade-up,.kpi-card,.journey-step').forEach(el=>obs.observe(el));
+
+// Trigger prog bars in hero on load
+window.addEventListener('load',()=>{
+  document.querySelectorAll('.prog-bar').forEach(b=>{
+    setTimeout(()=>{ b.style.width = b.dataset.w+'%'; },400);
+  });
+});
+
+// ===== CHART.JS DEFAULTS =====
+Chart.defaults.font.family = "-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#6e6e73';
+const P = '#c82855', N = '#35358a', G = '#6030a0', GO = '#b8860b';
+const PALS = ['#c82855','#35358a','#6030a0','#b8860b','#e05577','#5577c8','#9955cc','#cc9900','#f0a0b8','#a0b0e0','#c0a0e0','#e0c080','#f5d0dc','#d0d8f0','#e0d0f0'];
+
+function hbar(id, labels, data, colors, max){
+  return new Chart(document.getElementById(id),{
+    type:'bar',
+    data:{labels,datasets:[{data,backgroundColor:colors||PALS.slice(0,data.length),borderRadius:6,borderSkipped:false}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{max:max||undefined,grid:{display:false},ticks:{callback:v=>v.toLocaleString()}},y:{grid:{display:false}}},animation:{duration:1200}}
+  });
+}
+function vbar(id, labels, data, colors){
+  return new Chart(document.getElementById(id),{
+    type:'bar',
+    data:{labels,datasets:[{data,backgroundColor:colors||PALS.slice(0,data.length),borderRadius:6,borderSkipped:false}]},
+    options:{plugins:{legend:{display:false}},scales:{y:{grid:{color:'#f0f0f0'},ticks:{callback:v=>v.toLocaleString()}},x:{grid:{display:false}}},animation:{duration:1200}}
+  });
+}
+function donut(id, labels, data, colors){
+  return new Chart(document.getElementById(id),{
+    type:'doughnut',
+    data:{labels,datasets:[{data,backgroundColor:colors||PALS.slice(0,data.length),borderWidth:2,borderColor:'#fff'}]},
+    options:{plugins:{legend:{position:'right',labels:{boxWidth:14,padding:10}}},cutout:'62%',animation:{duration:1200}}
+  });
+}
+
+// CHARTS
+donut('donut-main',['美妝 (48.1%)','時尚 (51.9%)'],[2265,2445],[P,N]);
+donut('donut-imgtext',['含圖片篇 (87.2%)','純文字篇 (12.8%)'],[4105,605],[P,N]);
+
+// Tone bar
+vbar('bar-tone',
+  ['第二人稱呼喚','親切稱謂','專業/科普','命令呼籲','驚嘆情感','比較語氣'],
+  [2783,1424,1326,711,594,576],
+  [P,N,G,GO,'#e05577','#5577c8']
+);
+
+// Topics
+hbar('bar-topics',
+  ['穿搭技巧','運動/健身','包包/配件','飲食/食療','減重/減脂','髮色/染髮','保濕/水感','美白/淡斑','抗老/抗皺','痘痘/毛孔','流行/秀場','底妝/粉底','唇彩/口紅','防曬','敏感肌'],
+  [3736,1368,1182,970,829,740,640,557,485,319,296,292,241,229,229],
+  PALS
+);
+
+// Platform
+vbar('bar-platform',
+  ['IG','小紅書','YouTube','Facebook','Pinterest','TikTok','Dcard'],
+  [2622,784,364,170,81,39,26],
+  [P,'#e05577',N,G,GO,'#cc7700','#5577c8']
+);
+donut('donut-platform',
+  ['Instagram (55.7%)','小紅書 (16.6%)','YouTube (7.7%)','Facebook (3.6%)','其他 (16.4%)'],
+  [2622,784,364,170,770],[P,'#e05577',N,G,'#ccc']
+);
+
+// Brands
+hbar('bar-brands',
+  ['LV','Chanel','Hermès','Dior','Uniqlo','Prada','Miu Miu','ZARA','Gucci','Nike','Celine','Adidas','Loewe','MUJI','YSL'],
+  [327,277,251,228,180,146,117,114,112,96,92,86,77,70,68],
+  PALS
+);
+
+// Celeb
+hbar('bar-celeb',
+  ['徐若瑄','Jennie','LISA','BLACKPINK(整體)','宋慧喬','孫芸芸','孫藝珍','許瑋甯','Jisoo','林志玲','秀智','小S','全智賢','Kendall','賈靜雯'],
+  [203,131,127,120,95,66,62,50,47,44,40,40,39,29,26],
+  PALS
+);
+
+// Title length
+vbar('bar-title-len',['≤20字','21-30字','31-40字','41-45字','>45字'],[7,268,2782,1214,439],[G,N,P,N,G]);
+// Title type
+hbar('bar-title-type',['感嘆句','含數字','揭秘/懶人包','疑問句','清單型','推薦型','教程型','名人同款','一般陳述'],[4113,2602,885,832,807,790,525,386,73],PALS);
+
+// Content length
+vbar('bar-content-len',['<300字','300-499字','500-799字','800-1199字','1200-1999字','2000字+'],
+  [438,18,281,1507,1923,543],[G,G,N,P,P,N]);
+donut('donut-content-len',
+  ['<300字 (9.3%)','500-799字 (6.0%)','800-1199字 (32.0%)','1200-1999字 (40.8%)','2000字+ (11.5%)'],
+  [438,281,1507,1923,543],[G,'#5577c8',N,P,GO]
+);
+
+// Golden zone
+vbar('bar-golden',
+  ['0-199','200-399','400-599','600-799','800-999','1000-1199★','1200-1399★','1400-1599','1600-1799','1800-1999','2000+'],
+  [224,222,80,253,646,861,780,562,349,232,456],
+  ['#ddd','#ddd','#ddd','#bbb',N,P,P,N,G,GO,'#888']
+);
+
+// Main category
+vbar('bar-main-cat',['美妝','時尚'],[2265,2445],[P,N]);
+vbar('bar-main-words',['美妝 avg','時尚 avg','美妝 median','時尚 median'],[1376,1287,1181,1267],[P,N,'#e05577','#5577c8']);
+
+// Sub category
+hbar('bar-sub-cat',
+  ['名人穿搭','瘦身健康','鞋包配件','肌膚保養','時尚焦點','美髮造型','彩妝美甲','香氛美體','潮流快訊','行銷特輯','頂級之夜','封面故事','美妝快訊','試用報告'],
+  [1037,851,720,543,498,357,305,176,161,23,21,8,5,3],PALS
+);
+hbar('bar-sub-words',
+  ['美妝快訊','香氛美體','頂級之夜','肌膚保養','時尚焦點','美髮造型','彩妝美甲','鞋包配件','行銷特輯','封面故事','潮流快訊','名人穿搭','瘦身健康','試用報告'],
+  [2139,1904,1779,1497,1451,1433,1370,1347,1328,1260,1225,1166,1166,1096],PALS
+);
+
+// Reader segments
+vbar('bar-reader',
+  ['上班族女性','韓妞/追星族','熟女/中年','年輕女性','媽媽/親子','愛美族','輕熟女'],
+  [1283,615,569,508,484,471,346],PALS
+);
+donut('donut-reader',
+  ['上班族 (27.2%)','韓妞/追星 (13.1%)','熟女/中年 (12.1%)','年輕女性 (10.8%)','媽媽族 (10.3%)','愛美族 (10.0%)','輕熟女 (7.3%)'],
+  [1283,615,569,508,484,471,346],PALS
+);
+</script>
+</body>
+</html>
